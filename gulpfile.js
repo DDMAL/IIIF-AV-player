@@ -6,16 +6,17 @@ const webpackConf = require('./webpack.config');
 
 function server ()
 {
-    let devConfig = Object.create(webpackConf);
-    devConfig.entry = ("webpack-dev-server/client?http://localhost:9001/");
-    devConfig.devtool = "source-map";
-    devConfig.devServer = {
+    let config = Object.create(webpackConf);
+    config.entry = "webpack-dev-server/client?http://localhost:9001/";
+    config.mode = "development";
+    config.devtool = "source-map";
+    config.devServer = {
         inline: true
     };
 
-    new WebpackDevServer(webpack(devConfig),
+    new WebpackDevServer(webpack(config),
         {
-            publicPath: devConfig.output.publicPath,
+            publicPath: config.output.publicPath,
             stats: {
                 colors: true
             }
@@ -27,12 +28,5 @@ function server ()
     });
 }
 
-function parser (done)
-{
-    var config = Object.create(webpackConf);
-    webpack(config).run(done);
-}
-
-gulp.task('develop:build-parser', parser);
 gulp.task('develop:server', server);
-gulp.task('default', gulp.series('develop:build-parser', 'develop:server'));
+gulp.task('default', gulp.series('develop:server'));
