@@ -1,2 +1,2 @@
-# IIIF-AV-player
-IIIF AV players
+# IIIF Audio/Video Player
+IIIF A/V Player

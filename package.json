@@ -1,0 +1,31 @@
+{
+  "name": "IIIF-AV-player",
+  "version": "1.0.0",
+  "description": "IIIF A/V Player",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DDMAL/IIIF-AV-player.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DDMAL/IIIF-AV-player/issues"
+  },
+  "homepage": "https://github.com/DDMAL/IIIF-AV-player#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "gulp": "^4.0.0",
+    "webpack": "^4.14.0"
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
