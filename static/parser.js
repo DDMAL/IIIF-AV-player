@@ -126,11 +126,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*!***********************!*\
   !*** ./src/parser.js ***!
   \***********************/
-/*! exports provided: default */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _image_manifest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./image-manifest */ \"./src/image-manifest.js\");\n\n\nclass Parser \n{\n    constructor () \n    {\n        this.manifest = null;\n    }\n\n    print ()\n    {\n        alert('Testing if this shit works');\n    }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Parser);\n\n(function (global)\n{\n    global.Diva = global.Parser || Parser;\n})(window);\n\n//# sourceURL=webpack:///./src/parser.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _image_manifest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./image-manifest */ \"./src/image-manifest.js\");\n\n\nclass Parser \n{\n    constructor () \n    {\n        this.manifest = null;\n    }\n\n    print ()\n    {\n        console.log('Testing if this works');\n    }\n}\n\n(function (global)\n{\n    global.Parser = global.Parser || Parser;\n})(window);\n\n//# sourceURL=webpack:///./src/parser.js?");
 
 /***/ })
 

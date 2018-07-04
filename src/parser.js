@@ -9,13 +9,11 @@ class Parser
 
     print ()
     {
-        alert('Testing if this shit works');
+        console.log('Testing if this works');
     }
 }
 
-export default Parser;
-
 (function (global)
 {
-    global.Diva = global.Parser || Parser;
+    global.Parser = global.Parser || Parser;
 })(window);
