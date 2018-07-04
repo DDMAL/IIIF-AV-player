@@ -12,7 +12,7 @@
     <span class="navbar-brand mb-0 h1">Manifest Parser</span>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Manifest URL" aria-label="Search" id="manifestURL">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="getManifest()">Get</button>  
+        <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="getManifest()">Fetch</button>  
     </form>
 </nav>
 
@@ -21,11 +21,11 @@
         <div class="col-md-4">
             <br>
             <h5>Sample Manifests</h5>
-            https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json <br>
-            https://iiif.bodleian.ox.ac.uk/iiif/manifest/27eff8c2-b994-42d8-a679-f1004e9b092a.json <br>
-            https://iiif.bodleian.ox.ac.uk/iiif/manifest/baa0439f-9641-445b-9a60-582640662f2e.json <br>
+            https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json <br><br>
+            https://iiif.bodleian.ox.ac.uk/iiif/manifest/27eff8c2-b994-42d8-a679-f1004e9b092a.json <br><br>
+            https://iiif.bodleian.ox.ac.uk/iiif/manifest/baa0439f-9641-445b-9a60-582640662f2e.json
         </div>
-        <div class="col-md-8 align-self-center text-center" id="display">Display</div>
+        <div class="col-md-8 align-self-center text-center" id="display">Awaiting Fetch</div>
     </div>
 </div>
 
@@ -36,6 +36,7 @@
 
     function getManifest() 
     {
+        document.getElementById('display').innerHTML = "Fetching Manifest...";
         var url = document.getElementById('manifestURL').value;
         parser.fetchManifest(url);
         waitForFetch(parser);
