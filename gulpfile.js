@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const gutil = require('gulp-util');
 const webpackConf = require('./webpack.config');
+const jshint = require('gulp-jshint');
 
 function webpackDevServer () 
 {
@@ -21,5 +22,20 @@ function webpackDevServer ()
     });
 }
 
+function lint (files)
+{
+    return gulp.src(files)
+        .pipe(jshint({lookup: true}))
+        .pipe(jshint.reporter('jshint-stylish'))
+        .pipe(jshint.reporter('fail')); // fails task if error
+}
+
+function lintSrc ()
+{
+    return lint('src/*.js');
+}
+
+gulp.task('develop:lintSrc', lintSrc);
 gulp.task('develop:server', webpackDevServer);
-gulp.task('default', gulp.series('develop:server'));
+gulp.task('develop', gulp.series('develop:lintSrc', 'develop:server'));
+gulp.task('default', gulp.series('develop'));

@@ -1,4 +1,4 @@
-import ImageManifest from './image-manifest';
+// import ImageManifest from './image-manifest';
 
 class Parser 
 {

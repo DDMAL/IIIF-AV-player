@@ -1,0 +1,11 @@
+{
+    "eqeqeq": true,
+    "eqnull": true,
+    "expr": true,
+    "latedef": "nofunc",
+    "node": true,
+    "undef": true,
+    "unused": true,
+    "esversion": 6,
+    "browser": true
+}
