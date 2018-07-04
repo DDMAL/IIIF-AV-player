@@ -9,7 +9,7 @@ class Parser
 
     print () 
     {
-        console.log('Testing if this works');
+        console.log('This is a print method!');
     }
 }
 

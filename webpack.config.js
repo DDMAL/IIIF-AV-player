@@ -5,7 +5,7 @@ module.exports =
     mode: 'development',
     entry: './src/parser.js',
     output: { 
-        path: path.join(__dirname, 'static'),
+        path: path.resolve(__dirname, 'static'),
         filename: 'parser.js'
     }
 };

@@ -11,7 +11,6 @@ function webpackDevServer ()
 
     new WebpackDevServer(compiler, 
     {
-        publicPath: webpackConf.output.publicPath,
         stats: {
             colors: true
         }
@@ -35,7 +34,13 @@ function lintSrc ()
     return lint('src/*.js');
 }
 
+function build (done)
+{
+    webpack(webpackConf).run(done);
+}
+
+gulp.task('develop:build', build);
 gulp.task('develop:lintSrc', lintSrc);
 gulp.task('develop:server', webpackDevServer);
-gulp.task('develop', gulp.series('develop:lintSrc', 'develop:server'));
+gulp.task('develop', gulp.series('develop:lintSrc', 'develop:build', 'develop:server'));
 gulp.task('default', gulp.series('develop'));
