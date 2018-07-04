@@ -1,6 +1,7 @@
 const path = require('path');
 
-module.exports = {
+module.exports = 
+{
     mode: 'development',
     entry: './src/parser.js',
     output: { 

@@ -7,7 +7,7 @@ class Parser
         this.manifest = null;
     }
 
-    print ()
+    print () 
     {
         console.log('Testing if this works');
     }
@@ -16,4 +16,4 @@ class Parser
 (function (global)
 {
     global.Parser = global.Parser || Parser;
-})(window);
+}) (window);
