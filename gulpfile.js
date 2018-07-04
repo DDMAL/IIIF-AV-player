@@ -39,8 +39,10 @@ function build (done)
     webpack(webpackConf).run(done);
 }
 
-gulp.task('develop:build', build);
 gulp.task('develop:lintSrc', lintSrc);
+gulp.task('develop:lint', gulp.series('develop:lintSrc'));
+
+gulp.task('develop:build', build);
 gulp.task('develop:server', webpackDevServer);
-gulp.task('develop', gulp.series('develop:lintSrc', 'develop:build', 'develop:server'));
+gulp.task('develop', gulp.series('develop:lint', 'develop:build', 'develop:server'));
 gulp.task('default', gulp.series('develop'));
