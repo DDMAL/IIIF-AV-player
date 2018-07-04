@@ -1,4 +1,4 @@
-// import ImageManifest from './image-manifest';
+import ImageManifest from './image-manifest';
 
 class Parser 
 {
@@ -7,9 +7,28 @@ class Parser
         this.manifest = null;
     }
 
-    print () 
+    fetchManifest (manifestURL)
     {
-        console.log('This is a print method!');
+        fetch(manifestURL, {
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then( (response) =>
+        {
+            if (!response.ok)
+            {
+                alert('Could not get manifest!');
+            }
+            return response.json();
+        }).then( (responseData) =>
+        {
+            this.setManifest(responseData);
+        });
+    }
+
+    setManifest (responseData)
+    {
+        this.manifest = ImageManifest.fromIIIF(responseData);
     }
 }
 
