@@ -1,6 +1,7 @@
 {
     "eqeqeq": true,
     "eqnull": true,
+    "devel": true,
     "expr": true,
     "latedef": "nofunc",
     "node": true,

@@ -17,7 +17,7 @@ class Parser
         {
             if (!response.ok)
             {
-                alert('Could not get manifest!');
+                alert('Could not get manifest! Make sure you provide a proper link.');
             }
             return response.json();
         }).then( (responseData) =>
