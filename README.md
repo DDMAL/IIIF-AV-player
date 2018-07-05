@@ -6,6 +6,7 @@ IIIF A/V Player (WIP)
     ```bash
     git clone https://github.com/DDMAL/IIIF-AV-player.git
     ```
+- Install node modules with `npm install`.
 - Run `gulp` or `npm start` to build and start the server.
 - The server will now be running at `localhost:9001`. 
 
