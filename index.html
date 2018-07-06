@@ -11,6 +11,11 @@
 </head>
 <body>
 
+<form>
+    <input type="search" placeholder="Search" id="urlBox">
+    <button type="button" id="getURL">Get Manifest</button>
+</form>   
+
 <div>
     Manifest Object
     <pre id="main"></pre>
@@ -18,10 +23,13 @@
 
 <script src="static/main.js"></script>
 <script>
-    var manifestObject = new ManifestObject("https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json"); 
-    manifestObject.fetchManifest(function() {
-        // callback once manifest is fetched
-        document.getElementById('main').innerHTML = JSON.stringify(manifestObject.manifest, null, 4);
+    $('#getURL').click(function () {
+        let url = $('#urlBox').val();
+        let manifestObject = new ManifestObject(url); 
+        manifestObject.fetchManifest(function() {
+            // callback once manifest is fetched
+            document.getElementById('main').innerHTML = JSON.stringify(manifestObject.manifest, null, 4);
+        });
     });
 </script>
 

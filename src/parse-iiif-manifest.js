@@ -42,13 +42,19 @@ const getOtherImageData = (otherImages, lowestMaxZoom) =>
  */
 export default function parseIIIFManifest (manifest)
 {
-    const sequence = manifest.sequences[0];
-    const canvases = sequence.canvases;
+    var canvases;
+    var sequence;
+    if (manifest.type === "Canvas") {
+        canvases = manifest;
+    } else {
+        sequence = manifest.sequences[0] || manifest.sequences;
+        canvases = sequence.canvases;
+    }
     const numCanvases = canvases.length;
 
     const pages = new Array(canvases.length);
 
-    let thisCanvas, thisResource, thisImage, otherImages, context, url, info, imageAPIVersion, width, height, maxZoom, canvas, label, imageLabel, zoomDimensions, widthAtCurrentZoomLevel, heightAtCurrentZoomLevel;
+    let thisCanvas, thisResource, thisMedia, otherImages, context, url, info, imageAPIVersion, width, height, maxZoom, canvas, label, imageLabel, zoomDimensions, widthAtCurrentZoomLevel, heightAtCurrentZoomLevel;
 
     let lowestMaxZoom = 100;
     let maxRatio = 0;
@@ -80,9 +86,13 @@ export default function parseIIIFManifest (manifest)
     for (let i = 0; i < numCanvases; i++)
     {
         thisCanvas = canvases[i];
-        canvas = thisCanvas['@id'];
+        canvas = thisCanvas['@id'] || thisCanvas.id;
         label = thisCanvas.label;
-        thisResource = thisCanvas.images[0].resource;
+        if (typeof thisCanvas.images !== 'undefined') {
+            thisResource = thisCanvas.images[0].resource;
+        } else {
+            thisResource = thisCanvas.content[0].items[0];
+        }
 
         /*
          * If a canvas has multiple images it will be encoded
@@ -91,16 +101,16 @@ export default function parseIIIFManifest (manifest)
          * */
         if (thisResource['@type'] === "oa:Choice")
         {
-            thisImage = thisResource.default;
+            thisMedia = thisResource.default;
         }
         else
         {
-            thisImage = thisResource;
+            thisMedia = thisResource;
         }
 
         // Prioritize the canvas height / width first, since images may not have h/w
-        width = thisCanvas.width || thisImage.width;
-        height = thisCanvas.height || thisImage.height;
+        width = thisCanvas.width || thisMedia.width;
+        height = thisCanvas.height || thisMedia.height;
         if (width <= 0 || height <= 0)
         {
             console.warn('Invalid width or height for canvas ' + label + '. Skipping');
@@ -118,14 +128,22 @@ export default function parseIIIFManifest (manifest)
             otherImages = [];
         }
 
-        imageLabel = thisImage.label || null;
+        imageLabel = thisMedia.label || null;
 
-        info = parseImageInfo(thisImage);
+        info = parseImageInfo(thisMedia);
         url = info.url.slice(-1) !== '/' ? info.url + '/' : info.url;  // append trailing slash to url if it's not there.
 
-        context = thisImage.service['@context'];
+        if (typeof thisMedia.service !== 'undefined') {
+            context = thisMedia.service['@context'];
+        } else {
+            context = 3;
+        }
 
-        if (context === 'http://iiif.io/api/image/2/context.json')
+        if (context === 3) 
+        {
+            imageAPIVersion = 3;    
+        } 
+        else if (context === 'http://iiif.io/api/image/2/context.json')
         {
             imageAPIVersion = 2;
         }
@@ -197,7 +215,7 @@ export default function parseIIIFManifest (manifest)
         dims: dims,
         max_zoom: lowestMaxZoom,
         pgs: pages,
-        paged: manifest.viewingHint === 'paged' || sequence.viewingHint === 'paged'
+        paged: manifest.viewingHint === 'paged' || (typeof sequence !== 'undefined' ? sequence.viewingHint === 'paged' : false)
     };
 }
 
@@ -211,7 +229,7 @@ export default function parseIIIFManifest (manifest)
  */
 function parseImageInfo (resource)
 {
-    let url = resource['@id'];
+    let url = resource['@id'] || resource.id;
     const fragmentRegex = /#xywh=([0-9]+,[0-9]+,[0-9]+,[0-9]+)/;
     let xywh = '';
     let stripURL = true;
