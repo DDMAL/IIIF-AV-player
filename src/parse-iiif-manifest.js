@@ -34,24 +34,12 @@ const getOtherImageData = (otherImages, lowestMaxZoom) =>
 };
 
 /**
- *  Check if manifest is IIIFv3, then send to appropriate parser
+ *  Check if manifest is IIIFv3, then send to appropriate parser. IIIFv3 manifests MUST have
+ *  the 'items' property, whereas v2 will not.
 */
 export default function parseVersionManifest (manifest) 
 {
-    let sequences;
-    var isVersion3 = false;
-
-    if (Array.isArray(manifest.sequences)) 
-        sequences = manifest.sequences[0];
-    else 
-        sequences = manifest.sequences;
-
-    if (manifest.type === 'Canvas' && manifest.content) 
-        isVersion3 = true;
-    else if (sequences.canvases[0].content) 
-        isVersion3 = true;
-
-    if (isVersion3) 
+    if (manifest.items) 
     {
         console.log('v3');
         return parseIIIF3Manifest(manifest);
