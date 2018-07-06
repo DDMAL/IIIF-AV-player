@@ -53,15 +53,8 @@ export default function parseVersionManifest (manifest)
 
 function parseIIIF3Manifest (manifest) 
 {
-    // TODO: if v3 image, should send to other parser (which is compatible with v3 images)
-    // need more examples of v3 image manifests to determine how to determine if image
-    // also, v2 has multiple canvases for multiple images, v3 has multiple items
-
-    var sequence = manifest.sequences[0] || manifest.sequences;
-    var canvases = sequence.canvases;
-    const numCanvases = canvases.length;
-
-    return numCanvases + "work in progress lol";
+    console.log(manifest);
+    return "IIIF v3 Manifest, work in progress";
 }
 
 /**
@@ -73,13 +66,13 @@ function parseIIIF3Manifest (manifest)
  */
 function parseIIIFManifest (manifest)
 {
-    var sequence = manifest.sequences[0] || manifest.sequences;
+    var sequence = manifest.sequences[0];
     var canvases = sequence.canvases; 
     const numCanvases = canvases.length;
 
     const pages = new Array(canvases.length);
 
-    let thisCanvas, thisResource, thisMedia, otherImages, context, url, info, imageAPIVersion, width, height, maxZoom, canvas, label, imageLabel, zoomDimensions, widthAtCurrentZoomLevel, heightAtCurrentZoomLevel;
+    let thisCanvas, thisResource, thisImage, otherImages, context, url, info, imageAPIVersion, width, height, maxZoom, canvas, label, imageLabel, zoomDimensions, widthAtCurrentZoomLevel, heightAtCurrentZoomLevel;
 
     let lowestMaxZoom = 100;
     let maxRatio = 0;
@@ -111,13 +104,9 @@ function parseIIIFManifest (manifest)
     for (let i = 0; i < numCanvases; i++)
     {
         thisCanvas = canvases[i];
-        canvas = thisCanvas['@id'] || thisCanvas.id;
+        canvas = thisCanvas['@id'];
         label = thisCanvas.label;
-        if (typeof thisCanvas.images !== 'undefined') {
-            thisResource = thisCanvas.images[0].resource;
-        } else {
-            thisResource = thisCanvas.content[0].items[0];
-        }
+        thisResource = thisCanvas.images[0].resource;
 
         /*
          * If a canvas has multiple images it will be encoded
@@ -126,16 +115,16 @@ function parseIIIFManifest (manifest)
          * */
         if (thisResource['@type'] === "oa:Choice")
         {
-            thisMedia = thisResource.default;
+            thisImage = thisResource.default;
         }
         else
         {
-            thisMedia = thisResource;
+            thisImage = thisResource;
         }
 
         // Prioritize the canvas height / width first, since images may not have h/w
-        width = thisCanvas.width || thisMedia.width;
-        height = thisCanvas.height || thisMedia.height;
+        width = thisCanvas.width || thisImage.width;
+        height = thisCanvas.height || thisImage.height;
         if (width <= 0 || height <= 0)
         {
             console.warn('Invalid width or height for canvas ' + label + '. Skipping');
@@ -153,22 +142,13 @@ function parseIIIFManifest (manifest)
             otherImages = [];
         }
 
-        imageLabel = thisMedia.label || null;
+        imageLabel = thisImage.label || null;
 
-        info = parseImageInfo(thisMedia);
+        info = parseImageInfo(thisImage);
         url = info.url.slice(-1) !== '/' ? info.url + '/' : info.url;  // append trailing slash to url if it's not there.
 
-        if (typeof thisMedia.service !== 'undefined') {
-            context = thisMedia.service['@context'];
-        } else {
-            context = 3;
-        }
-
-        if (context === 3) 
-        {
-            imageAPIVersion = 3;    
-        } 
-        else if (context === 'http://iiif.io/api/image/2/context.json')
+        context = thisImage.service['@context'];
+        if (context === 'http://iiif.io/api/image/2/context.json')
         {
             imageAPIVersion = 2;
         }
@@ -240,7 +220,7 @@ function parseIIIFManifest (manifest)
         dims: dims,
         max_zoom: lowestMaxZoom,
         pgs: pages,
-        paged: manifest.viewingHint === 'paged' || (typeof sequence !== 'undefined' ? sequence.viewingHint === 'paged' : false)
+        paged: manifest.viewingHint === 'paged' || sequence.viewingHint === 'paged'
     };
 }
 
