@@ -1,3 +1,7 @@
 .DS_Store
 
+# SublimeText
+*.sublime-project
+*.sublime-workspace
+
 /node_modules/
