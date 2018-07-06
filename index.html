@@ -10,5 +10,20 @@
     <title>IIIF AV Player</title>
 </head>
 <body>
+
+<div>
+    Manifest Object
+    <pre id="main"></pre>
+</div>
+
+<script src="static/main.js"></script>
+<script>
+    var manifestObject = new ManifestObject("https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json"); 
+    manifestObject.fetchManifest(function() {
+        // callback once manifest is fetched
+        document.getElementById('main').innerHTML = JSON.stringify(manifestObject.manifest, null, 4);
+    });
+</script>
+
 </body>
 </html>
