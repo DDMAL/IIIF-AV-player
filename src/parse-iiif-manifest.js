@@ -34,22 +34,59 @@ const getOtherImageData = (otherImages, lowestMaxZoom) =>
 };
 
 /**
+ *  Check if manifest is IIIFv3, then send to appropriate parser
+*/
+export default function parseVersionManifest (manifest) 
+{
+    let sequences;
+    var isVersion3 = false;
+
+    if (Array.isArray(manifest.sequences)) 
+        sequences = manifest.sequences[0];
+    else 
+        sequences = manifest.sequences;
+
+    if (manifest.type === 'Canvas' && manifest.content) 
+        isVersion3 = true;
+    else if (sequences.canvases[0].content) 
+        isVersion3 = true;
+
+    if (isVersion3) 
+    {
+        console.log('v3');
+        return parseIIIF3Manifest(manifest);
+    }
+    else 
+    {
+        console.log('v2 or lower');
+        return parseIIIFManifest(manifest);
+    }
+}
+
+function parseIIIF3Manifest (manifest) 
+{
+    // TODO: if v3 image, should send to other parser (which is compatible with v3 images)
+    // need more examples of v3 image manifests to determine how to determine if image
+    // also, v2 has multiple canvases for multiple images, v3 has multiple items
+
+    var sequence = manifest.sequences[0] || manifest.sequences;
+    var canvases = sequence.canvases;
+    const numCanvases = canvases.length;
+
+    return numCanvases + "work in progress lol";
+}
+
+/**
  * Parses an IIIF Presentation API Manifest and converts it into a Diva.js-format object
  * (See https://github.com/DDMAL/diva.js/wiki/Development-notes#data-received-through-ajax-request)
  *
  * @param {Object} manifest - an object that represents a valid IIIF manifest
  * @returns {Object} divaServiceBlock - the data needed by Diva to show a view of a single document
  */
-export default function parseIIIFManifest (manifest)
+function parseIIIFManifest (manifest)
 {
-    var canvases;
-    var sequence;
-    if (manifest.type === "Canvas") {
-        canvases = manifest;
-    } else {
-        sequence = manifest.sequences[0] || manifest.sequences;
-        canvases = sequence.canvases;
-    }
+    var sequence = manifest.sequences[0] || manifest.sequences;
+    var canvases = sequence.canvases; 
     const numCanvases = canvases.length;
 
     const pages = new Array(canvases.length);

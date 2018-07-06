@@ -1,4 +1,4 @@
-import parseIIIFManifest from './parse-iiif-manifest';
+import parseVersionManifest from './parse-iiif-manifest';
 
 class ManifestObject 
 {
@@ -29,7 +29,7 @@ class ManifestObject
 
     setManifest (responseData, callback)
     {
-        this.manifest = parseIIIFManifest(responseData);
+        this.manifest = parseVersionManifest(responseData);
 
         callback(this.manifest);
     }
