@@ -1,0 +1,16 @@
+language: node_js
+node_js: 10  
+os: osx
+sudo: false
+
+install:
+  - npm install --no-spin
+
+script:
+  - gulp develop:lint
+
+notifications:
+  email: false
+  slack:
+    secure: E6faEXi4tTwbIL9AovjAxAhf1CQGUCuIG8nqViYeWek7jM/7rjNd4oiLGtKlQec4Sx/8Ld385rGtOayFGm0zArek42vsXxpja0U+FAoN8zft3xkZthjzy781fX5ya8wLz447ePRLsDZuEqmj8h2x3atXiHwDAhynIFJdn55+DynV0Ti+1OkWQqf6DB7sdVh+xw6aFYy6LEug6KXr+rVJCaG+/JalGPaJgYnkajiK11CUEWkEmmh5Xaz+uoec9yiQAPMDnl9e4d9DO7rWzSWmZs5nMC7vynr+w90jWXkILOtT3tgALulpujGd0UIQa8RuwDVKDSrGMo4Vej7j/Ll6xVpwEtdYnpfJG+NlXGQolcj9iOPb9unBW1PJXDjgXB420BSTbDLeNJGA+wg7Lbz2RtD+fAPgH/UOnHy30W+zp++bJp47FkexJQYvkXf5x55KTjgaWfI3KwpKasobr0D7nKg2vqHArwug3YohZ1Sjf04FLz40KXuWePrm5fttnet4rYnSn0BAGCToYZBg43U1yd3esPRFrzT0mcHYLAfUmZ7MnaEc3u4NoTGSdUoq1g2qqWT6EnZ/1jwqTs3SxuXp9tGNjHfD+nM8EG64GB5Rbvp/iUE7Gv51opUOOJJsmhzuKf33u+gBo283GzLVd827LuQIv2+1fwtuMfHBER8R/Rg=
+    
