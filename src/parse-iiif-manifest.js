@@ -64,41 +64,46 @@ function parseIIIF3Manifest (manifest)
             height: canvas.height
         };
 
-        let annotations = canvas.items[0].items,
-            numAnnotations = annotations.length;
+        let annotationPages = canvas.items,
+            numAnnotationPages = annotationPages.length;
 
-        for (var j = 0; j < numAnnotations; j++) 
-        {
-            let annotation = annotations[j];
-            let body = annotation.body;
+        for (var j = 0; j < numAnnotationPages; j++) 
+        {   
+            let annotations = annotationPages[j].items,
+                numAnnotations = annotations.length;
 
-            if (body.type === "Choice") 
+            for (var k = 0; k < numAnnotations; k++) 
             {
-                body = body.items;
-            } 
+                let body = annotations[k].body;
 
-            annotations[j] = {
-                motivation: annotation.motivation,
-                target: annotation.target,
-                body: body
-            };
+                // skip items field if multiple 
+                if (body.type === "Choice") 
+                {
+                    body = body.items;
+                } 
+
+                annotations[k].body = body;
+            }
         }
-
 
         canvases[i] = {
             url: canvas.id,
+            type: canvas.type,
             label: canvas.label || "Label",
             dims: canvasDims,
             duration: canvas.duration,
-            annotations: annotations
+            annotationPages: annotationPages
         };
     }
 
+    let structures = manifest.structures;
+    // stuff with parsing structures into different timestamps
 
     return {
         item_title: manifest.label,
         url: manifest.id,
-        canvases: canvases
+        canvases: canvases,
+        structures: structures
     };
 }
 
