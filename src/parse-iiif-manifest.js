@@ -72,17 +72,45 @@ function parseIIIF3Manifest (manifest)
             let annotations = annotationPages[j].items,
                 numAnnotations = annotations.length;
 
+            // iterate over all annotations (media items)
             for (var k = 0; k < numAnnotations; k++) 
             {
-                let body = annotations[k].body;
+                let annotation = annotations[k];
+                let body = annotation.body;
+
+                if (annotation.motivation !== "painting") 
+                    continue;
 
                 // skip items field if multiple 
                 if (body.type === "Choice") 
                 {
-                    body = body.items;
+                    annotation.body = body.items;
                 } 
 
-                annotations[k].body = body;
+                // get the target zones of media onto canvas
+                let spatialTarget = /xywh=([^&]+)/g.exec(annotation.target);
+                let temporalTarget = /t=([^&]+)/g.exec(annotation.target);
+                var xywh;
+                if (spatialTarget && spatialTarget[1]) 
+                {
+                    xywh = spatialTarget[1].split(',');
+                } 
+                else 
+                {
+                    xywh = [0, 0, canvas.width, canvas.height];
+                }
+                var t;
+                if(temporalTarget && temporalTarget[1]) 
+                {
+                    t = temporalTarget[1].split(',');
+                } 
+                else 
+                {
+                    t = [0, canvas.duration];
+                }
+
+                annotation.targetSpace = xywh;
+                annotation.targetTime = t;
             }
         }
 
