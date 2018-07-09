@@ -41,20 +41,65 @@ export default function parseVersionManifest (manifest)
 {
     if (manifest.items) 
     {
-        console.log('v3');
+        console.log('IIIF v3 Manifest, work in progress');
         return parseIIIF3Manifest(manifest);
     }
     else 
     {
-        console.log('v2 or lower');
+        console.log('IIIF v2 (or lower) Manifest');
         return parseIIIFManifest(manifest);
     }
 }
 
 function parseIIIF3Manifest (manifest) 
 {
-    console.log(manifest);
-    return "IIIF v3 Manifest, work in progress";
+    var canvases = manifest.items,
+        numCanvases = canvases.length;
+
+    for (var i = 0; i < numCanvases; i++) 
+    {
+        let canvas = canvases[i];
+        let canvasDims = {
+            width: canvas.width,
+            height: canvas.height
+        };
+
+        let annotations = canvas.items[0].items,
+            numAnnotations = annotations.length;
+
+        for (var j = 0; j < numAnnotations; j++) 
+        {
+            let annotation = annotations[j];
+            let body = annotation.body;
+
+            if (body.type === "Choice") 
+            {
+                body = body.items;
+            } 
+
+            annotations[j] = {
+                motivation: annotation.motivation,
+                target: annotation.target,
+                body: body
+            };
+        }
+
+
+        canvases[i] = {
+            url: canvas.id,
+            label: canvas.label || "Label",
+            dims: canvasDims,
+            duration: canvas.duration,
+            annotations: annotations
+        };
+    }
+
+
+    return {
+        item_title: manifest.label,
+        url: manifest.id,
+        canvases: canvases
+    };
 }
 
 /**
