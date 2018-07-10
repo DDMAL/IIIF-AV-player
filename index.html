@@ -30,7 +30,6 @@
 
 <div class="main">
     <h4>Manifest Object</h4>
-    <pre id="main"></pre>
 </div>
 
 <script src="static/main.js"></script>
@@ -40,7 +39,7 @@
         let manifestObject = new ManifestObject(url); 
         manifestObject.fetchManifest(function() {
             // callback once manifest is fetched
-            // document.getElementById('main').innerHTML = JSON.stringify(manifestObject.manifest, null, 4);
+            console.log(manifestObject.manifest);
         });
     });
 </script>
