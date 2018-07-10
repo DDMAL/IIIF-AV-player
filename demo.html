@@ -11,6 +11,7 @@
     <script src="static/main.js"></script>
     <title>IIIF AV Player</title>
 </head>
+
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-dark mb-5 pl-4 py-3">
@@ -21,6 +22,7 @@
   </form>
 </nav>
 
+<button style="float:right;" id="hide" class="mr-3 btn btn-outline-info my-2 my-sm-0 text-dark" type="button">Hide</button>
 <div class="jumbotron mx-3">
   <h1 class="display-4">Welcome!</h1>
   <p class="lead">Select between the V3 or V2 sample manifests below, and enter them in the search bar.</p>
@@ -56,12 +58,24 @@
             <h4 class="display-4" id="title">Manifest</h4>
         </div>
         <div class="col-md-6 border-left text-center" id="score">
-            <h4 class="display-4"></h4>
+            <button style="float:center;" id="render" class="mr-3 btn btn-outline-info my-2 my-sm-0 text-dark" type="button">Render MEI</button>
         </div>
     </div>
 </div>
 
 <script>
+    // toggle jumbotron visibility
+    $('#hide').click(function() {
+        let j = $('.jumbotron');
+        if (j.hasClass('d-none')) {
+            j.removeClass('d-none');
+            $('#hide').html("Hide");
+        } else {
+            j.addClass('d-none');
+            $('#hide').html("Show");
+        }
+    });
+    // fetch manifest and set title
     $('#getURL').click(function () {
         let url = $('#urlBox').val();
         let manifestObject = new ManifestObject(url); 
@@ -72,24 +86,26 @@
             {
                 title = title.en[0];
             }
-            console.log(title);
             $('#title').html(title);
         });
     });
-
+    // render verovio 
     var toolkit = new verovio.toolkit();
-    $.ajax({
-        url: "static/mei/demo.mei", 
-        dataType: "text", 
-        success: function(data) {
-            var svg = toolkit.renderData(data, {});
-            $("#score").html(svg);
-            $('svg').width("100%");
-            $('svg').height("100%");
-        }
+        $('#render').click(function () {
+            $.ajax({
+            url: "static/mei/demo.mei", 
+            dataType: "text", 
+            success: function(data) {
+                var svg = toolkit.renderData(data, {});
+                $("#score").html(svg);
+                $('svg').width("100%");
+                $('svg').height("100%");
+            }
+        });
     });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
 </body>
 </html>
