@@ -33,8 +33,8 @@ export class Player
                 return null;
         }
         this.mediaElement.css({
-            width: info.width + '%',
-            height: info.height + '%'
+            width: '100%', // temporary - should be based on media dimensions eventually
+            height: '100%'
         });
         $('.playerContainer').append(this.mediaElement);
     }
