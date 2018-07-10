@@ -14,3 +14,13 @@ IIIF A/V Player (WIP)
 If you wish to alter any of the `src` code, make sure to rebundle with `gulp develop:build`. 
 
 It might be ideal to keep a server running in the background with `gulp develop:server &`, instead of running `gulp` every time you make a change.
+
+## Integration
+To integrate this player with a separate webpage, add the following to your `index.html` (in a `<script>` tag):
+```javascript
+let url = "URL of manifest you want to display";
+let manifestObject = new ManifestObject(url); 
+manifestObject.fetchManifest(function() {
+    // callback once manifest is fetched, do whatever post-fetch actions you want
+});
+```
