@@ -15,9 +15,9 @@ export class Player
         }     
         let container = $('<div class="playerContainer"></div>');
         container.css({
-            width: '50%'
+            width: '100%'
         });
-        $('body').append(container);
+        $('#main').append(container);
         switch(info.type) 
         {
             case 'Image':
