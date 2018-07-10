@@ -1,3 +1,5 @@
+import {Player} from './player';
+
 const getMaxZoomLevel = (width, height) =>
 {
     const largestDimension = Math.max(width, height);
@@ -34,16 +36,136 @@ const getOtherImageData = (otherImages, lowestMaxZoom) =>
 };
 
 /**
+ *  Check if manifest is IIIFv3, then send to appropriate parser. IIIFv3 manifests MUST have
+ *  the 'items' property, whereas v2 will not.
+*/
+export default function parseVersionManifest (manifest) 
+{
+    if (manifest.items) 
+    {
+        console.log('IIIF v3 Manifest, work in progress');
+        return parseIIIF3Manifest(manifest);
+    }
+    else 
+    {
+        console.log('IIIF v2 (or lower) Manifest');
+        return parseIIIFManifest(manifest);
+    }
+}
+
+function parseIIIF3Manifest (manifest) 
+{
+    var canvases = manifest.items,
+        numCanvases = canvases.length;
+
+    for (var i = 0; i < numCanvases; i++) 
+    {
+        let canvas = canvases[i];
+        let canvasDims = {
+            width: canvas.width,
+            height: canvas.height
+        };
+
+        let annotationPages = canvas.items,
+            numAnnotationPages = annotationPages.length;
+
+        for (var j = 0; j < numAnnotationPages; j++) 
+        {   
+            let annotations = annotationPages[j].items,
+                numAnnotations = annotations.length;
+
+            // iterate over all annotations (media items)
+            for (var k = 0; k < numAnnotations; k++) 
+            {
+                let annotation = annotations[k];
+                let body = annotation.body;
+
+                if (annotation.motivation !== "painting") 
+                    continue;
+
+                // if choice choose first
+                if (body.type === "Choice") 
+                {
+                    annotation.body = body.items[0];
+                } 
+
+                // get the target zones of media onto canvas
+                let spatialTarget = /xywh=([^&]+)/g.exec(annotation.target);
+                let temporalTarget = /t=([^&]+)/g.exec(annotation.target);
+                var xywh;
+                var t;
+                if (spatialTarget && spatialTarget[1]) 
+                {
+                    xywh = spatialTarget[1].split(',');
+                } 
+                else 
+                {
+                    xywh = [0, 0, canvas.width, canvas.height];
+                }
+                if(temporalTarget && temporalTarget[1]) 
+                {
+                    t = temporalTarget[1].split(',');
+                } 
+                else 
+                {
+                    t = [0, canvas.duration];
+                }
+
+                let percentageLeft = parseInt(xywh[0]) / canvas.width * 100,
+                    percentageTop = parseInt(xywh[1]) / canvas.height * 100,
+                    percentageWidth = parseInt(xywh[2]) / canvas.width * 100,
+                    percentageHeight = parseInt(xywh[3]) / canvas.height * 100;
+
+                // info of media item for rendering
+                var info = {
+                    'type': annotation.body.type,
+                    'source': annotation.body.id,
+                    'offsetX': percentageLeft,
+                    'offsetY': percentageTop,
+                    'width': percentageWidth,
+                    'height': percentageHeight,
+                    'start': parseInt(t[0]),
+                    'end': parseInt(t[1])
+                };
+
+                // render media item onto page
+                let player = new Player();
+                player.render(info);
+            }
+        }
+
+        canvases[i] = {
+            url: canvas.id,
+            type: canvas.type,
+            label: canvas.label || "Label",
+            dims: canvasDims,
+            duration: canvas.duration,
+            annotationPages: annotationPages
+        };
+    }
+
+    let structures = manifest.structures;
+    // stuff with parsing structures into different timestamps
+
+    return {
+        item_title: manifest.label,
+        url: manifest.id,
+        canvases: canvases,
+        structures: structures
+    };
+}
+
+/**
  * Parses an IIIF Presentation API Manifest and converts it into a Diva.js-format object
  * (See https://github.com/DDMAL/diva.js/wiki/Development-notes#data-received-through-ajax-request)
  *
  * @param {Object} manifest - an object that represents a valid IIIF manifest
  * @returns {Object} divaServiceBlock - the data needed by Diva to show a view of a single document
  */
-export default function parseIIIFManifest (manifest)
+function parseIIIFManifest (manifest)
 {
-    const sequence = manifest.sequences[0];
-    const canvases = sequence.canvases;
+    var sequence = manifest.sequences[0];
+    var canvases = sequence.canvases; 
     const numCanvases = canvases.length;
 
     const pages = new Array(canvases.length);
@@ -124,7 +246,6 @@ export default function parseIIIFManifest (manifest)
         url = info.url.slice(-1) !== '/' ? info.url + '/' : info.url;  // append trailing slash to url if it's not there.
 
         context = thisImage.service['@context'];
-
         if (context === 'http://iiif.io/api/image/2/context.json')
         {
             imageAPIVersion = 2;
@@ -211,7 +332,7 @@ export default function parseIIIFManifest (manifest)
  */
 function parseImageInfo (resource)
 {
-    let url = resource['@id'];
+    let url = resource['@id'] || resource.id;
     const fragmentRegex = /#xywh=([0-9]+,[0-9]+,[0-9]+,[0-9]+)/;
     let xywh = '';
     let stripURL = true;
