@@ -28,7 +28,7 @@
     https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json
 </div><br><br>
 
-<div>
+<div class="main">
     <h4>Manifest Object</h4>
     <pre id="main"></pre>
 </div>
@@ -40,7 +40,7 @@
         let manifestObject = new ManifestObject(url); 
         manifestObject.fetchManifest(function() {
             // callback once manifest is fetched
-            document.getElementById('main').innerHTML = JSON.stringify(manifestObject.manifest, null, 4);
+            // document.getElementById('main').innerHTML = JSON.stringify(manifestObject.manifest, null, 4);
         });
     });
 </script>

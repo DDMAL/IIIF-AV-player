@@ -1,3 +1,5 @@
+import {Player} from './player';
+
 const getMaxZoomLevel = (width, height) =>
 {
     const largestDimension = Math.max(width, height);
@@ -126,12 +128,9 @@ function parseIIIF3Manifest (manifest)
                     'end': parseInt(t[1])
                 };
 
-                console.log(info);
-
-                // something like
-                // let player = new Player();
-                // player.render(info);
-                // WILL ONLY HANDLE ONE MEDIA ITEM FOR NOW
+                // render media item onto page
+                let player = new Player();
+                player.render(info);
             }
         }
 
