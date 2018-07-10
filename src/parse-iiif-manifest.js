@@ -81,16 +81,17 @@ function parseIIIF3Manifest (manifest)
                 if (annotation.motivation !== "painting") 
                     continue;
 
-                // skip items field if multiple 
+                // if choice choose first
                 if (body.type === "Choice") 
                 {
-                    annotation.body = body.items;
+                    annotation.body = body.items[0];
                 } 
 
                 // get the target zones of media onto canvas
                 let spatialTarget = /xywh=([^&]+)/g.exec(annotation.target);
                 let temporalTarget = /t=([^&]+)/g.exec(annotation.target);
                 var xywh;
+                var t;
                 if (spatialTarget && spatialTarget[1]) 
                 {
                     xywh = spatialTarget[1].split(',');
@@ -99,7 +100,6 @@ function parseIIIF3Manifest (manifest)
                 {
                     xywh = [0, 0, canvas.width, canvas.height];
                 }
-                var t;
                 if(temporalTarget && temporalTarget[1]) 
                 {
                     t = temporalTarget[1].split(',');
@@ -109,8 +109,29 @@ function parseIIIF3Manifest (manifest)
                     t = [0, canvas.duration];
                 }
 
-                annotation.targetSpace = xywh;
-                annotation.targetTime = t;
+                let percentageLeft = parseInt(xywh[0]) / canvas.width * 100,
+                    percentageTop = parseInt(xywh[1]) / canvas.height * 100,
+                    percentageWidth = parseInt(xywh[2]) / canvas.width * 100,
+                    percentageHeight = parseInt(xywh[3]) / canvas.height * 100;
+
+                // info of media item for rendering
+                var info = {
+                    'type': annotation.body.type,
+                    'source': annotation.body.id,
+                    'offsetX': percentageLeft,
+                    'offsetY': percentageTop,
+                    'width': percentageWidth,
+                    'height': percentageHeight,
+                    'start': parseInt(t[0]),
+                    'end': parseInt(t[1])
+                };
+
+                console.log(info);
+
+                // something like
+                // let player = new Player();
+                // player.render(info);
+                // WILL ONLY HANDLE ONE MEDIA ITEM FOR NOW
             }
         }
 
