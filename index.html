@@ -7,6 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="static/verovio-toolkit.js"></script>
     <title>IIIF AV Player</title>
 </head>
 <body>
@@ -32,6 +33,10 @@
     <h4>Manifest Object</h4>
 </div>
 
+<div class="score">
+    <h4>Score Object</h4>
+</div>
+
 <script src="static/main.js"></script>
 <script>
     $('#getURL').click(function () {
@@ -41,6 +46,18 @@
             // callback once manifest is fetched
             console.log(manifestObject.manifest);
         });
+    });
+
+    var toolkit = new verovio.toolkit();
+    $.ajax({
+        url: "static/mei/demo.mei", 
+        dataType: "text", 
+        success: function(data) {
+            var svg = toolkit.renderData(data, {});
+            $(".score").html(svg);
+            $('svg').width("100%");
+            $('svg').height("100%");
+        }
     });
 </script>
 
