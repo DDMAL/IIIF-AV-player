@@ -16,11 +16,19 @@ If you wish to alter any of the `src` code, make sure to rebundle with `gulp dev
 It might be ideal to keep a server running in the background with `gulp develop:server &`, instead of running `gulp` every time you make a change.
 
 ## Integration
-To integrate this player with a separate webpage, add the following to your `index.html` (in a `<script>` tag):
+To integrate this player with a separate webpage, add the following to your `index.html`:
 ```javascript
-let url = "URL of manifest you want to display";
-let manifestObject = new ManifestObject(url); 
-manifestObject.fetchManifest(function() {
-    // callback once manifest is fetched, do whatever post-fetch actions you want
-});
+<script>
+    let url = "URL of manifest you want to display";
+    let manifestObject = new ManifestObject(url); 
+    manifestObject.fetchManifest(function() {
+        // callback once manifest is fetched, do whatever post-fetch actions you want
+        // perhaps displaying the manifestObject
+    });
+</script>
+```
+The player will target the `.main` class, so it's easiest to setup a `<div class="main">` wherever you want to render the player. This can be changed to whatever you like:
+```javascript
+// player.js
+$('.main').append(container); // line 20
 ```

@@ -1,4 +1,3 @@
-<!-- This is a Diva instantiation example including pixel.js plugin -->
 <!doctype html>
 <html>
 <head>
@@ -7,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="static/verovio-toolkit.js"></script>
     <title>IIIF AV Player</title>
 </head>
 <body>
@@ -32,17 +32,12 @@
     <h4>Manifest Object</h4>
 </div>
 
+<div class="score">
+    <h4>Score Object</h4>
+</div>
+
+<script src="static/player.js"></script>
 <script src="static/main.js"></script>
-<script>
-    $('#getURL').click(function () {
-        let url = $('#urlBox').val();
-        let manifestObject = new ManifestObject(url); 
-        manifestObject.fetchManifest(function() {
-            // callback once manifest is fetched
-            console.log(manifestObject.manifest);
-        });
-    });
-</script>
 
 </body>
 </html>

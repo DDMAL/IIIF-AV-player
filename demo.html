@@ -8,7 +8,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="static/verovio-toolkit.js"></script>
-    <script src="static/main.js"></script>
     <title>IIIF AV Player</title>
 </head>
 
@@ -54,56 +53,16 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 border-right text-center" id="main">
+        <div class="col-md-6 border-right text-center main">
             <h4 class="display-4" id="title">Manifest</h4>
         </div>
         <div class="col-md-6 border-left text-center" id="score">
-            <button style="float:center;" id="render" class="mr-3 btn btn-outline-info my-2 my-sm-0 text-dark" type="button">Render MEI</button>
         </div>
     </div>
 </div>
 
-<script>
-    // toggle jumbotron visibility
-    $('#hide').click(function() {
-        let j = $('.jumbotron');
-        if (j.hasClass('d-none')) {
-            j.removeClass('d-none');
-            $('#hide').html("Hide");
-        } else {
-            j.addClass('d-none');
-            $('#hide').html("Show");
-        }
-    });
-    // fetch manifest and set title
-    $('#getURL').click(function () {
-        let url = $('#urlBox').val();
-        let manifestObject = new ManifestObject(url); 
-        manifestObject.fetchManifest(function() {
-            // callback once manifest is fetched
-            let title = manifestObject.manifest.item_title;
-            if (typeof title !== 'string')  
-            {
-                title = title.en[0];
-            }
-            $('#title').html(title);
-        });
-    });
-    // render verovio 
-    var toolkit = new verovio.toolkit();
-        $('#render').click(function () {
-            $.ajax({
-            url: "static/mei/demo.mei", 
-            dataType: "text", 
-            success: function(data) {
-                var svg = toolkit.renderData(data, {});
-                $("#score").html(svg);
-                $('svg').width("100%");
-                $('svg').height("100%");
-            }
-        });
-    });
-</script>
+<script src="static/player.js"></script> 
+<script src="static/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
