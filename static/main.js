@@ -13,6 +13,7 @@ $('#getURL').click(function () {
 
         // link score
         renderVerovio();
+        trackVideo();
     });
 });
 
@@ -43,8 +44,7 @@ function linkScore ()
     });
     // fill red and goto time in video 
     $('.measure').click(function () {
-        $(this).attr('fill', '#d00');
-        $('.measure').not(this).removeAttr('fill');
+        fillMeasure(this);
         $('video')[0].currentTime = $(this).attr('time');
         $('video')[0].play();
     });
@@ -61,3 +61,31 @@ $('#hide').click(function() {
         $('#hide').html("Show");
     }
 });
+
+// track video progress
+function trackVideo ()
+{
+    setInterval(function () 
+    {
+        let time = $('video')[0].currentTime;
+        $('.measure').each(function () {
+            if (time > $(this).attr('time')) {
+                fillMeasure(this);
+            }
+        });
+    }, 1000);
+}
+
+function fillMeasure (measure) 
+{
+    $(measure).attr('fill', '#d00');
+    $('.measure').not(measure).removeAttr('fill');
+}
+
+
+
+
+
+
+
+
