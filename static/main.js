@@ -75,7 +75,7 @@ function trackVideo ()
                 fillMeasure(this);
             }
         });
-    }, 1000);
+    }, 300);
 }
 
 function fillMeasure (measure) 
