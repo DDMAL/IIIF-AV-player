@@ -14,6 +14,8 @@ $('#getURL').click(function () {
         // link score
         renderVerovio();
         trackVideo();
+
+        $("#player_controls").show();
     });
 });
 
@@ -82,10 +84,33 @@ function fillMeasure (measure)
     $('.measure').not(measure).removeAttr('fill');
 }
 
+function buttonPlayPress()
+{
+	if ($('video')[0].paused) {
+		$('video')[0].play();
+		d3.select("#button_play i").attr('class', "fa fa-pause");    
+	} else {
+		$('video')[0].pause();
+		d3.select("#button_play i").attr('class', "fa fa-play");
+	}
+}
 
+function buttonStopPress()
+{
+	d3.select("#button_play i").attr('class', "fa fa-play");
 
+	$('video')[0].pause();
+	$('video')[0].currentTime = 0;
 
+	$('.measure').removeAttr('fill');
+}
 
+function buttonBackPress()
+{
+	$('video')[0].currentTime += -5;
+}
 
-
-
+function buttonForwardPress()
+{
+	$('video')[0].currentTime += 5;
+}
