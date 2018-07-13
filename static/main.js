@@ -70,11 +70,13 @@ function trackVideo ()
     setInterval(function () 
     {
         let time = $('video')[0].currentTime;
-        $('.measure').each(function () {
-            if (time > $(this).attr('time')) {
-                fillMeasure(this);
-            }
-        });
+        if (time != 0) {
+	        $('.measure').each(function () {
+	            if (time >= $(this).attr('time')) {
+	                fillMeasure(this);
+	            }
+	        });
+    	}
     }, 300);
 }
 
@@ -107,10 +109,26 @@ function buttonStopPress()
 
 function buttonBackPress()
 {
-	$('video')[0].currentTime += -5;
+	let measureFound = false;
+	let time = $('video')[0].currentTime;
+    $($('.measure').get().reverse()).each(function () {
+        if ($(this).attr('time') < time) {
+        	if (measureFound) {
+        		$('video')[0].currentTime = $(this).attr('time');
+        		return false;
+        	}
+        	measureFound = true;
+        }
+    });
 }
 
 function buttonForwardPress()
 {
-	$('video')[0].currentTime += 5;
+    let time = $('video')[0].currentTime;
+    $('.measure').each(function () {
+        if ($(this).attr('time') > time) {
+            $('video')[0].currentTime = $(this).attr('time');
+            return false;
+        }
+    });
 }
