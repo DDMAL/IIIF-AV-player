@@ -25,7 +25,7 @@ $('#getURL').click(function ()
 
 // Verovio score rendering and score manipulation
 var toolkit = new verovio.toolkit();
-var page = 1;
+var page = 0; 
 async function renderVerovio () 
 {
     await $.ajax({
@@ -34,7 +34,13 @@ async function renderVerovio ()
         success: function (data) 
         {
             $('.score').empty(); // clear previous verovio renderings
-            $('.score').append(toolkit.renderData(data, {}));
+            toolkit.renderData(data, {});
+            for (var i = 1; i <= toolkit.getPageCount(); i++) // verovio pages are 1-indexed
+            {
+                let svg = toolkit.renderPage(i, {});
+                $('.score').append(svg);
+            }
+            $('.score').children().not($('.score').children().first()).hide(); // hide other pages
             $('svg').width("100%");
             $('svg').height("100%");
         }
@@ -43,23 +49,19 @@ async function renderVerovio ()
 };
 function nextPage ()
 {
-    if (page === toolkit.getPageCount())
+    if (page === toolkit.getPageCount()-1)
         return;
+    $('.score').children().eq(page).hide();
     page++;
-    $('.score').empty(); // clear previous verovio renderings
-    $('.score').append(toolkit.renderPage(page, {}));
-    $('svg').width("100%");
-    $('svg').height("100%");
+    $('.score').children().eq(page).show();
 }
 function prevPage ()
 {
-    if (page === 1)
+    if (page === 0)
         return;
+    $('.score').children().eq(page).hide();
     page--;
-    $('.score').empty(); // clear previous verovio renderings
-    $('.score').append(toolkit.renderPage(page, {}));
-    $('svg').width("100%");
-    $('svg').height("100%");
+    $('.score').children().eq(page).show();
 }
 
 
