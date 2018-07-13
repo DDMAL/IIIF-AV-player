@@ -18,12 +18,14 @@ $('#getURL').click(function ()
         trackVideo();
 
         $("#player_controls").show();
+        $("#score_controls").show();
     });
 });
 
 
-// Verovio score rendering
+// Verovio score rendering and score manipulation
 var toolkit = new verovio.toolkit();
+var page = 1;
 async function renderVerovio () 
 {
     await $.ajax({
@@ -32,18 +34,33 @@ async function renderVerovio ()
         success: function (data) 
         {
             $('.score').empty(); // clear previous verovio renderings
-            let mei = toolkit.renderData(data, {});
-            for (var i = 1; i <= toolkit.getPageCount(); i++) 
-            {
-                let svg = toolkit.renderPage(i, {});
-                $('.score').append(svg);
-            }
+            $('.score').append(toolkit.renderData(data, {}));
             $('svg').width("100%");
             $('svg').height("100%");
         }
     });
     linkScore();
 };
+function nextPage ()
+{
+    if (page === toolkit.getPageCount())
+        return;
+    page++;
+    $('.score').empty(); // clear previous verovio renderings
+    $('.score').append(toolkit.renderPage(page, {}));
+    $('svg').width("100%");
+    $('svg').height("100%");
+}
+function prevPage ()
+{
+    if (page === 1)
+        return;
+    page--;
+    $('.score').empty(); // clear previous verovio renderings
+    $('.score').append(toolkit.renderPage(page, {}));
+    $('svg').width("100%");
+    $('svg').height("100%");
+}
 
 
 // score and player syncing

@@ -31,19 +31,19 @@
   <p>Triple click on a link to quickly highlight it.</p>
   <hr class="my-4">
   <div class="row">
-        <div class="col-md-6 border-right text-left">
-            <h4 class="display-4">V3</h4>
-            https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest?v3=true<br>
-            https://mallorn.dlib.indiana.edu/lunchroom_manners.manifest.json<br>
-            https://scrc.lib.ncsu.edu/sal_staging/catalog/ua024-002-bx0149-066-001/manifest<br>
-            https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest
-        </div>
-        <div class="col-md-6 border-left text-right">
-            <h4 class="display-4">V2</h4>
-            https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest<br>
-            https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json<br>
-            https://iiif.bodleian.ox.ac.uk/iiif/manifest/bea56620-793f-4dee-875d-ff051563292a.json
-        </div>
+    <div class="col-md-6 border-right text-left">
+        <h4 class="display-4">V3</h4>
+        https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest?v3=true<br>
+        https://mallorn.dlib.indiana.edu/lunchroom_manners.manifest.json<br>
+        https://scrc.lib.ncsu.edu/sal_staging/catalog/ua024-002-bx0149-066-001/manifest<br>
+        https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest
+    </div>
+    <div class="col-md-6 border-left text-right">
+        <h4 class="display-4">V2</h4>
+        https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest<br>
+        https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json<br>
+        https://iiif.bodleian.ox.ac.uk/iiif/manifest/bea56620-793f-4dee-875d-ff051563292a.json
+    </div>
     </div>
 </div>
 
@@ -64,11 +64,21 @@
         </button>
       </div>
     </div>      
+    <div class="row" id="score_controls" style="display:none">
+      <div class="col-md-6 offset-md-6 text-center">
+        <button type="button" id="page_back" class="btn" onclick='prevPage()'>
+          <i class="fas fa-angle-left"></i>
+        </button>
+        <button type="button" id="page_next" class="btn" onclick='nextPage()'>
+          <i class="fas fa-angle-right"></i>
+        </button>
+      </div>
+    </div>
     <div class="row">
         <div class="col-md-6 border-right text-center main">
             <h4 class="display-4" id="title"></h4>
         </div>
-        <div class="col-md-6 border-left text-center score" style="height: 1000px; overflow-y: scroll;">
+        <div class="col-md-6 border-left text-center score">
         </div>
     </div>
 </div>
