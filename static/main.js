@@ -1,9 +1,11 @@
 // Manifest stuff
 var manifestObject; 
-$('#getURL').click(function () {
+$('#getURL').click(function () 
+{
     let url = $('#urlBox').val();
     manifestObject = new ManifestObject(url); 
-    manifestObject.fetchManifest(function () {
+    manifestObject.fetchManifest(function () 
+    {
         // callback once manifest is fetched
         // set title
         let title = manifestObject.manifest.item_title;
@@ -21,13 +23,20 @@ $('#getURL').click(function () {
 
 // Verovio stuff
 var toolkit = new verovio.toolkit();
-async function renderVerovio () {
+async function renderVerovio () 
+{
     await $.ajax({
         url: "static/mei/demo.mei", 
         dataType: "text", 
-        success: function(data) {
-            var svg = toolkit.renderData(data, {});
-            $(".score").html(svg);
+        success: function (data) 
+        {
+            $('.score').empty(); // clear previous verovio renderings
+            var mei = toolkit.renderData(data, {});
+            for (var i = 1; i <= toolkit.getPageCount(); i++) 
+            {
+                let svg = toolkit.renderPage(i, {});
+                $('.score').append(svg);
+            }
             $('svg').width("100%");
             $('svg').height("100%");
         }
@@ -53,7 +62,8 @@ function linkScore ()
 };
 
 // toggle jumbotron visibility
-$('#hide').click(function() {
+$('#hide').click(function () 
+{
     let j = $('.jumbotron');
     if (j.hasClass('d-none')) {
         j.removeClass('d-none');
