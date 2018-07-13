@@ -1,4 +1,4 @@
-// Manifest stuff
+// Manifest fetching and callback actions
 var manifestObject; 
 $('#getURL').click(function () 
 {
@@ -21,7 +21,8 @@ $('#getURL').click(function ()
     });
 });
 
-// Verovio stuff
+
+// Verovio score rendering
 var toolkit = new verovio.toolkit();
 async function renderVerovio () 
 {
@@ -31,7 +32,7 @@ async function renderVerovio ()
         success: function (data) 
         {
             $('.score').empty(); // clear previous verovio renderings
-            var mei = toolkit.renderData(data, {});
+            let mei = toolkit.renderData(data, {});
             for (var i = 1; i <= toolkit.getPageCount(); i++) 
             {
                 let svg = toolkit.renderPage(i, {});
@@ -44,6 +45,8 @@ async function renderVerovio ()
     linkScore();
 };
 
+
+// score and player syncing
 function linkScore ()
 {
     let increment = manifestObject.manifest.canvases[0].duration / $('.measure').length;
@@ -60,42 +63,29 @@ function linkScore ()
         $('video')[0].play();
     });
 };
-
-// toggle jumbotron visibility
-$('#hide').click(function () 
-{
-    let j = $('.jumbotron');
-    if (j.hasClass('d-none')) {
-        j.removeClass('d-none');
-        $('#hide').html("Hide");
-    } else {
-        j.addClass('d-none');
-        $('#hide').html("Show");
-    }
-});
-
-// track video progress
+// track video progress and move score highlight
 function trackVideo ()
 {
     setInterval(function () 
     {
         let time = $('video')[0].currentTime;
         if (time != 0) {
-	        $('.measure').each(function () {
-	            if (time >= $(this).attr('time')) {
-	                fillMeasure(this);
-	            }
-	        });
-    	}
+            $('.measure').each(function () {
+                if (time >= $(this).attr('time')) {
+                    fillMeasure(this);
+                }
+            });
+        }
     }, 300);
 }
-
 function fillMeasure (measure) 
 {
     $(measure).attr('fill', '#d00');
     $('.measure').not(measure).removeAttr('fill');
 }
 
+
+// video and score control 
 function buttonPlayPress()
 {
 	if ($('video')[0].paused) {
@@ -106,7 +96,6 @@ function buttonPlayPress()
 		d3.select("#button_play i").attr('class', "fa fa-play");
 	}
 }
-
 function buttonStopPress()
 {
 	d3.select("#button_play i").attr('class', "fa fa-play");
@@ -116,7 +105,6 @@ function buttonStopPress()
 
 	$('.measure').removeAttr('fill');
 }
-
 function buttonBackPress()
 {
 	let measureFound = false;
@@ -131,7 +119,6 @@ function buttonBackPress()
         }
     });
 }
-
 function buttonForwardPress()
 {
     let time = $('video')[0].currentTime;
@@ -142,3 +129,18 @@ function buttonForwardPress()
         }
     });
 }
+
+
+// toggle jumbotron visibility
+$('#hide').click(function () 
+{
+    let j = $('.jumbotron');
+    if (j.hasClass('d-none')) {
+        j.removeClass('d-none');
+        $('#hide').html("Hide");
+    } else {
+        j.addClass('d-none');
+        $('#hide').html("Show");
+    }
+});
+
