@@ -37,29 +37,8 @@
     <h4>Score Object</h4>
 </div>
 
+<script src="static/player.js"></script>
 <script src="static/main.js"></script>
-<script>
-    $('#getURL').click(function () {
-        let url = $('#urlBox').val();
-        let manifestObject = new ManifestObject(url); 
-        manifestObject.fetchManifest(function() {
-            // callback once manifest is fetched
-            console.log(manifestObject.manifest);
-        });
-    });
-
-    var toolkit = new verovio.toolkit();
-    $.ajax({
-        url: "static/mei/demo.mei", 
-        dataType: "text", 
-        success: function(data) {
-            var svg = toolkit.renderData(data, {});
-            $(".score").html(svg);
-            $('svg').width("100%");
-            $('svg').height("100%");
-        }
-    });
-</script>
 
 </body>
 </html>

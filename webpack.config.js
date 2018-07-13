@@ -6,6 +6,6 @@ module.exports =
     entry: './src/manifest-object.js',
     output: { 
         path: path.resolve(__dirname, 'static'),
-        filename: 'main.js'
+        filename: 'player.js'
     }
 };
