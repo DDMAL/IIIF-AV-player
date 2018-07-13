@@ -91,9 +91,11 @@ function trackVideo ()
     {
         let time = $('video')[0].currentTime;
         $('.measure').each(function () {
-            if (time >= $(this).attr('time') && time != 0) {
+            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time != 0) {
                 currentMeasure = $(this);
                 fillMeasure(this);
+            } else if (time == 0) {
+                $('.measure').removeAttr('fill');
             }
         });
         // check if first measure
@@ -138,9 +140,13 @@ function buttonStopPress()
 function buttonBackPress()
 {
 	let measureFound = false;
-	let time = $('video')[0].currentTime;
+	let time = truncateNum($('video')[0].currentTime, 3);
+
+    // iterate backwards until current measure and get next one back
     $($('.measure').get().reverse()).each(function () {
-        if ($(this).attr('time') < time) {
+        let measureTime = truncateNum($(this).attr('time'), 3);
+
+        if (measureTime <= time) {
         	if (measureFound) {
         		$('video')[0].currentTime = $(this).attr('time');
         		return false;
@@ -151,15 +157,25 @@ function buttonBackPress()
 }
 function buttonForwardPress()
 {
-    let time = $('video')[0].currentTime;
+    let time = truncateNum($('video')[0].currentTime, 3);
+
+    // iterate forward until next measure from current
     $('.measure').each(function () {
-        if ($(this).attr('time') > time) {
+    	let measureTime = truncateNum($(this).attr('time'), 3);
+
+        if (measureTime > time) {
             $('video')[0].currentTime = $(this).attr('time');
             return false;
         }
     });
 }
 
+// truncate decimal places
+function truncateNum(num, fixed)
+{
+    var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+    return Number(num.toString().match(re)[0]);
+}
 
 // toggle jumbotron visibility
 $('#hide').click(function () 
@@ -173,4 +189,3 @@ $('#hide').click(function ()
         $('#hide').html("Show");
     }
 });
-
