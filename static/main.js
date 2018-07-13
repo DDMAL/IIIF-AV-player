@@ -24,8 +24,12 @@ async function renderVerovio () {
         url: "static/mei/demo.mei", 
         dataType: "text", 
         success: function(data) {
-            var svg = toolkit.renderData(data, {});
-            $(".score").html(svg);
+            var mei = toolkit.renderData(data, {});
+            for (var i = 1; i <= toolkit.getPageCount(); i++) 
+            {
+                let svg = toolkit.renderPage(i, {});
+                $(".score").append(svg);
+            }
             $('svg').width("100%");
             $('svg').height("100%");
         }
