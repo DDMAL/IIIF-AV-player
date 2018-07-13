@@ -27,7 +27,7 @@ async function renderVerovio () {
         dataType: "text", 
         success: function(data) {
             var svg = toolkit.renderData(data, {});
-            $("#score").html(svg);
+            $(".score").html(svg);
             $('svg').width("100%");
             $('svg').height("100%");
         }
