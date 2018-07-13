@@ -122,15 +122,15 @@ function buttonPlayPress()
 {
 	if ($('video')[0].paused) {
 		$('video')[0].play();
-		d3.select("#button_play i").attr('class', "fa fa-pause");    
+        $('#button_play i').attr('class', "fa fa-pause");
 	} else {
 		$('video')[0].pause();
-		d3.select("#button_play i").attr('class', "fa fa-play");
+        $('#button_play i').attr('class', "fa fa-play");
 	}
 }
 function buttonStopPress()
 {
-	d3.select("#button_play i").attr('class', "fa fa-play");
+    $('#button_play i').attr('class', "fa fa-play");
 
 	$('video')[0].pause();
 	$('video')[0].currentTime = 0;
