@@ -83,17 +83,28 @@ function linkScore ()
     });
 };
 // track video progress and move score highlight
+var currentMeasure;
+var pageTurned = false;
 function trackVideo ()
 {
     setInterval(function () 
     {
         let time = $('video')[0].currentTime;
-        if (time != 0) {
-            $('.measure').each(function () {
-                if (time >= $(this).attr('time')) {
-                    fillMeasure(this);
-                }
-            });
+        $('.measure').each(function () {
+            if (time >= $(this).attr('time') && time != 0) {
+                currentMeasure = $(this);
+                fillMeasure(this);
+            }
+        });
+        // check if first measure
+        let firstMeasure = currentMeasure.parent().parent().find('.measure').first();
+        if (currentMeasure.is(firstMeasure) && !pageTurned)
+        {
+            nextPage();
+            pageTurned = true;
+            setTimeout(function() {
+                pageTurned = false;
+            }, 3000);
         }
     }, 300);
 }
