@@ -83,18 +83,20 @@ function linkScore ()
     });
 };
 // track video progress and move score highlight
+var currentMeasure;
 function trackVideo ()
 {
     setInterval(function () 
     {
         let time = $('video')[0].currentTime;
-        if (time != 0) {
-            $('.measure').each(function () {
-                if (time >= $(this).attr('time')) {
-                    fillMeasure(this);
-                }
-            });
-        }
+        $('.measure').each(function () {
+            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time != 0) {
+                currentMeasure = $(this);
+                fillMeasure(this);
+            } else if (time == 0) {
+                $('.measure').removeAttr('fill');
+            }
+        });
     }, 300);
 }
 function fillMeasure (measure) 
@@ -109,15 +111,15 @@ function buttonPlayPress()
 {
 	if ($('video')[0].paused) {
 		$('video')[0].play();
-		d3.select("#button_play i").attr('class', "fa fa-pause");    
+        $('#button_play i').attr('class', "fa fa-pause");
 	} else {
 		$('video')[0].pause();
-		d3.select("#button_play i").attr('class', "fa fa-play");
+        $('#button_play i').attr('class', "fa fa-play");
 	}
 }
 function buttonStopPress()
 {
-	d3.select("#button_play i").attr('class', "fa fa-play");
+    $('#button_play i').attr('class', "fa fa-play");
 
 	$('video')[0].pause();
 	$('video')[0].currentTime = 0;
@@ -127,9 +129,13 @@ function buttonStopPress()
 function buttonBackPress()
 {
 	let measureFound = false;
-	let time = $('video')[0].currentTime;
+	let time = truncateNum($('video')[0].currentTime, 3);
+
+    // iterate backwards until current measure and get next one back
     $($('.measure').get().reverse()).each(function () {
-        if ($(this).attr('time') < time) {
+        let measureTime = truncateNum($(this).attr('time'), 3);
+
+        if (measureTime <= time) {
         	if (measureFound) {
         		$('video')[0].currentTime = $(this).attr('time');
         		return false;
@@ -140,11 +146,35 @@ function buttonBackPress()
 }
 function buttonForwardPress()
 {
-    let time = $('video')[0].currentTime;
+    let time = truncateNum($('video')[0].currentTime, 3);
+
+    // iterate forward until next measure from current
     $('.measure').each(function () {
-        if ($(this).attr('time') > time) {
+    	let measureTime = truncateNum($(this).attr('time'), 3);
+
+        if (measureTime > time) {
             $('video')[0].currentTime = $(this).attr('time');
             return false;
         }
     });
 }
+
+// truncate decimal places
+function truncateNum(num, fixed)
+{
+    var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+    return Number(num.toString().match(re)[0]);
+}
+
+// toggle jumbotron visibility
+$('#hide').click(function () 
+{
+    let j = $('.jumbotron');
+    if (j.hasClass('d-none')) {
+        j.removeClass('d-none');
+        $('#hide').html("Hide");
+    } else {
+        j.addClass('d-none');
+        $('#hide').html("Show");
+    }
+});
