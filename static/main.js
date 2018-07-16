@@ -116,12 +116,14 @@ function linkScore ()
     let increment = manifestObject.manifest.canvases[0].duration / $('.measure').length;
     let time = 0;
     // assign a time to every measure
-    $('.measure').each(function () {
+    $('.measure').each(function () 
+    {
         $(this).attr('time', time);
         time += increment;
     });
     // fill red and goto time in video 
-    $('.measure').click(function () {
+    $('.measure').click(function () 
+    {
         fillMeasure(this);
         $('video')[0].currentTime = $(this).attr('time');
         $('video')[0].play();
@@ -134,9 +136,12 @@ function trackVideo ()
     {
         let time = $('video')[0].currentTime;
         $('.measure').each(function () {
-            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time !== 0) {
+            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time !== 0) 
+            {
                 fillMeasure(this);
-            } else if (time === 0) {
+            } 
+            else if (time === 0) 
+            {
                 $('.measure').removeAttr('fill');
             }
         });
@@ -152,10 +157,13 @@ function fillMeasure (measure)
 // video and score control 
 function playButtonPress () // jshint ignore:line
 {
-    if ($('video')[0].paused) {
+    if ($('video')[0].paused) 
+    {
         $('video')[0].play();
         $('#button_play').text('Pause');
-    } else {
+    } 
+    else 
+    {
         $('video')[0].pause();
         $('#button_play').text('Play');
     }
@@ -192,10 +200,12 @@ function forwardButtonPress () // jshint ignore:line
     let time = truncateNum($('video')[0].currentTime, 3);
 
     // iterate forward until next measure from current
-    $('.measure').each(function () {
+    $('.measure').each(function () 
+    {
     	let measureTime = truncateNum($(this).attr('time'), 3);
 
-        if (measureTime > time) {
+        if (measureTime > time) 
+        {
             $('video')[0].currentTime = $(this).attr('time');
             return false;
         }
