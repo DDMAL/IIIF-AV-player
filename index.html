@@ -2,70 +2,20 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="static/verovio-toolkit.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-
     <title>IIIF AV Player</title>
 </head>
 <body>
 
-<form>
-    <input type="search" placeholder="Search" id="urlBox">
-    <button type="button" id="getURL">Get Manifest</button>
-</form>
-<div style="float:left; margin-right:50px">
+<div style="margin-bottom: 20px;">
     <h4>V3</h4>
     https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest?v3=true<br>
     http://dlib.indiana.edu/iiif_av/lunchroom_manners/lunchroom_manners_v6.json<br>
     https://scrc.lib.ncsu.edu/sal_staging/catalog/ua024-002-bx0149-066-001/manifest<br>
     https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest
 </div>
-<div>
-    <h4>V2</h4>
-    https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest<br>
-    https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json
-</div><br><br>
 
-<div class="main">
-    <h4>Manifest Object</h4>
-</div>
-<div id="player_controls" style="display:none">
-  <div style="padding-bottom: 10px">
-    <button type="button" id="button_bw" onclick='buttonBackPress()'>
-      <i class="fa fa-step-backward"></i>
-    </button>
-    <button type="button" id="button_play" onclick='buttonPlayPress()'>
-      <i class="fa fa-play"></i>
-    </button>
-    <button type="button" id="button_stop" onclick='buttonStopPress()'>
-      <i class="fa fa-stop"></i>
-    </button>
-    <button type="button" id="button_fw" onclick='buttonForwardPress()'>
-      <i class="fa fa-step-forward"></i>
-    </button>
-  </div>
-</div>      
-
-<div id="score_controls" style="display:none">
-    <div>
-    <button type="button" id="page_back" onclick='prevPage()'>
-      <i class="fas fa-angle-left"></i>
-    </button>
-    <button type="button" id="page_next" onclick='nextPage()'>
-      <i class="fas fa-angle-right"></i>
-    </button>
-  </div>
-</div>
-<div class="score">
-    <h4>Score Object</h4>
-</div>
-
+<script src="static/verovio-toolkit.js"></script>
 <script src="static/player.js"></script>
 <script src="static/main.js"></script>
 
