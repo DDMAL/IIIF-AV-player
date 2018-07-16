@@ -16,8 +16,9 @@ If you wish to alter any of the `src` code, make sure to rebundle with `gulp dev
 It might be ideal to keep a server running in the background with `gulp develop:server &`, instead of running `gulp` every time you make a change.
 
 ## Integration
-To integrate this player with an independent webpage, include the following two scripts in your `index.html`:
+To integrate this player with an independent webpage, include the following 3 scripts in your `index.html`:
 ```javascript
+<script src="static/verovio-toolkit.js"></script>
 <script src="static/player.js"></script>
 <script src="static/main.js"></script>
 ```

@@ -34,15 +34,19 @@ function lintSrc ()
     return lint('src/*.js');
 }
 
+function lintMain ()
+{
+    return lint('static/main.js');
+}
+
 function build (done)
 {
     webpack(webpackConf).run(done);
 }
 
-gulp.task('develop:lintSrc', lintSrc);
-gulp.task('develop:lint', gulp.series('develop:lintSrc'));
+gulp.task('develop:lint', gulp.series(lintSrc, lintMain));
 
-gulp.task('develop:build', gulp.series(lintSrc, build));
+gulp.task('develop:build', gulp.series(lint, build));
 gulp.task('develop:server', webpackDevServer);
 gulp.task('develop', gulp.series('develop:lint', 'develop:build', 'develop:server'));
 gulp.task('default', gulp.series('develop'));

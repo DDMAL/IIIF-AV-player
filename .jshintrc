@@ -8,5 +8,8 @@
     "undef": true,
     "unused": true,
     "esversion": 6,
-    "browser": true
+    "browser": true,
+    "globals": {
+        "$": false
+    }
 }

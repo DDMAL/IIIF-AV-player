@@ -12,10 +12,10 @@ function createUI ()
 
     // player controls
     let playerControls = $('<div>', {'class': 'player_controls', 'style': 'text-align:center; padding-bottom: 10px'}).hide();
-    let back = $('<button>', {'type': 'button', 'id': 'button_bw', 'onclick': 'buttonBackPress()'});
-    let play = $('<button>', {'type': 'button', 'id': 'button_play', 'onclick': 'buttonPlayPress()'});
-    let stop = $('<button>', {'type': 'button', 'id': 'button_stop', 'onclick': 'buttonStopPress()'});
-    let forward = $('<button>', {'type': 'button', 'id': 'button_fw', 'onclick': 'buttonForwardPress()'});
+    let back = $('<button>', {'type': 'button', 'id': 'button_bw'});
+    let play = $('<button>', {'type': 'button', 'id': 'button_play'});
+    let stop = $('<button>', {'type': 'button', 'id': 'button_stop'});
+    let forward = $('<button>', {'type': 'button', 'id': 'button_fw'});
     back.text('<');
     play.text('Play');
     stop.text('Stop');
@@ -23,13 +23,13 @@ function createUI ()
     playerControls.append(back, play, stop, forward);
     main.append(playerControls);
     // player
-    let player = $('<div>', {'class': 'player', 'style': 'float:left; width:50%;'})
+    let player = $('<div>', {'class': 'player', 'style': 'float:left; width:50%;'});
     main.append(player);
 
     // score controls
     let scoreControls = $('<div>', {'class': 'score_controls', 'style': 'text-align:center;'}).hide();
-    let pageBack = $('<button>', {'class': 'page_back', 'onclick': 'prevPage()'});
-    let pageNext = $('<button>', {'class': 'page_next', 'onclick': 'nextPage()'});
+    let pageBack = $('<button>', {'class': 'page_back'});
+    let pageNext = $('<button>', {'class': 'page_next'});
     pageBack.text('<');
     pageNext.text('>');
     scoreControls.append(pageBack, pageNext);
@@ -48,8 +48,8 @@ var manifestObject;
 $('#getURL').click(function () 
 {
     let url = $('#urlBox').val();
-    manifestObject = new ManifestObject(url); 
-    manifestObject.fetchManifest(function () 
+    manifestObject = new ManifestObject(url); // jshint ignore:line
+    manifestObject.fetchManifest(function ()
     {
         // callback once manifest is fetched
         // set title
@@ -69,11 +69,11 @@ $('#getURL').click(function ()
 
 
 // Verovio score rendering and score manipulation
-var toolkit = new verovio.toolkit();
+var toolkit = new verovio.toolkit(); // jshint ignore:line 
 var page = 0; 
-async function renderVerovio () 
+async function renderVerovio () // jshint ignore:line 
 {
-    await $.ajax({
+    await $.ajax({ // jshint ignore:line
         url: "static/mei/demo.mei", 
         dataType: "text", 
         success: function (data) 
@@ -91,23 +91,23 @@ async function renderVerovio ()
         }
     });
     linkScore();
-};
-function nextPage ()
+}
+$('#page_next').click(function ()
 {
     if (page === toolkit.getPageCount()-1)
         return;
     $('.score').children().eq(page).hide();
     page++;
     $('.score').children().eq(page).show();
-}
-function prevPage ()
+});
+$('#page_back').click(function ()
 {
     if (page === 0)
         return;
     $('.score').children().eq(page).hide();
     page--;
     $('.score').children().eq(page).show();
-}
+});
 
 
 // score and player syncing
@@ -126,7 +126,7 @@ function linkScore ()
         $('video')[0].currentTime = $(this).attr('time');
         $('video')[0].play();
     });
-};
+}
 // track video progress and move score highlight
 var currentMeasure;
 function trackVideo ()
@@ -135,10 +135,10 @@ function trackVideo ()
     {
         let time = $('video')[0].currentTime;
         $('.measure').each(function () {
-            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time != 0) {
+            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time !== 0) {
                 currentMeasure = $(this);
                 fillMeasure(this);
-            } else if (time == 0) {
+            } else if (time === 0) {
                 $('.measure').removeAttr('fill');
             }
         });
@@ -152,26 +152,26 @@ function fillMeasure (measure)
 
 
 // video and score control 
-function buttonPlayPress()
+$('#button_play').click(function () 
 {
-	if ($('video')[0].paused) {
-		$('video')[0].play();
+    if ($('video')[0].paused) {
+        $('video')[0].play();
         $('#button_play').text('Pause');
-	} else {
-		$('video')[0].pause();
+    } else {
+        $('video')[0].pause();
         $('#button_play').text('Play');
-	}
-}
-function buttonStopPress()
+    }
+});
+$('#button_stop').click(function ()
 {
-    $('#button_play i').attr('class', "fa fa-play");
+    $('#button_play').text('Play');
 
 	$('video')[0].pause();
 	$('video')[0].currentTime = 0;
 
 	$('.measure').removeAttr('fill');
-}
-function buttonBackPress()
+});
+$('#button_bw').click(function ()
 {
 	let measureFound = false;
 	let time = truncateNum($('video')[0].currentTime, 3);
@@ -188,8 +188,8 @@ function buttonBackPress()
         	measureFound = true;
         }
     });
-}
-function buttonForwardPress()
+});
+$('#button_fw').click(function ()
 {
     let time = truncateNum($('video')[0].currentTime, 3);
 
@@ -202,7 +202,7 @@ function buttonForwardPress()
             return false;
         }
     });
-}
+});
 
 // truncate decimal places
 function truncateNum(num, fixed)
@@ -210,16 +210,3 @@ function truncateNum(num, fixed)
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return Number(num.toString().match(re)[0]);
 }
-
-// toggle jumbotron visibility
-$('#hide').click(function () 
-{
-    let j = $('.jumbotron');
-    if (j.hasClass('d-none')) {
-        j.removeClass('d-none');
-        $('#hide').html("Hide");
-    } else {
-        j.addClass('d-none');
-        $('#hide').html("Show");
-    }
-});
