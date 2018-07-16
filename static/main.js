@@ -106,7 +106,7 @@ function trackVideo ()
             pageTurned = true;
             setTimeout(function() {
                 pageTurned = false;
-            }, 3000);
+            }, 10000);
         }
     }, 300);
 }
