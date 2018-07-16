@@ -84,7 +84,6 @@ function linkScore ()
 };
 // track video progress and move score highlight
 var currentMeasure;
-var pageTurned = false;
 function trackVideo ()
 {
     setInterval(function () 
@@ -98,16 +97,6 @@ function trackVideo ()
                 $('.measure').removeAttr('fill');
             }
         });
-        // check if first measure
-        let firstMeasure = currentMeasure.parent().parent().find('.measure').first();
-        if (currentMeasure.is(firstMeasure) && !pageTurned)
-        {
-            nextPage();
-            pageTurned = true;
-            setTimeout(function() {
-                pageTurned = false;
-            }, 10000);
-        }
     }, 300);
 }
 function fillMeasure (measure) 
