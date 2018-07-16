@@ -16,19 +16,13 @@ If you wish to alter any of the `src` code, make sure to rebundle with `gulp dev
 It might be ideal to keep a server running in the background with `gulp develop:server &`, instead of running `gulp` every time you make a change.
 
 ## Integration
-To integrate this player with a separate webpage, add the following to your `index.html`:
+To integrate this player with an independent webpage, include the following two scripts in your `index.html`:
 ```javascript
-<script>
-    let url = "URL of manifest you want to display";
-    let manifestObject = new ManifestObject(url); 
-    manifestObject.fetchManifest(function() {
-        // callback once manifest is fetched, do whatever post-fetch actions you want
-        // perhaps displaying the manifestObject
-    });
-</script>
+<script src="static/player.js"></script>
+<script src="static/main.js"></script>
 ```
-The player will target the `.main` class, so it's easiest to setup a `<div class="main">` wherever you want to render the player. This can be changed to whatever you like:
+The player and score will be created in a `.main` container div, which will be appended to the `body` once the script is run. If you wish to alter where the player is generated, edit `static/main.js`:
 ```javascript
-// player.js
-$('.main').append(container); // line 20
+// line 41, change body to your target
+$('body').append(main);
 ```
