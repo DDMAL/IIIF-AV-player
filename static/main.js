@@ -26,6 +26,7 @@ $('#getURL').click(function ()
 // Verovio score rendering and score manipulation
 var toolkit = new verovio.toolkit();
 var page = 0; 
+var pageMeasures = [];
 async function renderVerovio () 
 {
     await $.ajax({
@@ -39,6 +40,7 @@ async function renderVerovio ()
             {
                 let svg = toolkit.renderPage(i, {});
                 $('.score').append(svg);
+                pageMeasures.push($(svg).find('.measure'));
             }
             $('.score').children().not($('.score').children().first()).hide(); // hide other pages
             $('svg').width("100%");
@@ -61,6 +63,14 @@ function prevPage ()
         return;
     $('.score').children().eq(page).hide();
     page--;
+    $('.score').children().eq(page).show();
+}
+function goToPage (n)
+{
+    if (n < 0 || n >= toolkit.getPageCount())
+        return;
+    $('.score').children().eq(page).hide();
+    page = n;
     $('.score').children().eq(page).show();
 }
 
@@ -101,6 +111,16 @@ function trackVideo ()
 }
 function fillMeasure (measure) 
 {
+    // following for block causes performance issues
+    for (var i = 0; i < toolkit.getPageCount(); i++) 
+    {
+        let ids = $.map(pageMeasures[i], measure => measure.id);
+        if (ids.indexOf(measure.id) !== -1) 
+        {
+            goToPage(i);
+            break;
+        }
+    }
     $(measure).attr('fill', '#d00');
     $('.measure').not(measure).removeAttr('fill');
 }
