@@ -12,10 +12,10 @@ function createUI ()
 
     // player controls
     let playerControls = $('<div>', {'class': 'player_controls', 'style': 'text-align:center; padding-bottom: 10px'}).hide();
-    let back = $('<button>', {'type': 'button', 'id': 'button_bw'});
-    let play = $('<button>', {'type': 'button', 'id': 'button_play'});
-    let stop = $('<button>', {'type': 'button', 'id': 'button_stop'});
-    let forward = $('<button>', {'type': 'button', 'id': 'button_fw'});
+    let back = $('<button>', {'type': 'button', 'id': 'button_bw', 'onclick': 'backButtonPress()'});
+    let play = $('<button>', {'type': 'button', 'id': 'button_play', 'onclick': 'playButtonPress()'});
+    let stop = $('<button>', {'type': 'button', 'id': 'button_stop', 'onclick': 'stopButtonPress()'});
+    let forward = $('<button>', {'type': 'button', 'id': 'button_fw', 'onclick': 'forwardButtonPress()'});
     back.text('<');
     play.text('Play');
     stop.text('Stop');
@@ -28,8 +28,8 @@ function createUI ()
 
     // score controls
     let scoreControls = $('<div>', {'class': 'score_controls', 'style': 'text-align:center;'}).hide();
-    let pageBack = $('<button>', {'class': 'page_back'});
-    let pageNext = $('<button>', {'class': 'page_next'});
+    let pageBack = $('<button>', {'class': 'page_back', 'onclick': 'pagePrev()'});
+    let pageNext = $('<button>', {'class': 'page_next', 'onclick': 'pageNext()'});
     pageBack.text('<');
     pageNext.text('>');
     scoreControls.append(pageBack, pageNext);
@@ -92,22 +92,22 @@ async function renderVerovio () // jshint ignore:line
     });
     linkScore();
 }
-$('#page_next').click(function ()
-{
-    if (page === toolkit.getPageCount()-1)
-        return;
-    $('.score').children().eq(page).hide();
-    page++;
-    $('.score').children().eq(page).show();
-});
-$('#page_back').click(function ()
+function pagePrev () // jshint ignore:line
 {
     if (page === 0)
         return;
     $('.score').children().eq(page).hide();
     page--;
     $('.score').children().eq(page).show();
-});
+}
+function pageNext () // jshint ignore:line
+{
+    if (page === toolkit.getPageCount()-1)
+        return;
+    $('.score').children().eq(page).hide();
+    page++;
+    $('.score').children().eq(page).show();
+}
 
 
 // score and player syncing
@@ -128,7 +128,6 @@ function linkScore ()
     });
 }
 // track video progress and move score highlight
-var currentMeasure;
 function trackVideo ()
 {
     setInterval(function () 
@@ -136,7 +135,6 @@ function trackVideo ()
         let time = $('video')[0].currentTime;
         $('.measure').each(function () {
             if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time !== 0) {
-                currentMeasure = $(this);
                 fillMeasure(this);
             } else if (time === 0) {
                 $('.measure').removeAttr('fill');
@@ -152,7 +150,7 @@ function fillMeasure (measure)
 
 
 // video and score control 
-$('#button_play').click(function () 
+function playButtonPress () // jshint ignore:line
 {
     if ($('video')[0].paused) {
         $('video')[0].play();
@@ -161,8 +159,8 @@ $('#button_play').click(function ()
         $('video')[0].pause();
         $('#button_play').text('Play');
     }
-});
-$('#button_stop').click(function ()
+}
+function stopButtonPress () // jshint ignore:line
 {
     $('#button_play').text('Play');
 
@@ -170,8 +168,8 @@ $('#button_stop').click(function ()
 	$('video')[0].currentTime = 0;
 
 	$('.measure').removeAttr('fill');
-});
-$('#button_bw').click(function ()
+}
+function backButtonPress () // jshint ignore:line
 {
 	let measureFound = false;
 	let time = truncateNum($('video')[0].currentTime, 3);
@@ -188,8 +186,8 @@ $('#button_bw').click(function ()
         	measureFound = true;
         }
     });
-});
-$('#button_fw').click(function ()
+}
+function forwardButtonPress () // jshint ignore:line
 {
     let time = truncateNum($('video')[0].currentTime, 3);
 
@@ -202,7 +200,7 @@ $('#button_fw').click(function ()
             return false;
         }
     });
-});
+}
 
 // truncate decimal places
 function truncateNum(num, fixed)
