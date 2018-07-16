@@ -6,38 +6,86 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="icon" href="./static/favicon.ico">
     <script src="static/verovio-toolkit.js"></script>
     <title>IIIF AV Player</title>
 </head>
-<body>
 
-<form>
-    <input type="search" placeholder="Search" id="urlBox">
-    <button type="button" id="getURL">Get Manifest</button>
-</form>
-<div style="float:left; margin-right:50px">
-    <h4>V3</h4>
-    https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest?v3=true<br>
-    http://dlib.indiana.edu/iiif_av/lunchroom_manners/lunchroom_manners_v6.json<br>
-    https://scrc.lib.ncsu.edu/sal_staging/catalog/ua024-002-bx0149-066-001/manifest<br>
-    https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-5 pl-4 py-3">
+  <a class="navbar-brand text-light">IIIF AV Player</a>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" id="urlBox">
+    <button class="btn btn-outline-light my-2 my-sm-0 text-light" id="getURL" type="button">Get Manifest</button>
+  </form>
+</nav>
+
+<button style="float:right;" id="hide" class="mr-3 btn btn-outline-info my-2 my-sm-0 text-dark" type="button">Hide</button>
+<div class="jumbotron mx-3">
+  <h1 class="display-4">Welcome!</h1>
+  <p class="lead">Select between the V3 or V2 sample manifests below, and enter them in the search bar.</p>
+  <p>Triple click on a link to quickly highlight it.</p>
+  <hr class="my-4">
+  <div class="row">
+    <div class="col-md-6 border-right text-left">
+        <h4 class="display-4">V3</h4>
+        https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest?v3=true<br>
+        http://dlib.indiana.edu/iiif_av/lunchroom_manners/lunchroom_manners_v6.json<br>
+        https://scrc.lib.ncsu.edu/sal_staging/catalog/ua024-002-bx0149-066-001/manifest<br>
+        https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest
+    </div>
+    <div class="col-md-6 border-left text-right">
+        <h4 class="display-4">V2</h4>
+        https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest<br>
+        https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json<br>
+        https://iiif.bodleian.ox.ac.uk/iiif/manifest/bea56620-793f-4dee-875d-ff051563292a.json
+    </div>
+    </div>
 </div>
-<div>
-    <h4>V2</h4>
-    https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest<br>
-    https://iiif.bodleian.ox.ac.uk/iiif/manifest/caeb212c-a639-41da-a42a-60f6b05a0d0b.json
-</div><br><br>
 
-<div class="main">
-    <h4>Manifest Object</h4>
+<div class="container-fluid">
+    <div class="row" id="player_controls" style="display:none">
+      <div class="col-md-12 text-center" style="padding-bottom: 10px">
+        <button type="button" id="button_bw" class="btn" onclick='buttonBackPress()'>
+          <i class="fa fa-step-backward"></i>
+        </button>
+        <button type="button" id="button_play" class="btn" onclick='buttonPlayPress()'>
+          <i class="fa fa-play"></i>
+        </button>
+        <button type="button" id="button_stop" class="btn" onclick='buttonStopPress()'>
+          <i class="fa fa-stop"></i>
+        </button>
+        <button type="button" id="button_fw" class="btn" onclick='buttonForwardPress()'>
+          <i class="fa fa-step-forward"></i>
+        </button>
+      </div>
+    </div>      
+    <div class="row" id="score_controls" style="display:none">
+      <div class="col-md-6 offset-md-6 text-center">
+        <button type="button" id="page_back" class="btn" onclick='prevPage()'>
+          <i class="fas fa-angle-left"></i>
+        </button>
+        <button type="button" id="page_next" class="btn" onclick='nextPage()'>
+          <i class="fas fa-angle-right"></i>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 border-right text-center main">
+            <h4 class="display-4" id="title"></h4>
+        </div>
+        <div class="col-md-6 border-left text-center score">
+        </div>
+    </div>
 </div>
 
-<div class="score">
-    <h4>Score Object</h4>
-</div>
-
-<script src="static/player.js"></script>
+<script src="static/player.js"></script> 
 <script src="static/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
 </body>
 </html>
