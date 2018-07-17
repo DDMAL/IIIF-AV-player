@@ -25,7 +25,7 @@ $('#getURL').click(function ()
 
 // Verovio score rendering and score manipulation
 var toolkit = new verovio.toolkit();
-var page = 0; 
+var page = 0;
 async function renderVerovio () 
 {
     await $.ajax({
@@ -90,7 +90,8 @@ function linkScore ()
     $('.measure').click(function () {
         fillMeasure(this);
         $('video')[0].currentTime = $(this).attr('timeStart');
-        $('video')[0].play();
+        if ($('video')[0].paused)
+            buttonPlayPress();
     });
 };
 // track video progress and move score highlight
