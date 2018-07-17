@@ -30,8 +30,8 @@ function createUI ()
     let scoreControls = $('<div>', {'class': 'score_controls', 'style': 'text-align:center;'}).hide();
     let pageBack = $('<button>', {'class': 'page_back', 'onclick': 'pagePrev()'});
     let pageNext = $('<button>', {'class': 'page_next', 'onclick': 'pageNext()'});
-    pageBack.text('<');
-    pageNext.text('>');
+    pageBack.text('[');
+    pageNext.text(']');
     scoreControls.append(pageBack, pageNext);
     main.append(scoreControls);
     // score
@@ -78,10 +78,10 @@ async function renderVerovio () // jshint ignore:line
         success: function (data) 
         {
             $('.score').empty(); // clear previous verovio renderings
-            toolkit.renderData(data, {});
+            toolkit.loadData(data, {});
             for (var i = 1; i <= toolkit.getPageCount(); i++) // verovio pages are 1-indexed
             {
-                let svg = toolkit.renderPage(i, {});
+                let svg = toolkit.renderToSVG(i, {});
                 $('.score').append(svg);
                 $('.measure:visible').attr('class', 'measure page'+i);
                 $('.score').children().hide();
