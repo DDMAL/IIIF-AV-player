@@ -46,7 +46,7 @@ function build (done)
 
 gulp.task('develop:lint', gulp.series(lintSrc, lintMain));
 
-gulp.task('develop:build', gulp.series(lint, build));
+gulp.task('develop:build', gulp.series('develop:lint', build));
 gulp.task('develop:server', webpackDevServer);
-gulp.task('develop', gulp.series('develop:lint', 'develop:build', 'develop:server'));
+gulp.task('develop', gulp.series('develop:lint', build, 'develop:server'));
 gulp.task('default', gulp.series('develop'));
