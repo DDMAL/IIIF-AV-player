@@ -23,7 +23,6 @@
   </form>
 </nav>
 
-<button style="float:right;" id="hide" class="mr-3 btn btn-outline-info my-2 my-sm-0 text-dark" type="button">Hide</button>
 <div class="jumbotron mx-3">
   <h1 class="display-4">Welcome!</h1>
   <p class="lead">Select between the V3 or V2 sample manifests below, and enter them in the search bar.</p>
@@ -48,7 +47,7 @@
 
 <div class="container-fluid">
     <div class="row" id="player_controls" style="display:none">
-      <div class="col-md-12 text-center" style="padding-bottom: 10px">
+      <div class="col-md-4 offset-md-4 text-center" style="padding-bottom: 10px">
         <button type="button" id="button_bw" class="btn" onclick='buttonBackPress()'>
           <i class="fa fa-step-backward"></i>
         </button>
@@ -62,9 +61,7 @@
           <i class="fa fa-step-forward"></i>
         </button>
       </div>
-    </div>      
-    <div class="row" id="score_controls" style="display:none">
-      <div class="col-md-6 offset-md-6 text-center">
+      <div class="col-md-4 text-right">
         <button type="button" id="page_back" class="btn" onclick='prevPage()'>
           <i class="fas fa-angle-left"></i>
         </button>

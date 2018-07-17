@@ -174,16 +174,3 @@ function truncateNum(num, fixed)
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return Number(num.toString().match(re)[0]);
 }
-
-// toggle jumbotron visibility
-$('#hide').click(function () 
-{
-    let j = $('.jumbotron');
-    if (j.hasClass('d-none')) {
-        j.removeClass('d-none');
-        $('#hide').html("Hide");
-    } else {
-        j.addClass('d-none');
-        $('#hide').html("Show");
-    }
-});
