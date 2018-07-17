@@ -34,10 +34,10 @@ async function renderVerovio ()
         success: function (data) 
         {
             $('.score').empty(); // clear previous verovio renderings
-            toolkit.renderData(data, {});
+            toolkit.loadData(data, {});
             for (var i = 1; i <= toolkit.getPageCount(); i++) // verovio pages are 1-indexed
             {
-                let svg = toolkit.renderPage(i, {});
+                let svg = toolkit.renderToSVG(i, {});
                 $('.score').append(svg);
                 $('.measure:visible').attr('class', 'measure page'+i);
                 $('.score').children().hide();
