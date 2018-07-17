@@ -136,7 +136,8 @@ function linkScore ()
     {
         fillMeasure(this);
         $('video')[0].currentTime = $(this).attr('timeStart');
-        $('video')[0].play();
+        if ($('video')[0].paused)
+            playButtonPress();
     });
 }
 // track video progress and move score highlight
