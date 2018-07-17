@@ -149,8 +149,10 @@ function trackVideo ()
         $('.measure').each(function () {
             let lower = truncateNum($(this).attr('timeStart'), 3); 
             let upper = truncateNum($(this).attr('timeStop'), 3);
-            if (time >= lower && time < upper)
+            if (time >= lower && time < upper && time !== 0)
                 fillMeasure(this);
+            else if (time === 0)
+                $('.measure').removeAttr('fill');
         });
     });
 }
