@@ -58,7 +58,6 @@ $('#getURL').click(function ()
             title = title.en[0];
         $('#title').html(title);
 
-        // link score
         renderVerovio();
         trackVideo();
 
@@ -84,8 +83,10 @@ async function renderVerovio () // jshint ignore:line
             {
                 let svg = toolkit.renderPage(i, {});
                 $('.score').append(svg);
+                $('.measure:visible').attr('class', 'measure page'+i);
+                $('.score').children().hide();
             }
-            $('.score').children().not($('.score').children().first()).hide(); // hide other pages
+            $('.score').children().first().show(); // show first page
             $('svg').width("100%");
             $('svg').height("100%");
         }
@@ -108,6 +109,14 @@ function pageNext () // jshint ignore:line
     page++;
     $('.score').children().eq(page).show();
 }
+function goToPage (n)
+{
+    if (n < 0 || n >= toolkit.getPageCount())
+        return;
+    $('.score').children().eq(page).hide();
+    page = n;
+    $('.score').children().eq(page).show();
+}
 
 
 // score and player syncing
@@ -115,42 +124,40 @@ function linkScore ()
 {
     let increment = manifestObject.manifest.canvases[0].duration / $('.measure').length;
     let time = 0;
-    // assign a time to every measure
+    // assign a start and end time to every measure
     $('.measure').each(function () 
     {
-        $(this).attr('time', time);
+        $(this).attr('timeStart', time);
         time += increment;
+        $(this).attr('timeStop', time);
     });
     // fill red and goto time in video 
     $('.measure').click(function () 
     {
         fillMeasure(this);
-        $('video')[0].currentTime = $(this).attr('time');
+        $('video')[0].currentTime = $(this).attr('timeStart');
         $('video')[0].play();
     });
 }
 // track video progress and move score highlight
 function trackVideo ()
 {
-    setInterval(function () 
+    $('video').on('timeupdate', function () 
     {
         let time = $('video')[0].currentTime;
         $('.measure').each(function () {
-            if (truncateNum(time, 3) >= truncateNum($(this).attr('time'), 3) && time !== 0) 
-            {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
+            if (time >= lower && time < upper)
                 fillMeasure(this);
-            } 
-            else if (time === 0) 
-            {
-                $('.measure').removeAttr('fill');
-            }
         });
-    }, 300);
+    });
 }
 function fillMeasure (measure) 
 {
     $(measure).attr('fill', '#d00');
     $('.measure').not(measure).removeAttr('fill');
+    goToPage($(measure).attr('class').split(' ')[1].slice(-1) - 1);
 }
 
 
@@ -184,11 +191,11 @@ function backButtonPress () // jshint ignore:line
 
     // iterate backwards until current measure and get next one back
     $($('.measure').get().reverse()).each(function () {
-        let measureTime = truncateNum($(this).attr('time'), 3);
+        let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
         if (measureTime <= time) {
         	if (measureFound) {
-        		$('video')[0].currentTime = $(this).attr('time');
+        		$('video')[0].currentTime = $(this).attr('timeStart');
         		return false;
         	}
         	measureFound = true;
@@ -202,17 +209,16 @@ function forwardButtonPress () // jshint ignore:line
     // iterate forward until next measure from current
     $('.measure').each(function () 
     {
-    	let measureTime = truncateNum($(this).attr('time'), 3);
+    	let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
         if (measureTime > time) 
         {
-            $('video')[0].currentTime = $(this).attr('time');
+            $('video')[0].currentTime = $(this).attr('timeStart');
             return false;
         }
     });
 }
 
-// truncate decimal places
 function truncateNum(num, fixed)
 {
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
