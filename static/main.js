@@ -73,7 +73,7 @@ var page = 0;
 async function renderVerovio () // jshint ignore:line 
 {
     await $.ajax({ // jshint ignore:line
-        url: "static/mei/demo.mei", 
+        url: manifestObject.manifest.rendering.id,
         dataType: "text", 
         success: function (data) 
         {

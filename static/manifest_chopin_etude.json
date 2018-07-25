@@ -407,5 +407,13 @@
             }
          ]
       }
+   ],
+   "rendering":[
+      {
+         "id":"static/mei/demo.mei",
+         "type":"Text",
+         "label":{"en":["Score"]},
+         "format":"application/xml"
+      }
    ]
 }

@@ -162,13 +162,27 @@ function parseIIIF3Manifest (manifest)
         }
     }
 
+    // parse additional rendering file information
+    let renderings = manifest.rendering, 
+        numRenderings = renderings.length;
+
+    var rendering;
+    for (var r = 0; r < numRenderings; r++) 
+    {
+        rendering = renderings[r];
+
+        if (rendering.id.search(".mei") !== -1) 
+            break;
+    }
+
     return {
         item_title: manifest.label,
         url: manifest.id,
         canvases: canvases,
         structures: structures,
         timeStarts: starts,
-        timeEnds: ends 
+        timeEnds: ends,
+        rendering: rendering
     };
 }
 
