@@ -73,7 +73,7 @@ var page = 0;
 async function renderVerovio () // jshint ignore:line 
 {
     await $.ajax({ // jshint ignore:line
-        url: "static/mei/demo.mei", 
+        url: manifestObject.manifest.rendering.id,
         dataType: "text", 
         success: function (data) 
         {
@@ -122,14 +122,18 @@ function goToPage (n)
 // score and player syncing
 function linkScore ()
 {
-    let increment = manifestObject.manifest.canvases[0].duration / $('.measure').length;
-    let time = 0;
+    let count = 0;
+    let max = manifestObject.manifest.timeStarts.length;
     // assign a start and end time to every measure
     $('.measure').each(function () 
     {
-        $(this).attr('timeStart', time);
-        time += increment;
-        $(this).attr('timeStop', time);
+        let timeStart = parseInt(manifestObject.manifest.timeStarts[count]);
+        let timeEnd = parseInt(manifestObject.manifest.timeEnds[count]);
+        if (count >= max)
+            timeStart = timeEnd = 0;
+        $(this).attr('timeStart', timeStart);
+        $(this).attr('timeStop', timeEnd);
+        count++;
     });
     // fill red and goto time in video 
     $('.measure').click(function () 
