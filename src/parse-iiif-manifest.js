@@ -1,4 +1,5 @@
 import {Player} from './player';
+import {Canvas} from './canvas';
 
 const getMaxZoomLevel = (width, height) =>
 {
@@ -60,13 +61,13 @@ function parseIIIF3Manifest (manifest)
 
     for (var i = 0; i < numCanvases; i++) 
     {
-        let canvas = canvases[i];
+        let canvasInfo = canvases[i];
         let canvasDims = {
-            width: canvas.width,
-            height: canvas.height
+            width: canvasInfo.width,
+            height: canvasInfo.height
         };
 
-        let annotationPages = canvas.items,
+        let annotationPages = canvasInfo.items,
             numAnnotationPages = annotationPages.length;
 
         for (var j = 0; j < numAnnotationPages; j++) 
@@ -100,7 +101,7 @@ function parseIIIF3Manifest (manifest)
                 } 
                 else 
                 {
-                    xywh = [0, 0, canvas.width, canvas.height];
+                    xywh = [0, 0, canvasInfo.width, canvasInfo.height];
                 }
                 if(temporalTarget && temporalTarget[1]) 
                 {
@@ -108,13 +109,13 @@ function parseIIIF3Manifest (manifest)
                 } 
                 else 
                 {
-                    t = [0, canvas.duration];
+                    t = [0, canvasInfo.duration];
                 }
 
-                let percentageLeft = parseInt(xywh[0]) / canvas.width * 100,
-                    percentageTop = parseInt(xywh[1]) / canvas.height * 100,
-                    percentageWidth = parseInt(xywh[2]) / canvas.width * 100,
-                    percentageHeight = parseInt(xywh[3]) / canvas.height * 100;
+                let percentageLeft = parseInt(xywh[0]) / canvasInfo.width * 100,
+                    percentageTop = parseInt(xywh[1]) / canvasInfo.height * 100,
+                    percentageWidth = parseInt(xywh[2]) / canvasInfo.width * 100,
+                    percentageHeight = parseInt(xywh[3]) / canvasInfo.height * 100;
 
                 // info of media item for rendering
                 var info = {
@@ -129,17 +130,19 @@ function parseIIIF3Manifest (manifest)
                 };
 
                 // render media item onto page
+                let canvas = new Canvas(canvasInfo);
                 let player = new Player();
+                canvas.render(info);
                 player.render(info);
             }
         }
 
         canvases[i] = {
-            url: canvas.id,
-            type: canvas.type,
-            label: canvas.label || "Label",
+            url: canvasInfo.id,
+            type: canvasInfo.type,
+            label: canvasInfo.label || "Label",
             dims: canvasDims,
-            duration: canvas.duration,
+            duration: canvasInfo.duration,
             annotationPages: annotationPages
         };
     }
