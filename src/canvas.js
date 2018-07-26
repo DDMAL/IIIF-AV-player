@@ -31,15 +31,14 @@ export class Canvas
 
     render(info)
     {
-        let canvasContainer = $('.canvasContainer');
+        let canvasContainer = $('<div>', {'class': 'canvasContainer', 'style': 'width:100%'});
 
-        var containerWidth = canvasContainer.width();
-
-        var resizeFactorY = containerWidth / this.width,
-        newHeight = this.height * resizeFactorY;
-        canvasContainer.height(newHeight);
+        canvasContainer.width(this.width);
+        canvasContainer.height(this.height);
 
         this.playerElement = $('.player');
         this.mediaElements.push(info);
+
+        return (canvasContainer);
     }
 }

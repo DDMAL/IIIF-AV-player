@@ -7,17 +7,12 @@ export class Player
         this.mediaElement;
     }
 
-    render (info) 
+    render (info, canvasContainer) 
     {   
-        if ($('.playerContainer').length) // if media already exists on page
-        {
-            $('.playerContainer').remove();
-        }     
-        let container = $('<div class="playerContainer"></div>');
-        container.css({
-            width: '100%'
-        });
-        $('.player').append(container);
+        let player = $('<div class="player"></div>');
+        player.append(canvasContainer);
+        $('.playerContainer').append(player);
+        
         switch(info.type) 
         {
             case 'Image':
@@ -36,6 +31,6 @@ export class Player
             width: '100%', // temporary - should be based on media dimensions eventually
             height: '100%'
         });
-        $('.canvasContainer').append(this.mediaElement);
+        canvasContainer.append(this.mediaElement);
     }
 }
