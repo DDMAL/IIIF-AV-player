@@ -132,8 +132,8 @@ function parseIIIF3Manifest (manifest)
                 // render media item onto page
                 let canvas = new Canvas(canvasInfo);
                 let player = new Player();
-                canvas.render(info);
-                player.render(info);
+                let canvasContainer = canvas.render(info);
+                player.render(info, canvasContainer);
             }
         }
 

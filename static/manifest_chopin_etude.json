@@ -103,6 +103,50 @@
             }
          ],
          "duration":null
+      },
+      {
+         "type":"Canvas",
+         "id":"http://dlib.indiana.edu/iiif_av/canvas/2",
+         "label":{
+            "en":[
+               "lunchroom_manners"
+            ]
+         },
+         "thumbnail":[
+            {
+               "id":"http://dlib.indiana.edu/iiif_av/lunchroom_manners/thumbnail/lunchroom_manners_poster.jpg",
+               "type":"Image"
+            }
+         ],
+         "items":[
+            {
+               "type":"AnnotationPage",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/2/annotation_page1",
+               "items":[
+                  {
+                     "type":"Annotation",
+                     "motivation":"painting",
+                     "target":"http://dlib.indiana.edu/iiif_av/canvas/2",
+                     "body":{
+                        "type":"Choice",
+                        "choiceHint":"user",
+                        "items":[
+                           {
+                              "id":"http://dlib.indiana.edu/iiif_av/lunchroom_manners/mp4/lunchroom_manners.mp4",
+                              "type":"Video",
+                              "height":360,
+                              "width":480,
+                              "duration":572.034
+                           }
+                        ]
+                     }
+                  }
+               ]
+            }
+         ],
+         "width":480,
+         "height":360,
+         "duration":572.034
       }
    ],
    "structures":[

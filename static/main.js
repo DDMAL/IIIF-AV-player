@@ -23,11 +23,8 @@ function createUI ()
     playerControls.append(back, play, stop, forward);
     main.append(playerControls);
     // player
-    let player = $('<div>', {'class': 'player', 'style': 'float:left; width:50%;'});
-    // canvas
-    let canvasContainer = $('<div>', {'class': 'canvasContainer', 'style': 'width:100%'});
-    player.append(canvasContainer);
-    main.append(player);
+    let playerContainer = $('<div>', {'class': 'playerContainer', 'style': 'float:left; width:50%;'});
+    main.append(playerContainer);
 
     // score controls
     let scoreControls = $('<div>', {'class': 'score_controls', 'style': 'text-align:center;'}).hide();
