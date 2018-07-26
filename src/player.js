@@ -36,6 +36,6 @@ export class Player
             width: '100%', // temporary - should be based on media dimensions eventually
             height: '100%'
         });
-        $('.playerContainer').append(this.mediaElement);
+        $('.canvasContainer').append(this.mediaElement);
     }
 }
