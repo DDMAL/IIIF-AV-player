@@ -1,3 +1,48 @@
+function createUI ()
+{
+    let main = $('<main>', {'class': 'main'});
+
+    // search manifest box
+    let searchBox = $('<form>');
+    let input = $('<input>', {'type': 'search', 'placeholder': 'Search', 'id': 'urlBox'});
+    let button = $('<button>', {'type': 'button', 'id': 'getURL'});
+    button.text('Get Manifest');
+    searchBox.append(input, button);
+    main.append(searchBox);
+
+    // player controls
+    let playerControls = $('<div>', {'class': 'player_controls', 'style': 'text-align:center; padding-bottom: 10px'}).hide();
+    let back = $('<button>', {'type': 'button', 'id': 'button_bw', 'onclick': 'backButtonPress()'});
+    let play = $('<button>', {'type': 'button', 'id': 'button_play', 'onclick': 'playButtonPress()'});
+    let stop = $('<button>', {'type': 'button', 'id': 'button_stop', 'onclick': 'stopButtonPress()'});
+    let forward = $('<button>', {'type': 'button', 'id': 'button_fw', 'onclick': 'forwardButtonPress()'});
+    back.text('<');
+    play.text('Play');
+    stop.text('Stop');
+    forward.text('>');
+    playerControls.append(back, play, stop, forward);
+    main.append(playerControls);
+    // player
+    let player = $('<div>', {'class': 'player', 'style': 'float:left; width:50%;'});
+    main.append(player);
+
+    // score controls
+    let scoreControls = $('<div>', {'class': 'score_controls', 'style': 'text-align:center;'}).hide();
+    let pageBack = $('<button>', {'class': 'page_back', 'onclick': 'pagePrev()'});
+    let pageNext = $('<button>', {'class': 'page_next', 'onclick': 'pageNext()'});
+    pageBack.text('[');
+    pageNext.text(']');
+    scoreControls.append(pageBack, pageNext);
+    main.append(scoreControls);
+    // score
+    let score = $('<div>', {'class': 'score', 'style': 'float:right; width:50%'});
+    main.append(score);
+
+    $('body').append(main);
+}
+createUI();
+
+
 // Manifest fetching and callback actions
 var manifestObject; 
 $('#getURL').click(function () 
@@ -126,25 +171,25 @@ function fillMeasure (measure)
 // video and score control 
 function playButtonPress () // jshint ignore:line
 {
-	if ($('video')[0].paused)
-  {
-	    $('video')[0].play();
-      $('#button_play i').attr('class', "fa fa-pause");
-	}
-  else
-  {
-		  $('video')[0].pause();
-      $('#button_play i').attr('class', "fa fa-play");
-	}
+    if ($('video')[0].paused) 
+    {
+        $('video')[0].play();
+        $('#button_play').text('Pause');
+    } 
+    else 
+    {
+        $('video')[0].pause();
+        $('#button_play').text('Play');
+    }
 }
 function stopButtonPress () // jshint ignore:line
 {
-    $('#button_play i').attr('class', "fa fa-play");
+    $('#button_play').text('Play');
 
-    $('video')[0].pause();
-    $('video')[0].currentTime = 0;
+	$('video')[0].pause();
+	$('video')[0].currentTime = 0;
 
-    $('.measure').removeAttr('fill');
+	$('.measure').removeAttr('fill');
 }
 function backButtonPress () // jshint ignore:line
 {
