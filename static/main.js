@@ -3,6 +3,7 @@ var manifestObject;
 $('#getURL').click(function () 
 {
     let url = $('#urlBox').val();
+
     manifestObject = new ManifestObject(url); // jshint ignore:line
     manifestObject.fetchManifest(function ()
     {
@@ -16,8 +17,7 @@ $('#getURL').click(function ()
         renderVerovio();
         trackVideo();
 
-        $(".player_controls").show();
-        $(".score_controls").show();
+        $("#player_controls").show();
     });
 });
 
@@ -27,8 +27,15 @@ var toolkit = new verovio.toolkit(); // jshint ignore:line
 var page = 0; 
 async function renderVerovio () // jshint ignore:line 
 {
+    let scoreFile = "static/mei/demo.mei";
+
+    if (manifestObject.manifest.rendering)
+    {
+        scoreFile = manifestObject.manifest.rendering.id;
+    }
+
     await $.ajax({ // jshint ignore:line
-        url: manifestObject.manifest.rendering.id,
+        url: scoreFile,
         dataType: "text", 
         success: function (data) 
         {

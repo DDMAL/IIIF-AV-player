@@ -146,33 +146,44 @@ function parseIIIF3Manifest (manifest)
 
     // parse structures into different timestamps
     // assumes depth-2 structure (range then items)
-    let structures = manifest.structures;
     let starts = [];
     let ends = [];
-    for (var m = 0; m < structures.length; m++) 
+    let structures = manifest.structures;
+    if (structures)
     {
-        let range = structures[m];
-
-        for (var n = 0; n < range.items.length; n++)
+        for (var m = 0; m < structures.length; m++) 
         {
-            // get x from #t=x,y 
-            let time = range.items[n].id.split('#')[1].split('=')[1].split(',');
-            starts.push(time[0]);
-            ends.push(time[1]);
+            let range = structures[m];
+
+            for (var n = 0; n < range.items.length; n++)
+            {   
+
+                if (range.items[n].id.includes('#','=',','))
+                {
+                    // get x from #t=x,y 
+                    let time = range.items[n].id.split('#')[1].split('=')[1].split(',');
+
+                    starts.push(time[0]);
+                    ends.push(time[1]);
+                }
+            }
         }
     }
 
     // parse additional rendering file information
-    let renderings = manifest.rendering, 
-        numRenderings = renderings.length;
-
     var rendering;
-    for (var r = 0; r < numRenderings; r++) 
+    let renderings = manifest.rendering;
+    if (renderings)
     {
-        rendering = renderings[r];
+        let numRenderings = renderings.length;
 
-        if (rendering.id.search(".mei") !== -1) 
-            break;
+        for (var r = 0; r < numRenderings; r++) 
+        {
+            rendering = renderings[r];
+
+            if (rendering.id.search(".mei") !== -1) 
+                break;
+        }
     }
 
     return {
