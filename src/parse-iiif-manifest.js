@@ -144,14 +144,45 @@ function parseIIIF3Manifest (manifest)
         };
     }
 
+    // parse structures into different timestamps
+    // assumes depth-2 structure (range then items)
     let structures = manifest.structures;
-    // stuff with parsing structures into different timestamps
+    let starts = [];
+    let ends = [];
+    for (var m = 0; m < structures.length; m++) 
+    {
+        let range = structures[m];
+
+        for (var n = 0; n < range.items.length; n++)
+        {
+            // get x from #t=x,y 
+            let time = range.items[n].id.split('#')[1].split('=')[1].split(',');
+            starts.push(time[0]);
+            ends.push(time[1]);
+        }
+    }
+
+    // parse additional rendering file information
+    let renderings = manifest.rendering, 
+        numRenderings = renderings.length;
+
+    var rendering;
+    for (var r = 0; r < numRenderings; r++) 
+    {
+        rendering = renderings[r];
+
+        if (rendering.id.search(".mei") !== -1) 
+            break;
+    }
 
     return {
         item_title: manifest.label,
         url: manifest.id,
         canvases: canvases,
-        structures: structures
+        structures: structures,
+        timeStarts: starts,
+        timeEnds: ends,
+        rendering: rendering
     };
 }
 

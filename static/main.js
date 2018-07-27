@@ -3,8 +3,8 @@ var manifestObject;
 $('#getURL').click(function () 
 {
     let url = $('#urlBox').val();
-    manifestObject = new ManifestObject(url); 
-    manifestObject.fetchManifest(function () 
+    manifestObject = new ManifestObject(url); // jshint ignore:line
+    manifestObject.fetchManifest(function ()
     {
         // callback once manifest is fetched
         // set title
@@ -13,23 +13,22 @@ $('#getURL').click(function ()
             title = title.en[0];
         $('#title').html(title);
 
-        // link score
         renderVerovio();
         trackVideo();
 
-        $("#player_controls").show();
-        $("#score_controls").show();
+        $(".player_controls").show();
+        $(".score_controls").show();
     });
 });
 
 
 // Verovio score rendering and score manipulation
-var toolkit = new verovio.toolkit();
-var page = 0;
-async function renderVerovio () 
+var toolkit = new verovio.toolkit(); // jshint ignore:line 
+var page = 0; 
+async function renderVerovio () // jshint ignore:line 
 {
-    await $.ajax({
-        url: "static/mei/demo.mei", 
+    await $.ajax({ // jshint ignore:line
+        url: manifestObject.manifest.rendering.id,
         dataType: "text", 
         success: function (data) 
         {
@@ -48,21 +47,21 @@ async function renderVerovio ()
         }
     });
     linkScore();
-};
-function nextPage ()
-{
-    if (page === toolkit.getPageCount()-1)
-        return;
-    $('.score').children().eq(page).hide();
-    page++;
-    $('.score').children().eq(page).show();
 }
-function prevPage ()
+function pagePrev () // jshint ignore:line
 {
     if (page === 0)
         return;
     $('.score').children().eq(page).hide();
     page--;
+    $('.score').children().eq(page).show();
+}
+function pageNext () // jshint ignore:line
+{
+    if (page === toolkit.getPageCount()-1)
+        return;
+    $('.score').children().eq(page).hide();
+    page++;
     $('.score').children().eq(page).show();
 }
 function goToPage (n)
@@ -78,22 +77,28 @@ function goToPage (n)
 // score and player syncing
 function linkScore ()
 {
-    let increment = manifestObject.manifest.canvases[0].duration / $('.measure').length;
-    let time = 0;
-    // assign a time to every measure
-    $('.measure').each(function () {
-        $(this).attr('timeStart', time);
-        time += increment;
-        $(this).attr('timeStop', time);
+    let count = 0;
+    let max = manifestObject.manifest.timeStarts.length;
+    // assign a start and end time to every measure
+    $('.measure').each(function () 
+    {
+        let timeStart = parseInt(manifestObject.manifest.timeStarts[count]);
+        let timeEnd = parseInt(manifestObject.manifest.timeEnds[count]);
+        if (count >= max)
+            timeStart = timeEnd = 0;
+        $(this).attr('timeStart', timeStart);
+        $(this).attr('timeStop', timeEnd);
+        count++;
     });
     // fill red and goto time in video 
-    $('.measure').click(function () {
+    $('.measure').click(function () 
+    {
         fillMeasure(this);
         $('video')[0].currentTime = $(this).attr('timeStart');
         if ($('video')[0].paused)
-            buttonPlayPress();
+            playButtonPress();
     });
-};
+}
 // track video progress and move score highlight
 function trackVideo ()
 {
@@ -119,26 +124,29 @@ function fillMeasure (measure)
 
 
 // video and score control 
-function buttonPlayPress()
+function playButtonPress () // jshint ignore:line
 {
-	if ($('video')[0].paused) {
-		$('video')[0].play();
-        $('#button_play i').attr('class', "fa fa-pause");
-	} else {
-		$('video')[0].pause();
-        $('#button_play i').attr('class', "fa fa-play");
+	if ($('video')[0].paused)
+  {
+	    $('video')[0].play();
+      $('#button_play i').attr('class', "fa fa-pause");
+	}
+  else
+  {
+		  $('video')[0].pause();
+      $('#button_play i').attr('class', "fa fa-play");
 	}
 }
-function buttonStopPress()
+function stopButtonPress () // jshint ignore:line
 {
     $('#button_play i').attr('class', "fa fa-play");
 
-	$('video')[0].pause();
-	$('video')[0].currentTime = 0;
+    $('video')[0].pause();
+    $('video')[0].currentTime = 0;
 
-	$('.measure').removeAttr('fill');
+    $('.measure').removeAttr('fill');
 }
-function buttonBackPress()
+function backButtonPress () // jshint ignore:line
 {
 	let measureFound = false;
 	let time = truncateNum($('video')[0].currentTime, 3);
@@ -156,22 +164,23 @@ function buttonBackPress()
         }
     });
 }
-function buttonForwardPress()
+function forwardButtonPress () // jshint ignore:line
 {
     let time = truncateNum($('video')[0].currentTime, 3);
 
     // iterate forward until next measure from current
-    $('.measure').each(function () {
+    $('.measure').each(function () 
+    {
     	let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
-        if (measureTime > time) {
+        if (measureTime > time) 
+        {
             $('video')[0].currentTime = $(this).attr('timeStart');
             return false;
         }
     });
 }
 
-// truncate decimal places
 function truncateNum(num, fixed)
 {
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
