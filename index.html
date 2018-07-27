@@ -31,10 +31,14 @@
   <div class="row">
     <div class="col-md-6 border-right text-left">
         <h4 class="display-4">V3</h4>
+        <h5 class="display-5">Images</h5>
         https://d.lib.ncsu.edu/collections/catalog/nubian-message-2003-04-01/manifest?v3=true<br>
-        http://dlib.indiana.edu/iiif_av/lunchroom_manners/lunchroom_manners_v6.json<br>
+        <h5 class="display-5">Audio</h5>
+        https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest<br>
+        https://ddmal.github.io/IIIF-AV-player/static/manifests/manifest_chopin_etude.json<br>
+        <h5 class="display-5">Video</h5>
         https://scrc.lib.ncsu.edu/sal_staging/catalog/ua024-002-bx0149-066-001/manifest<br>
-        https://scrc.lib.ncsu.edu/sal_staging/catalog/1959fcsChoral/manifest
+        https://ddmal.github.io/IIIF-AV-player/static/manifests/manifest_lunchroom_manners.json
     </div>
     <div class="col-md-6 border-left text-right">
         <h4 class="display-4">V2</h4>
@@ -48,24 +52,24 @@
 <div class="container-fluid">
     <div class="row" id="player_controls" style="display:none">
       <div class="col-md-4 offset-md-4 text-center" style="padding-bottom: 10px">
-        <button type="button" id="button_bw" class="btn" onclick='buttonBackPress()'>
+        <button type="button" id="button_bw" class="btn" onclick='backButtonPress()'>
           <i class="fa fa-step-backward"></i>
         </button>
-        <button type="button" id="button_play" class="btn" onclick='buttonPlayPress()'>
+        <button type="button" id="button_play" class="btn" onclick='playButtonPress()'>
           <i class="fa fa-play"></i>
         </button>
-        <button type="button" id="button_stop" class="btn" onclick='buttonStopPress()'>
+        <button type="button" id="button_stop" class="btn" onclick='stopButtonPress()'>
           <i class="fa fa-stop"></i>
         </button>
-        <button type="button" id="button_fw" class="btn" onclick='buttonForwardPress()'>
+        <button type="button" id="button_fw" class="btn" onclick='forwardButtonPress()'>
           <i class="fa fa-step-forward"></i>
         </button>
       </div>
       <div class="col-md-4 text-right">
-        <button type="button" id="page_back" class="btn" onclick='prevPage()'>
+        <button type="button" id="page_back" class="btn" onclick='pagePrev()'>
           <i class="fas fa-angle-left"></i>
         </button>
-        <button type="button" id="page_next" class="btn" onclick='nextPage()'>
+        <button type="button" id="page_next" class="btn" onclick='pageNext()'>
           <i class="fas fa-angle-right"></i>
         </button>
       </div>
