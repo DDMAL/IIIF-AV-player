@@ -91,7 +91,7 @@
                         "choiceHint":"user",
                         "items":[
                            {
-                              "id":"static/chopin_etude.mp3",
+                              "id":"static/media/chopin_etude.mp3",
                               "type":"Video",
                               "format":"audio/mp3",
                               "label":"mp3"
