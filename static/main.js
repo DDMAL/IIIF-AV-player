@@ -21,6 +21,12 @@ $('#getURL').click(function ()
 });
 
 
+function loadPreset (url) // jshint ignore:line
+{
+    $('#urlBox').val(url);
+    $('#getURL').click();
+}
+
 // Verovio score rendering and score manipulation
 var toolkit = new verovio.toolkit(); // jshint ignore:line 
 var page = 0; 
