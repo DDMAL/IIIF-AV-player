@@ -15,7 +15,6 @@ $('#getURL').click(function ()
         $('#title').html(title);
 
         renderVerovio();
-        trackVideo();
 
         $("#player_controls").show();
     });
@@ -89,8 +88,8 @@ function linkScore ()
     // assign a start and end time to every measure
     $('.measure').each(function () 
     {
-        let timeStart = parseInt(manifestObject.manifest.timeStarts[count]);
-        let timeEnd = parseInt(manifestObject.manifest.timeEnds[count]);
+        let timeStart = parseFloat(manifestObject.manifest.timeStarts[count]);
+        let timeEnd = parseFloat(manifestObject.manifest.timeEnds[count]);
         if (count >= max)
             timeStart = timeEnd = 0;
         $(this).attr('timeStart', timeStart);
@@ -107,20 +106,20 @@ function linkScore ()
     });
 }
 // track video progress and move score highlight
+var animationID;
 function trackVideo ()
 {
-    $('video').on('timeupdate', function () 
-    {
-        let time = $('video')[0].currentTime;
-        $('.measure').each(function () {
-            let lower = truncateNum($(this).attr('timeStart'), 3); 
-            let upper = truncateNum($(this).attr('timeStop'), 3);
-            if (time >= lower && time < upper && time !== 0)
-                fillMeasure(this);
-            else if (time === 0)
-                $('.measure').removeAttr('fill');
-        });
+    let time = $('video')[0].currentTime;
+    $('.measure').each(function () {
+        let lower = truncateNum($(this).attr('timeStart'), 3); 
+        let upper = truncateNum($(this).attr('timeStop'), 3);
+        if (time >= lower && time < upper && time !== 0)
+            fillMeasure(this);
+        else if (time === 0)
+            $('.measure').removeAttr('fill');
     });
+
+    animationID = requestAnimationFrame(trackVideo);
 }
 function fillMeasure (measure) 
 {
@@ -134,14 +133,18 @@ function fillMeasure (measure)
 function playButtonPress () // jshint ignore:line
 {
 	if ($('video')[0].paused)
-  {
-	    $('video')[0].play();
-      $('#button_play i').attr('class', "fa fa-pause");
+    {
+        $('video')[0].play();
+        $('#button_play i').attr('class', "fa fa-pause");
+
+        trackVideo();
 	}
-  else
-  {
-		  $('video')[0].pause();
-      $('#button_play i').attr('class', "fa fa-play");
+    else
+    {
+        $('video')[0].pause();
+        $('#button_play i').attr('class', "fa fa-play");
+
+        cancelAnimationFrame(animationID);
 	}
 }
 function stopButtonPress () // jshint ignore:line
@@ -152,6 +155,8 @@ function stopButtonPress () // jshint ignore:line
     $('video')[0].currentTime = 0;
 
     $('.measure').removeAttr('fill');
+
+    cancelAnimationFrame(animationID);
 }
 function backButtonPress () // jshint ignore:line
 {
