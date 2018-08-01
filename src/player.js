@@ -17,7 +17,7 @@ export class Player
         container.css({
             width: '100%'
         });
-        $('.main').append(container);
+        $('.player').append(container);
         switch(info.type) 
         {
             case 'Image':
