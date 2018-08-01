@@ -50,7 +50,7 @@ async function renderVerovio () // jshint ignore:line
             {
                 let svg = toolkit.renderToSVG(i, {});
                 $('.score').append(svg);
-                $('.measure:visible').attr('class', 'measure page'+i);
+                $('.score').children().last().find('.measure').attr('class', 'measure page'+i);
                 $('.score').children().hide();
             }
             $('.score').children().first().show(); // show first page
