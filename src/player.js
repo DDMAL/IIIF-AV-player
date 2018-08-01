@@ -27,7 +27,7 @@ export class Player
                 this.mediaElement = $('<video controls src="' + info.source + '" />');
                 break;
             case 'Audio':
-                this.mediaElement = $('<audio src="' + info.source + '" />');
+                this.mediaElement = $('<audio controls src="' + info.source + '" />');
                 break;
             default:
                 return null;

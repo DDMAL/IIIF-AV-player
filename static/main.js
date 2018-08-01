@@ -48,6 +48,7 @@ var manifestObject;
 $('#getURL').click(function () 
 {
     let url = $('#urlBox').val();
+
     manifestObject = new ManifestObject(url); // jshint ignore:line
     manifestObject.fetchManifest(function ()
     {
@@ -59,21 +60,32 @@ $('#getURL').click(function ()
         $('#title').html(title);
 
         renderVerovio();
-        trackVideo();
 
-        $(".player_controls").show();
-        $(".score_controls").show();
+        $("#player_controls").show();
     });
 });
 
+
+function loadPreset (url) // jshint ignore:line
+{
+    $('#urlBox').val(url);
+    $('#getURL').click();
+}
 
 // Verovio score rendering and score manipulation
 var toolkit = new verovio.toolkit(); // jshint ignore:line 
 var page = 0; 
 async function renderVerovio () // jshint ignore:line 
 {
+    let scoreFile = "static/mei/demo.mei";
+
+    if (manifestObject.manifest.rendering)
+    {
+        scoreFile = manifestObject.manifest.rendering.id;
+    }
+
     await $.ajax({ // jshint ignore:line
-        url: manifestObject.manifest.rendering.id,
+        url: scoreFile,
         dataType: "text", 
         success: function (data) 
         {
@@ -83,7 +95,7 @@ async function renderVerovio () // jshint ignore:line
             {
                 let svg = toolkit.renderToSVG(i, {});
                 $('.score').append(svg);
-                $('.measure:visible').attr('class', 'measure page'+i);
+                $('.score').children().last().find('.measure').attr('class', 'measure page'+i);
                 $('.score').children().hide();
             }
             $('.score').children().first().show(); // show first page
@@ -127,8 +139,8 @@ function linkScore ()
     // assign a start and end time to every measure
     $('.measure').each(function () 
     {
-        let timeStart = parseInt(manifestObject.manifest.timeStarts[count]);
-        let timeEnd = parseInt(manifestObject.manifest.timeEnds[count]);
+        let timeStart = parseFloat(manifestObject.manifest.timeStarts[count]);
+        let timeEnd = parseFloat(manifestObject.manifest.timeEnds[count]);
         if (count >= max)
             timeStart = timeEnd = 0;
         $(this).attr('timeStart', timeStart);
@@ -145,20 +157,20 @@ function linkScore ()
     });
 }
 // track video progress and move score highlight
+var animationID;
 function trackVideo ()
 {
-    $('video').on('timeupdate', function () 
-    {
-        let time = $('video')[0].currentTime;
-        $('.measure').each(function () {
-            let lower = truncateNum($(this).attr('timeStart'), 3); 
-            let upper = truncateNum($(this).attr('timeStop'), 3);
-            if (time >= lower && time < upper && time !== 0)
-                fillMeasure(this);
-            else if (time === 0)
-                $('.measure').removeAttr('fill');
-        });
+    let time = $('video')[0].currentTime;
+    $('.measure').each(function () {
+        let lower = truncateNum($(this).attr('timeStart'), 3); 
+        let upper = truncateNum($(this).attr('timeStop'), 3);
+        if (time >= lower && time < upper && time !== 0)
+            fillMeasure(this);
+        else if (time === 0)
+            $('.measure').removeAttr('fill');
     });
+
+    animationID = requestAnimationFrame(trackVideo);
 }
 function fillMeasure (measure) 
 {
@@ -171,25 +183,31 @@ function fillMeasure (measure)
 // video and score control 
 function playButtonPress () // jshint ignore:line
 {
-    if ($('video')[0].paused) 
+	if ($('video')[0].paused)
     {
         $('video')[0].play();
-        $('#button_play').text('Pause');
-    } 
-    else 
+        $('#button_play i').attr('class', "fa fa-pause");
+
+        trackVideo();
+	}
+    else
     {
         $('video')[0].pause();
-        $('#button_play').text('Play');
-    }
+        $('#button_play i').attr('class', "fa fa-play");
+
+        cancelAnimationFrame(animationID);
+	}
 }
 function stopButtonPress () // jshint ignore:line
 {
-    $('#button_play').text('Play');
+    $('#button_play i').attr('class', "fa fa-play");
 
-	$('video')[0].pause();
-	$('video')[0].currentTime = 0;
+    $('video')[0].pause();
+    $('video')[0].currentTime = 0;
 
-	$('.measure').removeAttr('fill');
+    $('.measure').removeAttr('fill');
+
+    cancelAnimationFrame(animationID);
 }
 function backButtonPress () // jshint ignore:line
 {
