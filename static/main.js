@@ -103,12 +103,32 @@ function linkScore ()
         count++;
     });
     // fill red and goto time in video 
-    $('.measure').click(function () 
+    var loopMeasureInitial = null;
+    var loopMeasureFinal = null;
+    $('.measure').click(function (event) 
     {
         fillMeasure(this);
+
+        if (event.shiftKey)
+        {
+            if (loopMeasureInitial !== null)
+            {
+                loopMeasureFinal = this;
+
+                fillMeasureRange(loopMeasureInitial, loopMeasureFinal);
+            }
+        }
+        else
+        {
+            loopMeasureInitial = null;
+        }
+
         $('video')[0].currentTime = $(this).attr('timeStart');
         if ($('video')[0].paused)
-            playButtonPress();
+        {
+            if (loopMeasureInitial === null)
+                loopMeasureInitial = this;
+        }
     });
 }
 // track video progress and move score highlight
@@ -132,6 +152,33 @@ function fillMeasure (measure)
     $(measure).attr('fill', '#d00');
     $('.measure').not(measure).removeAttr('fill');
     goToPage($(measure).attr('class').split(' ')[1].slice(-1) - 1);
+}
+function fillMeasureRange(measureInitial, measureFinal)
+{
+    let measureStartTime = 0;
+    let measureEndTime = 0;
+
+    if ($(measureInitial).attr('timeStart') <= $(measureFinal).attr('timeStart'))
+    {
+        measureStartTime = truncateNum($(measureInitial).attr('timeStart'), 3);
+        measureEndTime = truncateNum($(measureFinal).attr('timeStart'), 3);
+    }
+    else
+    {
+        measureStartTime = truncateNum($(measureFinal).attr('timeStart'), 3);
+        measureEndTime = truncateNum($(measureInitial).attr('timeStart'), 3);
+    }
+
+    $('.measure').each(function () 
+    {
+        let measureTime = truncateNum($(this).attr('timeStart'), 3);
+
+        if (measureTime >= measureStartTime && measureTime <= measureEndTime ) 
+        {
+            $(this).attr('fill', '#d00');
+        }
+    });
+
 }
 
 
