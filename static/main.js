@@ -129,11 +129,13 @@ function linkScore ()
 
                     loopMeasureStart = clickMeasureInitial;
                     loopMeasureEnd = clickMeasureFinal;
+                    $('video')[0].currentTime = measureInitialTime;
                 }
                 else
                 {
-                    loopMeasureStart = clickMeasureInitial;
+                    loopMeasureStart = clickMeasureFinal;
                     loopMeasureEnd = clickMeasureInitial;
+                    $('video')[0].currentTime = measureFinalTime;
                 }
 
                 fillMeasureRange(loopMeasureStart, loopMeasureEnd);
