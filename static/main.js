@@ -87,6 +87,8 @@ function goToPage (n)
 
 
 // score and player syncing
+var loopMeasureStart = null;
+var loopMeasureEnd = null;
 function linkScore ()
 {
     let count = 0;
@@ -103,33 +105,51 @@ function linkScore ()
         count++;
     });
     // fill red and goto time in video 
-    var loopMeasureInitial = null;
-    var loopMeasureFinal = null;
+    var clickMeasureInitial = null;
+    var clickMeasureFinal = null;
     $('.measure').click(function (event) 
     {
+        clearMeasures();
         fillMeasure(this);
 
         // user selecting multiple measure for looping
         if (event.shiftKey)
         {
             // second click in selection
-            if (loopMeasureInitial !== null)
+            if (clickMeasureInitial !== null && $('video')[0].paused)
             {
-                loopMeasureFinal = this;
+                clickMeasureFinal = this;
 
-                fillMeasureRange(loopMeasureInitial, loopMeasureFinal);
+                let measureInitialTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
+                let measureFinalTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
+
+                // find if second click is before or after initial click in the score 
+                if (measureInitialTime <= measureFinalTime)
+                {
+
+                    loopMeasureStart = clickMeasureInitial;
+                    loopMeasureEnd = clickMeasureFinal;
+                }
+                else
+                {
+                    loopMeasureStart = clickMeasureInitial;
+                    loopMeasureEnd = clickMeasureInitial;
+                }
+
+                fillMeasureRange(loopMeasureStart, loopMeasureEnd);
             }
         }
-        else
+        else // regular left-click
         {
-            loopMeasureInitial = null;
-        }
+            if ($('video')[0].paused)
+            {
+                clickMeasureInitial = this;
+            }
 
-        $('video')[0].currentTime = $(this).attr('timeStart');
-        if ($('video')[0].paused)
-        {
-            if (loopMeasureInitial === null)
-                loopMeasureInitial = this;
+            loopMeasureStart = null;
+            loopMeasureEnd = null;
+
+            $('video')[0].currentTime = $(this).attr('timeStart');
         }
     });
 }
@@ -138,52 +158,62 @@ var animationID;
 function trackVideo ()
 {
     let time = $('video')[0].currentTime;
+
+    // looping is enabled
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+    {
+        // loop back
+        if (time >= $(loopMeasureEnd).attr('timeStop'))
+        {
+            $('video')[0].currentTime = $(loopMeasureStart).attr('timeStart');
+            time = $(loopMeasureStart).attr('timeStart');
+        }
+
+        fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+    }
+    else
+    {
+        clearMeasures();
+    }
+
     $('.measure').each(function () {
         let lower = truncateNum($(this).attr('timeStart'), 3); 
         let upper = truncateNum($(this).attr('timeStop'), 3);
         if (time >= lower && time < upper && time !== 0)
+        {
             fillMeasure(this);
+        }
         else if (time === 0)
             $('.measure').removeAttr('fill');
     });
 
-    animationID = requestAnimationFrame(trackVideo);
+    if (!$('video')[0].paused)
+        animationID = requestAnimationFrame(trackVideo);
 }
 function fillMeasure (measure) 
 {
-    $(measure).attr('fill', '#d00');
-    $('.measure').not(measure).removeAttr('fill');
+    $(measure).attr('fill', '#dd0000');
     goToPage($(measure).attr('class').split(' ')[1].slice(-1) - 1);
 }
-function fillMeasureRange(measureInitial, measureFinal)
+function fillMeasureRange(measureStart, measureEnd)
 {
-    let measureStartTime = 0;
-    let measureEndTime = 0;
-
-    let measureInitialTime = truncateNum($(measureInitial).attr('timeStart'), 3);
-    let measureFinalTime = truncateNum($(measureFinal).attr('timeStart'), 3);
-
-    if (measureInitialTime <= measureFinalTime)
-    {
-        measureStartTime = measureInitialTime;
-        measureEndTime = measureFinalTime;
-    }
-    else
-    {
-        measureStartTime = measureFinalTime;
-        measureEndTime = measureInitialTime;
-    }
+    let loopStartTime = $(measureStart).attr('timeStart');
+    let loopEndTime = $(measureEnd).attr('timeStart');
 
     $('.measure').each(function () 
     {
         let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
-        if (measureTime >= measureStartTime && measureTime <= measureEndTime ) 
+        if (measureTime >= loopStartTime && measureTime <= loopEndTime ) 
         {
-            $(this).attr('fill', '#d00');
+            $(this).attr('fill', '#000080');
         }
     });
 
+}
+function clearMeasures ()
+{
+    $('.measure').removeAttr('fill');
 }
 
 
@@ -214,6 +244,9 @@ function stopButtonPress () // jshint ignore:line
 
     $('.measure').removeAttr('fill');
 
+    loopMeasureStart = null;
+    loopMeasureEnd = null;
+
     cancelAnimationFrame(animationID);
 }
 function backButtonPress () // jshint ignore:line
@@ -221,11 +254,16 @@ function backButtonPress () // jshint ignore:line
 	let measureFound = false;
 	let time = truncateNum($('video')[0].currentTime, 3);
 
+    let measureTimeMin = 0;
+    // looping is enabled
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+        measureTimeMin = $(loopMeasureStart).attr('timeStart');
+
     // iterate backwards until current measure and get next one back
     $($('.measure').get().reverse()).each(function () {
         let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
-        if (measureTime <= time) {
+        if (measureTime <= time && measureTime >= measureTimeMin) {
         	if (measureFound) {
         		$('video')[0].currentTime = $(this).attr('timeStart');
         		return false;
@@ -233,22 +271,31 @@ function backButtonPress () // jshint ignore:line
         	measureFound = true;
         }
     });
+
+    trackVideo();
 }
 function forwardButtonPress () // jshint ignore:line
 {
     let time = truncateNum($('video')[0].currentTime, 3);
+
+    let measureTimeMax = $('.measure').last().attr('timeStart');
+    // looping is enabled
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+        measureTimeMax = $(loopMeasureEnd).attr('timeStart');
 
     // iterate forward until next measure from current
     $('.measure').each(function () 
     {
     	let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
-        if (measureTime > time) 
+        if (measureTime > time && measureTime <= measureTimeMax) 
         {
             $('video')[0].currentTime = $(this).attr('timeStart');
             return false;
         }
     });
+
+    trackVideo();
 }
 
 function truncateNum(num, fixed)
