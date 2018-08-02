@@ -109,8 +109,10 @@ function linkScore ()
     {
         fillMeasure(this);
 
+        // user selecting multiple measure for looping
         if (event.shiftKey)
         {
+            // second click in selection
             if (loopMeasureInitial !== null)
             {
                 loopMeasureFinal = this;
@@ -158,15 +160,18 @@ function fillMeasureRange(measureInitial, measureFinal)
     let measureStartTime = 0;
     let measureEndTime = 0;
 
-    if ($(measureInitial).attr('timeStart') <= $(measureFinal).attr('timeStart'))
+    let measureInitialTime = truncateNum($(measureInitial).attr('timeStart'), 3);
+    let measureFinalTime = truncateNum($(measureFinal).attr('timeStart'), 3);
+
+    if (measureInitialTime <= measureFinalTime)
     {
-        measureStartTime = truncateNum($(measureInitial).attr('timeStart'), 3);
-        measureEndTime = truncateNum($(measureFinal).attr('timeStart'), 3);
+        measureStartTime = measureInitialTime;
+        measureEndTime = measureFinalTime;
     }
     else
     {
-        measureStartTime = truncateNum($(measureFinal).attr('timeStart'), 3);
-        measureEndTime = truncateNum($(measureInitial).attr('timeStart'), 3);
+        measureStartTime = measureFinalTime;
+        measureEndTime = measureInitialTime;
     }
 
     $('.measure').each(function () 
