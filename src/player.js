@@ -24,7 +24,7 @@ export class Player
                 this.mediaElement = $('<img src="' + info.source + '" />');
                 break;
             case 'Video':
-                this.mediaElement = $('<video controls src="' + info.source + '" />');
+                this.mediaElement = $('<video src="' + info.source + '" />');
                 break;
             case 'Audio':
                 this.mediaElement = $('<audio controls src="' + info.source + '" />');
