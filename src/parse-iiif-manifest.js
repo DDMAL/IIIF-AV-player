@@ -1,4 +1,4 @@
-import {Player} from './player';
+import {Annotation} from './annotation';
 import {Canvas} from './canvas';
 
 const getMaxZoomLevel = (width, height) =>
@@ -70,6 +70,8 @@ function parseIIIF3Manifest (manifest)
         let annotationPages = canvasInfo.items,
             numAnnotationPages = annotationPages.length;
 
+        let canvasInstance = new Canvas(canvasInfo);
+
         for (var j = 0; j < numAnnotationPages; j++) 
         {   
             let annotations = annotationPages[j].items,
@@ -130,12 +132,12 @@ function parseIIIF3Manifest (manifest)
                 };
 
                 // render media item onto page
-                let canvas = new Canvas(canvasInfo);
-                let player = new Player();
-                let canvasContainer = canvas.render(info);
-                player.render(info, canvasContainer);
+                let annotationInstance = new Annotation(info);
+                canvasInstance.annotationItems.push(annotationInstance);
             }
         }
+
+        canvasInstance.render();
 
         canvases[i] = {
             url: canvasInfo.id,

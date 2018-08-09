@@ -7,8 +7,7 @@ export class Canvas
 {
     constructor (canvasInfo)
     {
-        this.playerElement;
-        this.mediaElements = [];
+        this.annotationItems = [];
 
         if (!canvasInfo.width)
         {
@@ -29,16 +28,21 @@ export class Canvas
         }
     }
 
-    render(info)
+    render()
     {
-        let canvasContainer = $('<div>', {'class': 'canvasContainer', 'style': 'width:100%'});
+        let annotationContainer = $('<div class="annotationContainer"></div>');
+        for (var i = 0; i < this.annotationItems.length; i++)
+        {
+            this.annotationItems[i].render();
+            annotationContainer.append(this.annotationItems[i].mediaElement);
+        }
 
-        canvasContainer.width(this.width);
-        canvasContainer.height(this.height);
+        let canvas = $('<div class="canvas"></div>');
+        canvas.width(this.width);
+        canvas.height(this.height);
+        canvas.append(annotationContainer);
+        $('.canvasContainer').append(canvas);
 
-        this.playerElement = $('.player');
-        this.mediaElements.push(info);
-
-        return (canvasContainer);
+        return;
     }
 }
