@@ -1,37 +1,41 @@
-export default class ManifestObject 
+import parseVersionManifest from './parse-iiif-manifest';
+
+class ManifestObject 
 {
-    constructor () 
+    constructor (url) 
     {
-        this.id;
-        this.type;
-        this.label;
-        this.description;
-        this.canvases;
+        this.manifest;
+        this.url = url;
     }
 
-    getObject (responseData) 
+    fetchManifest (callback)
     {
-        this.parseManifest(responseData);
-        return this;
+        fetch(this.url, {
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then( (response) =>
+        {
+            if (!response.ok)
+            {
+                alert('Could not get manifest! Make sure you provide a proper link.');
+            }
+            return response.json();
+        }).then( (responseData) =>
+        {
+            this.setManifest(responseData, callback);
+        });
     }
 
-    // updates all attributes
-    parseManifest (manifest)  
+    setManifest (responseData, callback)
     {
-        // parse the manifest and assign to attributes
-        this.id = manifest.id;
-        this.type = manifest.type;
-        this.label = manifest.label;
-        this.description = manifest.description;
+        this.manifest = parseVersionManifest(responseData);
 
-        // get canvas stuff
-        this.canvases = [];
-        if (Array.isArray(manifest.sequences)) {
-            this.canvases = manifest.sequences[0].canvases;
-        } else if (manifest.type === 'Canvas') {
-            this.canvases.push(manifest);
-        } else {
-            this.canvases = manifest.sequences.canvases;
-        }
+        callback(this.manifest);
     }
 }
+
+(function (global)
+{
+    global.ManifestObject = global.ManifestObject || ManifestObject;
+}) (window);
