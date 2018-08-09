@@ -3,9 +3,9 @@ const path = require('path');
 module.exports = 
 {
     mode: 'development',
-    entry: './src/parser.js',
+    entry: './src/manifest-object.js',
     output: { 
         path: path.resolve(__dirname, 'static'),
-        filename: 'parser.js'
+        filename: 'player.js'
     }
 };

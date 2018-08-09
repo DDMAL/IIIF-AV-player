@@ -14,3 +14,16 @@ IIIF A/V Player (WIP)
 If you wish to alter any of the `src` code, make sure to rebundle with `gulp develop:build`. 
 
 It might be ideal to keep a server running in the background with `gulp develop:server &`, instead of running `gulp` every time you make a change.
+
+## Integration
+To integrate this player with an independent webpage, include the following 3 scripts in your `index.html`:
+```javascript
+<script src="static/verovio-toolkit.js"></script>
+<script src="static/player.js"></script>
+<script src="static/main.js"></script>
+```
+The player and score will be created in a `.main` container div, which will be appended to the `body` once the script is run. If you wish to alter where the player is generated, edit `static/main.js`:
+```javascript
+// line 41, change body to your target
+$('body').append(main);
+```

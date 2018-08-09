@@ -30,6 +30,7 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "jquery": "^3.3.1"
   }
 }
