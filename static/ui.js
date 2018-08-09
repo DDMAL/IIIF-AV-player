@@ -27,7 +27,7 @@ function createUI ()
     playerControls.append(back, play, stop, forward, pageBack, pageNext);
     main.append(playerControls);
     // player
-    let player = $('<div>', {'class': 'player', 'style': 'float:left; width:50%;'});
+    let player = $('<div>', {'class': 'playerContainer', 'style': 'float:left; width:50%;'});
     main.append(player);
 
     // score
