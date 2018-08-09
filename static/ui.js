@@ -19,7 +19,7 @@ function createUI ()
     let pageBack = $('<button>', {'class': 'page_back', 'onclick': 'pagePrev()'});
     let pageNext = $('<button>', {'class': 'page_next', 'onclick': 'pageNext()'});
     back.text('<');
-    play.text('Play');
+    play.text('Play/Pause');
     stop.text('Stop');
     forward.text('>');
     pageBack.text('[');
