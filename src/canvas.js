@@ -44,11 +44,14 @@ export class Canvas
             annotationContainer.append(this.annotationItems[i].mediaElement);
         }
 
+        let canvasContainer = $('.canvasContainer');
+        let containerWidth = canvasContainer.width();
+
         let canvas = $('<div class="canvas"></div>');
-        canvas.width(this.width);
-        canvas.height(this.height);
+        canvas.width(containerWidth);
+        canvas.height(this.height * (containerWidth/this.width));
         canvas.append(annotationContainer);
-        $('.canvasContainer').append(canvas);
+        canvasContainer.append(canvas);
 
         this.canvasElement = canvas;
 

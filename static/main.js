@@ -15,7 +15,9 @@ $('#getURL').click(function ()
             title = title.en[0];
         $('#title').html(title);
 
+        // display canvas 0 on load
         activeCanvasIndex = 0;
+        navigateToCanvas(activeCanvasIndex);
 
         renderVerovio();
 
@@ -90,6 +92,8 @@ function goToPage (n)
 
 function navigateToCanvas(canvasIndex) // jshint ignore:line
 {
+    stopButtonPress();
+
     activeCanvasIndex = canvasIndex;
     $('.canvasContainer .canvas').hide();
 
