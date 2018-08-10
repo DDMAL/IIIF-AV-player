@@ -1,5 +1,6 @@
 // Manifest fetching and callback actions
-var manifestObject; 
+var manifestObject;
+var activeCanvasIndex;
 $('#getURL').click(function () 
 {
     let url = $('#urlBox').val();
@@ -13,6 +14,8 @@ $('#getURL').click(function ()
         if (typeof title !== 'string')  
             title = title.en[0];
         $('#title').html(title);
+
+        activeCanvasIndex = 0;
 
         renderVerovio();
 
@@ -86,7 +89,7 @@ function goToPage (n)
 }
 
 
-// score and player syncing
+// Score and player syncing
 var loopMeasureStart = null;
 var loopMeasureEnd = null;
 function linkScore ()
@@ -104,7 +107,7 @@ function linkScore ()
         $(this).attr('timeStop', timeEnd);
         count++;
     });
-    // fill red and goto time in video 
+    // fill red and goto time in media 
     var clickMeasureInitial = null;
     var clickMeasureFinal = null;
     $('.measure').click(function (event) 
@@ -116,7 +119,7 @@ function linkScore ()
         if (event.shiftKey)
         {
             // second click in selection
-            if (clickMeasureInitial !== null && $('video')[0].paused)
+            if (clickMeasureInitial !== null && !isMediaPlaying())
             {
                 clickMeasureFinal = this;
 
@@ -129,13 +132,13 @@ function linkScore ()
 
                     loopMeasureStart = clickMeasureInitial;
                     loopMeasureEnd = clickMeasureFinal;
-                    $('video')[0].currentTime = measureInitialTime;
+                    setMediaTime(measureInitialTime);
                 }
                 else
                 {
                     loopMeasureStart = clickMeasureFinal;
                     loopMeasureEnd = clickMeasureInitial;
-                    $('video')[0].currentTime = measureFinalTime;
+                    setMediaTime(measureFinalTime);
                 }
 
                 fillMeasureRange(loopMeasureStart, loopMeasureEnd);
@@ -143,7 +146,7 @@ function linkScore ()
         }
         else // regular left-click
         {
-            if ($('video')[0].paused)
+            if (!isMediaPlaying())
             {
                 clickMeasureInitial = this;
             }
@@ -151,15 +154,16 @@ function linkScore ()
             loopMeasureStart = null;
             loopMeasureEnd = null;
 
-            $('video')[0].currentTime = $(this).attr('timeStart');
+            setMediaTime($(this).attr('timeStart'));
         }
     });
 }
-// track video progress and move score highlight
+
+// Media functions
 var animationID;
-function trackVideo ()
+function trackMedia ()
 {
-    let time = $('video')[0].currentTime;
+    let time = getMediaTime();
 
     // looping is enabled
     if (loopMeasureStart !== null && loopMeasureEnd !== null)
@@ -167,7 +171,7 @@ function trackVideo ()
         // loop back
         if (time >= $(loopMeasureEnd).attr('timeStop'))
         {
-            $('video')[0].currentTime = $(loopMeasureStart).attr('timeStart');
+            setMediaTime($(loopMeasureStart).attr('timeStart'));
             time = $(loopMeasureStart).attr('timeStart');
         }
 
@@ -189,9 +193,31 @@ function trackVideo ()
             $('.measure').removeAttr('fill');
     });
 
-    if (!$('video')[0].paused)
-        animationID = requestAnimationFrame(trackVideo);
+    if (isMediaPlaying())
+        animationID = requestAnimationFrame(trackMedia);
 }
+function playMedia()
+{
+    manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].play();
+}
+function pauseMedia()
+{
+    manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].pause();
+}
+function setMediaTime(time)
+{
+    manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].currentTime = time;
+}
+function getMediaTime()
+{
+    return (manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].currentTime);
+}
+function isMediaPlaying()
+{
+    return (!manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].paused);
+}
+
+// Measure highlighting functions
 function fillMeasure (measure) 
 {
     $(measure).attr('fill', '#dd0000');
@@ -219,30 +245,30 @@ function clearMeasures ()
 }
 
 
-// video and score control 
+// Media and score control 
 function playButtonPress () // jshint ignore:line
 {
-	if ($('video')[0].paused)
+    if (isMediaPlaying())
     {
-        $('video')[0].play();
-        $('#button_play i').attr('class', "fa fa-pause");
-
-        trackVideo();
-	}
-    else
-    {
-        $('video')[0].pause();
+        pauseMedia();
         $('#button_play i').attr('class', "fa fa-play");
 
         cancelAnimationFrame(animationID);
-	}
+    }
+    else
+    {
+        playMedia();
+        $('#button_play i').attr('class', "fa fa-pause");
+
+        trackMedia();
+    }
 }
 function stopButtonPress () // jshint ignore:line
 {
     $('#button_play i').attr('class', "fa fa-play");
 
-    $('video')[0].pause();
-    $('video')[0].currentTime = 0;
+    pauseMedia();
+    setMediaTime(0);
 
     $('.measure').removeAttr('fill');
 
@@ -254,7 +280,7 @@ function stopButtonPress () // jshint ignore:line
 function backButtonPress () // jshint ignore:line
 {
 	let measureFound = false;
-	let time = truncateNum($('video')[0].currentTime, 3);
+	let time = truncateNum(getMediaTime(), 3);
 
     let measureTimeMin = 0;
     // looping is enabled
@@ -267,18 +293,18 @@ function backButtonPress () // jshint ignore:line
 
         if (measureTime <= time && measureTime >= measureTimeMin) {
         	if (measureFound) {
-        		$('video')[0].currentTime = $(this).attr('timeStart');
+        		setMediaTime($(this).attr('timeStart'));
         		return false;
         	}
         	measureFound = true;
         }
     });
 
-    trackVideo();
+    trackMedia();
 }
 function forwardButtonPress () // jshint ignore:line
 {
-    let time = truncateNum($('video')[0].currentTime, 3);
+    let time = truncateNum(getMediaTime(), 3);
 
     let measureTimeMax = $('.measure').last().attr('timeStart');
     // looping is enabled
@@ -292,12 +318,12 @@ function forwardButtonPress () // jshint ignore:line
 
         if (measureTime > time && measureTime <= measureTimeMax) 
         {
-            $('video')[0].currentTime = $(this).attr('timeStart');
+            setMediaTime($(this).attr('timeStart'));
             return false;
         }
     });
 
-    trackVideo();
+    trackMedia();
 }
 
 function truncateNum(num, fixed)

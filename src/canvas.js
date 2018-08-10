@@ -7,7 +7,13 @@ export class Canvas
 {
     constructor (canvasInfo)
     {
+        this.url = canvasInfo.id;
+        this.type = canvasInfo.type;
+        this.label = canvasInfo.label || "Label";
+        this.duration = canvasInfo.duration;
+
         this.annotationItems = [];
+        this.isActive = false;
 
         if (!canvasInfo.width)
         {

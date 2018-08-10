@@ -44,7 +44,7 @@ export default function parseVersionManifest (manifest)
 {
     if (manifest.items) 
     {
-        console.log('IIIF v3 Manifest, work in progress');
+        console.log('IIIF v3 Manifest');
         return parseIIIF3Manifest(manifest);
     }
     else 
@@ -62,10 +62,6 @@ function parseIIIF3Manifest (manifest)
     for (var i = 0; i < numCanvases; i++) 
     {
         let canvasInfo = canvases[i];
-        let canvasDims = {
-            width: canvasInfo.width,
-            height: canvasInfo.height
-        };
 
         let annotationPages = canvasInfo.items,
             numAnnotationPages = annotationPages.length;
@@ -139,14 +135,7 @@ function parseIIIF3Manifest (manifest)
 
         canvasInstance.render();
 
-        canvases[i] = {
-            url: canvasInfo.id,
-            type: canvasInfo.type,
-            label: canvasInfo.label || "Label",
-            dims: canvasDims,
-            duration: canvasInfo.duration,
-            annotationPages: annotationPages
-        };
+        canvases[i] = canvasInstance;
     }
 
     // parse structures into different timestamps
