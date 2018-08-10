@@ -14,6 +14,7 @@ export class Canvas
 
         this.annotationItems = [];
         this.isActive = false;
+        this.canvasElement;
 
         if (!canvasInfo.width)
         {
@@ -48,6 +49,8 @@ export class Canvas
         canvas.height(this.height);
         canvas.append(annotationContainer);
         $('.canvasContainer').append(canvas);
+
+        this.canvasElement = canvas;
 
         return;
     }

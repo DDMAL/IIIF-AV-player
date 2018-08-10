@@ -18,13 +18,14 @@ function createUI ()
     let forward = $('<button>', {'type': 'button', 'id': 'button_fw', 'onclick': 'forwardButtonPress()'});
     let pageBack = $('<button>', {'class': 'page_back', 'onclick': 'pagePrev()'});
     let pageNext = $('<button>', {'class': 'page_next', 'onclick': 'pageNext()'});
+    let canvasControl = $('<input>', {'type': 'number', 'value': '0', 'style': 'width: 50px','onchange': 'navigateToCanvas(this.value)'});
     back.text('<');
     play.text('Play/Pause');
     stop.text('Stop');
     forward.text('>');
     pageBack.text('[');
     pageNext.text(']');
-    playerControls.append(back, play, stop, forward, pageBack, pageNext);
+    playerControls.append(canvasControl, back, play, stop, forward, pageBack, pageNext);
     main.append(playerControls);
     // canvas
     let canvasContainer = $('<div>', {'class': 'canvasContainer', 'style': 'float:left; width:50%;'});

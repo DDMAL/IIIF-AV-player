@@ -88,6 +88,14 @@ function goToPage (n)
     $('.score').children().eq(page).show();
 }
 
+function navigateToCanvas(canvasIndex) // jshint ignore:line
+{
+    activeCanvasIndex = canvasIndex;
+    $('.canvasContainer .canvas').hide();
+
+    manifestObject.manifest.canvases[activeCanvasIndex].canvasElement.show();
+}
+
 
 // Score and player syncing
 var loopMeasureStart = null;
