@@ -5,6 +5,9 @@ $('#getURL').click(function ()
 {
     let url = $('#urlBox').val();
 
+    // clear all previous canvases
+    $('.canvas').remove();
+
     manifestObject = new ManifestObject(url); // jshint ignore:line
     manifestObject.fetchManifest(function ()
     {
@@ -14,6 +17,9 @@ $('#getURL').click(function ()
         if (typeof title !== 'string')  
             title = title.en[0];
         $('#title').html(title);
+
+        // load list of canvas names
+        loadCanvasList();
 
         // display canvas 0 on load
         activeCanvasIndex = 0;
@@ -39,9 +45,9 @@ async function renderVerovio () // jshint ignore:line
 {
     let scoreFile = "static/mei/demo.mei";
 
-    if (manifestObject.manifest.rendering)
+    if (manifestObject.manifest.canvases[activeCanvasIndex].rendering)
     {
-        scoreFile = manifestObject.manifest.rendering.id;
+        scoreFile = manifestObject.manifest.canvases[activeCanvasIndex].rendering.id;
     }
 
     await $.ajax({ // jshint ignore:line
@@ -98,6 +104,13 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
     $('.canvasContainer .canvas').hide();
 
     manifestObject.manifest.canvases[activeCanvasIndex].canvasElement.show();
+
+    if (manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].type === 'Audio')
+        $('#media_icon').show();
+    else
+        $('#media_icon').hide();
+
+    renderVerovio();
 }
 
 
@@ -107,12 +120,12 @@ var loopMeasureEnd = null;
 function linkScore ()
 {
     let count = 0;
-    let max = manifestObject.manifest.timeStarts.length;
+    let max = manifestObject.manifest.canvases[activeCanvasIndex].measureStarts.length;
     // assign a start and end time to every measure
     $('.measure').each(function () 
     {
-        let timeStart = parseFloat(manifestObject.manifest.timeStarts[count]);
-        let timeEnd = parseFloat(manifestObject.manifest.timeEnds[count]);
+        let timeStart = parseFloat(manifestObject.manifest.canvases[activeCanvasIndex].measureStarts[count]);
+        let timeEnd = parseFloat(manifestObject.manifest.canvases[activeCanvasIndex].measureEnds[count]);
         if (count >= max)
             timeStart = timeEnd = 0;
         $(this).attr('timeStart', timeStart);
@@ -256,6 +269,18 @@ function clearMeasures ()
     $('.measure').removeAttr('fill');
 }
 
+function loadCanvasList ()
+{
+    let canvases = $('#canvas_list');
+    canvases.empty();
+
+    let canvasCount = manifestObject.manifest.canvases.length;
+    for (var i = 0; i < canvasCount; i++)
+    {
+        let text = manifestObject.manifest.canvases[i].label.en[0];
+        canvases.append(new Option(text, i));
+    } 
+}
 
 // Media and score control 
 function playButtonPress () // jshint ignore:line
