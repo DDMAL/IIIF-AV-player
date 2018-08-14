@@ -22,7 +22,7 @@ export class Annotation
                 this.mediaElement = $('<video src="' + this.source + '" />');
                 break;
             case 'Audio':
-                this.mediaElement = $('<audio controls src="' + this.source + '" />');
+                this.mediaElement = $('<audio src="' + this.source + '" />');
                 break;
             default:
                 return null;

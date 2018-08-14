@@ -68,7 +68,7 @@
          "id":"http://dlib.indiana.edu/iiif_av/canvas/1",
          "label":{
             "en":[
-               "lunchroom_manners"
+               "Chopin Etude Audio"
             ]
          },
          "thumbnail":[
@@ -91,8 +91,8 @@
                         "choiceHint":"user",
                         "items":[
                            {
-                              "id":"static/media/chopin_etude.mp3",
-                              "type":"Video",
+                              "id":"https://ddmal.github.io/IIIF-AV-player/static/media/Chopin_Etude_Op_10_No_9.mp3",
+                              "type":"Audio",
                               "format":"audio/mp3",
                               "label":"mp3"
                            }
@@ -102,51 +102,15 @@
                ]
             }
          ],
-         "duration":null
-      },
-      {
-         "type":"Canvas",
-         "id":"http://dlib.indiana.edu/iiif_av/canvas/2",
-         "label":{
-            "en":[
-               "lunchroom_manners"
-            ]
-         },
-         "thumbnail":[
+         "rendering":[
             {
-               "id":"http://dlib.indiana.edu/iiif_av/lunchroom_manners/thumbnail/lunchroom_manners_poster.jpg",
-               "type":"Image"
+               "id":"https://ddmal.github.io/IIIF-AV-player/static/mei/Chopin_Etude_Op_10_No_9.mei",
+               "type":"Text",
+               "label":{"en":["Score"]},
+               "format":"application/xml"
             }
          ],
-         "items":[
-            {
-               "type":"AnnotationPage",
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/2/annotation_page1",
-               "items":[
-                  {
-                     "type":"Annotation",
-                     "motivation":"painting",
-                     "target":"http://dlib.indiana.edu/iiif_av/canvas/2",
-                     "body":{
-                        "type":"Choice",
-                        "choiceHint":"user",
-                        "items":[
-                           {
-                              "id":"http://dlib.indiana.edu/iiif_av/lunchroom_manners/mp4/lunchroom_manners.mp4",
-                              "type":"Video",
-                              "height":360,
-                              "width":480,
-                              "duration":572.034
-                           }
-                        ]
-                     }
-                  }
-               ]
-            }
-         ],
-         "width":480,
-         "height":360,
-         "duration":572.034
+         "duration":214.414
       }
    ],
    "structures":[
@@ -160,293 +124,271 @@
          },
          "items":[
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=3.120,5.204",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿2.879,5.083",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=5.204,6.669",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=5.083,6.288",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=6.669,7.692",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=6.288,7.453",
                "type":"Canvas"
-            }
-         ]
-      },
-      {
-         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/2",
-         "type":"Range",
-         "label":{
-            "en":[
-               "Movement II"
-            ]
-         },
-         "items":[
+            },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=7.692,9.315",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=7.453,9.212",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=9.315,11.106",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=9.212,11.122",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=11.106,12.311",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=11.122,12.321",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=12.311,13.749",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=12.321,13.838",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=13.749,15.465",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=13.838,15.656",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=15.465,17.538",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=15.656,17.496",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=17.538,18.930",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=17.496,18.799",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=18.930,20.113",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=18.799,20.036",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=20.113,21.834",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=20.036,21.910",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=21.834,23.715",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=21.910,23.745",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=23.715,24.952",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=23.745,24.988",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=24.952,26.549",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=24.988,26.445",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=26.549,28.302",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=26.445,28.660",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=28.302,30.656",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=28.660,30.653",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=30.656,32.598",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=30.653,32.630",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=32.598,34.294",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=32.630,34.280",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=34.294,36.253",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=34.280,36.154",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=36.253,38.868",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=36.154,38.841",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=38.868,40.531",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=38.841,40.658",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=40.531,41.977",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=40.658,41.957",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=41.977,43.345",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=41.957,43.325",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=43.345,45.129",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=43.325,45.012",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=45.129,46.495",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=45.012,46.488",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=46.495,47.995",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=46.488,47.799",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=47.995,49.884",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=47.799,49.996",
                "type":"Canvas"
-            }
-         ]
-      },
-      {
-         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",
-         "type":"Range",
-         "label":{
-            "en":[
-               "Movement III"
-            ]
-         },
-         "items":[
+            },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=49.884,52.154",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=49.996,51.983",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=52.154,53.971",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=51.983,54.028",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=53.971,55.781",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=54.028,55.797",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=55.781,58.066",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=55.797,58.126",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=58.066,60.727",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=58.126,60.685",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=60.727,62.986",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=60.685,62.951",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=62.986,65.080",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=62.951,65.222",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=65.080,68.137",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=65.222,68.075",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=68.137,70.512",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=68.075,70.542",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=70.512,71.795",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=70.542,71.787",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=71.795,73.189",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=71.787,73.171",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=73.189,75.087",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=73.171,75.022",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=75.087,76.868",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=75.022,76.809",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=76.868,78.211",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=76.809,78.058",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=78.211,79.523",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=78.058,79.409",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=79.523,81.290",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=79.409,81.284",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=81.290,83.080",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=81.284,83.149",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=83.080,84.251",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=83.149,84.329",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=84.251,85.647",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=84.329,85.586",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=85.647,87.539",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=85.586,87.369",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=87.539,89.652",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=87.369,89.597",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=89.652,91.471",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=89.597,91.342",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=91.471,93.124",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=91.342,93.116",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=93.124,94.963",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=93.116,94.896",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=94.963,96.693",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=94.896,96.564",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=96.693,98.037",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=96.564,98.007",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=98.037,99.437",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=98.007,99.337",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=99.437,101.742",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=99.337,101.689",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=101.742,104.471",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=101.689,104.336",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=104.471,106.943",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=104.336,106.887",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=106.943,109.175",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=106.887,109.277",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=109.175,111.359",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=109.277,111.510",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=111.359,114.237",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=111.510,114.020",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=114.237,117.091",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=114.020,117.117",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=117.091,120.134",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=117.117,119.922",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=120.134,122.721",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=119.922,123.164",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=122.721,124.951",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=123.164,124.690",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=124.951,127.531",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=124.690,127.164",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=127.531,134.000",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=127.164,134.414",
                "type":"Canvas"
             }
          ]

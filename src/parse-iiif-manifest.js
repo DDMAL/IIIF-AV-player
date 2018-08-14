@@ -151,32 +151,27 @@ function parseIIIF3Manifest (manifest)
 
             for (var n = 0; n < range.items.length; n++)
             {   
-
                 if (range.items[n].id.includes('#','=',','))
                 {
+                    // get canvas id
+                    let canvasID = range.items[n].id.split('#')[0];  
+
                     // get x from #t=x,y 
                     let time = range.items[n].id.split('#')[1].split('=')[1].split(',');
+
+                    for (var p = 0; p < numCanvases; p++)
+                    {
+                        if (canvases[p].url === canvasID)
+                        {
+                            canvases[p].measureStarts.push(time[0]);
+                            canvases[p].measureEnds.push(time[1]);
+                        }
+                    }
 
                     starts.push(time[0]);
                     ends.push(time[1]);
                 }
             }
-        }
-    }
-
-    // parse additional rendering file information
-    var rendering;
-    let renderings = manifest.rendering;
-    if (renderings)
-    {
-        let numRenderings = renderings.length;
-
-        for (var r = 0; r < numRenderings; r++) 
-        {
-            rendering = renderings[r];
-
-            if (rendering.id.search(".mei") !== -1) 
-                break;
         }
     }
 
@@ -187,7 +182,6 @@ function parseIIIF3Manifest (manifest)
         structures: structures,
         timeStarts: starts,
         timeEnds: ends,
-        rendering: rendering
     };
 }
 

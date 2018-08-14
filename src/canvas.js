@@ -15,6 +15,9 @@ export class Canvas
         this.annotationItems = [];
         this.isActive = false;
         this.canvasElement;
+        this.rendering;
+        this.measureStarts = [];
+        this.measureEnds = [];
 
         if (!canvasInfo.width)
         {
@@ -32,6 +35,20 @@ export class Canvas
         else
         {
             this.height = canvasInfo.height;
+        }
+
+        let renderings = canvasInfo.rendering;
+        if (renderings)
+        {
+            let numRenderings = renderings.length;
+
+            for (var r = 0; r < numRenderings; r++) 
+            {
+                this.rendering = renderings[r];
+
+                if (this.rendering.id.search(".mei") !== -1) 
+                    break;
+            }
         }
     }
 
