@@ -91,7 +91,7 @@
                         "choiceHint":"user",
                         "items":[
                            {
-                              "id":"static/media/Chopin_Etude_Op_10_No_9_Valentina_Lisitsa.mp4",
+                              "id":"https://ddmal.github.io/IIIF-AV-player/static/media/Chopin_Etude_Op_10_No_9_Valentina_Lisitsa.mp4",
                               "type":"Video",
                               "height":360,
                               "width":480,
@@ -105,7 +105,7 @@
          ],
          "rendering":[
             {
-               "id":"static/mei/Chopin_Etude_Op_10_No_9.mei",
+               "id":"https://ddmal.github.io/IIIF-AV-player/static/mei/Chopin_Etude_Op_10_No_9.mei",
                "type":"Text",
                "label":{"en":["Score"]},
                "format":"application/xml"
@@ -143,7 +143,7 @@
                         "choiceHint":"user",
                         "items":[
                            {
-                              "id":"static/media/Chopin_Etude_Op_10_No_9_Eppur.mp4",
+                              "id":"https://ddmal.github.io/IIIF-AV-player/static/media/Chopin_Etude_Op_10_No_9_Eppur.mp4",
                               "type":"Video",
                               "height":720,
                               "width":1280,
@@ -157,7 +157,7 @@
          ],
          "rendering":[
             {
-               "id":"static/mei/Chopin_Etude_Op_10_No_9.mei",
+               "id":"https://ddmal.github.io/IIIF-AV-player/static/mei/Chopin_Etude_Op_10_No_9.mei",
                "type":"Text",
                "label":{"en":["Score"]},
                "format":"application/xml"

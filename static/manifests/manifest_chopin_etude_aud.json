@@ -91,7 +91,7 @@
                         "choiceHint":"user",
                         "items":[
                            {
-                              "id":"static/media/Chopin_Etude_Op_10_No_9.mp3",
+                              "id":"https://ddmal.github.io/IIIF-AV-player/static/media/Chopin_Etude_Op_10_No_9.mp3",
                               "type":"Audio",
                               "format":"audio/mp3",
                               "label":"mp3"
@@ -104,7 +104,7 @@
          ],
          "rendering":[
             {
-               "id":"static/mei/Chopin_Etude_Op_10_No_9.mei",
+               "id":"https://ddmal.github.io/IIIF-AV-player/static/mei/Chopin_Etude_Op_10_No_9.mei",
                "type":"Text",
                "label":{"en":["Score"]},
                "format":"application/xml"
