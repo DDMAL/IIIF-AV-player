@@ -27,6 +27,7 @@ $('#getURL').click(function ()
 
         renderVerovio();
 
+        $("#timeline_controls").show();
         $("#player_controls").show();
     });
 });
@@ -111,6 +112,7 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
         $('#media_icon').hide();
 
     renderVerovio();
+    updateTotalTime();
 }
 
 
@@ -180,6 +182,7 @@ function linkScore ()
             loopMeasureEnd = null;
 
             setMediaTime($(this).attr('timeStart'));
+            updateTimeline();
         }
     });
 }
@@ -218,6 +221,8 @@ function trackMedia ()
             $('.measure').removeAttr('fill');
     });
 
+    updateTimeline();
+
     if (isMediaPlaying())
         animationID = requestAnimationFrame(trackMedia);
 }
@@ -240,6 +245,10 @@ function getMediaTime()
 function isMediaPlaying()
 {
     return (!manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].paused);
+}
+function getCanvasDuration()
+{
+    return (manifestObject.manifest.canvases[activeCanvasIndex].duration);
 }
 
 // Measure highlighting functions
@@ -312,6 +321,8 @@ function stopButtonPress () // jshint ignore:line
     loopMeasureStart = null;
     loopMeasureEnd = null;
 
+    updateTimeline();
+
     cancelAnimationFrame(animationID);
 }
 function backButtonPress () // jshint ignore:line
@@ -337,6 +348,8 @@ function backButtonPress () // jshint ignore:line
         }
     });
 
+    updateTimeline();
+
     trackMedia();
 }
 function forwardButtonPress () // jshint ignore:line
@@ -360,7 +373,48 @@ function forwardButtonPress () // jshint ignore:line
         }
     });
 
+    updateTimeline();
+
     trackMedia();
+}
+
+// Timeline controls
+function scrubberMouseDown (e) // jshint ignore:line
+{
+    let scrubber = $('#scrubber');
+    let x = e.pageX - scrubber.offset().left;
+    let percent = x / scrubber.width();
+    let time = truncateNum(getCanvasDuration() * percent);
+
+    $('#scrubber_bar').width(percent*100 + "%");
+
+    setMediaTime(time);
+}
+function updateTimeline()
+{
+    // scrubber
+    let currentTime = getMediaTime();
+    let totalTime = getCanvasDuration();
+    let percent = currentTime / totalTime;
+    $('#scrubber_bar').width(percent*100 + "%");
+
+    // duration
+    let current_minute = parseInt(currentTime / 60) % 60,
+    current_seconds_long = currentTime % 60,
+    current_seconds = current_seconds_long.toFixed(),
+    current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
+    $('#current_time').html(current_time);
+}
+function updateTotalTime()
+{
+    let totalTime = getCanvasDuration();
+
+    let minutes = Math.floor(totalTime / 60),
+    seconds_int = totalTime - minutes * 60,
+    seconds_str = seconds_int.toString(),
+    seconds = seconds_str.substr(0, 2),
+    time = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    $('#total_time').html(time);
 }
 
 function truncateNum(num, fixed)
