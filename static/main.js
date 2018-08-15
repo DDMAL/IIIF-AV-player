@@ -28,6 +28,7 @@ $('#getURL').click(function ()
         renderVerovio();
 
         $("#timeline_controls").show();
+        $("#measure_controls").show();
         $("#player_controls").show();
     });
 });
@@ -113,6 +114,7 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
 
     renderVerovio();
     updateTotalTime();
+    updateTotalMeasure();
 }
 
 
@@ -210,15 +212,20 @@ function trackMedia ()
         clearMeasures();
     }
 
+    // Update current measure in score
+    let measureNum = 1;
     $('.measure').each(function () {
         let lower = truncateNum($(this).attr('timeStart'), 3); 
         let upper = truncateNum($(this).attr('timeStop'), 3);
         if (time >= lower && time < upper && time !== 0)
         {
             fillMeasure(this);
+            updateMeasureline(measureNum);
         }
         else if (time === 0)
             $('.measure').removeAttr('fill');
+
+        measureNum++;
     });
 
     updateTimeline();
@@ -249,6 +256,10 @@ function isMediaPlaying()
 function getCanvasDuration()
 {
     return (manifestObject.manifest.canvases[activeCanvasIndex].duration);
+}
+function getCanvasMeasureCount()
+{
+    return (manifestObject.manifest.canvases[activeCanvasIndex].measureStarts.length);
 }
 
 // Measure highlighting functions
@@ -322,6 +333,7 @@ function stopButtonPress () // jshint ignore:line
     loopMeasureEnd = null;
 
     updateTimeline();
+    updateMeasureline(0);
 
     cancelAnimationFrame(animationID);
 }
@@ -336,6 +348,7 @@ function backButtonPress () // jshint ignore:line
         measureTimeMin = $(loopMeasureStart).attr('timeStart');
 
     // iterate backwards until current measure and get next one back
+    let measureNum = getCanvasMeasureCount();
     $($('.measure').get().reverse()).each(function () {
         let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
@@ -346,9 +359,12 @@ function backButtonPress () // jshint ignore:line
         	}
         	measureFound = true;
         }
+
+        measureNum--;
     });
 
     updateTimeline();
+    updateMeasureline(measureNum);
 
     trackMedia();
 }
@@ -362,6 +378,7 @@ function forwardButtonPress () // jshint ignore:line
         measureTimeMax = $(loopMeasureEnd).attr('timeStart');
 
     // iterate forward until next measure from current
+    let measureNum = 1;
     $('.measure').each(function () 
     {
     	let measureTime = truncateNum($(this).attr('timeStart'), 3);
@@ -371,15 +388,18 @@ function forwardButtonPress () // jshint ignore:line
             setMediaTime($(this).attr('timeStart'));
             return false;
         }
+
+        measureNum++;
     });
 
     updateTimeline();
+    updateMeasureline(measureNum);
 
     trackMedia();
 }
 
 // Timeline controls
-function scrubberMouseDown (e) // jshint ignore:line
+function scrubberTimeMouseDown (e) // jshint ignore:line
 {
     let scrubber = $('#scrubber');
     let x = e.pageX - scrubber.offset().left;
@@ -415,6 +435,20 @@ function updateTotalTime()
     seconds = seconds_str.substr(0, 2),
     time = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
     $('#total_time').html(time);
+}
+function updateMeasureline(measureIndex)
+{
+    // scrubber
+    let measureCount = getCanvasMeasureCount();
+    let percent = (measureIndex) / measureCount;
+    $('#measure_bar').width(percent*100 + "%");
+
+    $('#current_measure').html(measureIndex);
+}
+function updateTotalMeasure()
+{
+    let measureCount = getCanvasMeasureCount();
+    $('#total_measure').html(measureCount);
 }
 
 function truncateNum(num, fixed)
