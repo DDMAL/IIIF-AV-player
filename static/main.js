@@ -1,3 +1,6 @@
+var refreshInterval = 50;
+var now, then, elapsed;
+
 // Manifest fetching and callback actions
 var manifestObject;
 var activeCanvasIndex;
@@ -193,42 +196,52 @@ function linkScore ()
 var animationID;
 function trackMedia ()
 {
-    let time = getMediaTime();
+    // calc elapsed time since last loop
+    now = Date.now();
+    elapsed = now - then;
 
-    // looping is enabled
-    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+    // if enough time has elapsed, draw the next frame
+    if (elapsed > refreshInterval)
     {
-        // loop back
-        if (time >= $(loopMeasureEnd).attr('timeStop'))
+        then = now - (elapsed % refreshInterval);
+
+        let time = getMediaTime();
+
+        // looping is enabled
+        if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
-            setMediaTime($(loopMeasureStart).attr('timeStart'));
-            time = $(loopMeasureStart).attr('timeStart');
+            // loop back
+            if (time >= $(loopMeasureEnd).attr('timeStop'))
+            {
+                setMediaTime($(loopMeasureStart).attr('timeStart'));
+                time = $(loopMeasureStart).attr('timeStart');
+            }
+
+            fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+        }
+        else
+        {
+            clearMeasures();
         }
 
-        fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+        // Update current measure in score
+        let measureNum = 1;
+        $('.measure').each(function () {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
+            if (time >= lower && time < upper && time !== 0)
+            {
+                fillMeasure(this);
+                updateMeasureline(measureNum);
+            }
+            else if (time === 0)
+                $('.measure').removeAttr('fill');
+
+            measureNum++;
+        });
+
+        updateTimeline();
     }
-    else
-    {
-        clearMeasures();
-    }
-
-    // Update current measure in score
-    let measureNum = 1;
-    $('.measure').each(function () {
-        let lower = truncateNum($(this).attr('timeStart'), 3); 
-        let upper = truncateNum($(this).attr('timeStop'), 3);
-        if (time >= lower && time < upper && time !== 0)
-        {
-            fillMeasure(this);
-            updateMeasureline(measureNum);
-        }
-        else if (time === 0)
-            $('.measure').removeAttr('fill');
-
-        measureNum++;
-    });
-
-    updateTimeline();
 
     if (isMediaPlaying())
         animationID = requestAnimationFrame(trackMedia);
@@ -317,6 +330,7 @@ function playButtonPress () // jshint ignore:line
         playMedia();
         $('#button_play i').attr('class', "fa fa-pause");
 
+        then = Date.now();
         trackMedia();
     }
 }
@@ -416,7 +430,7 @@ function updateTimeline()
     let currentTime = getMediaTime();
     let totalTime = getCanvasDuration();
     let percent = currentTime / totalTime;
-    $('#scrubber_bar').width(percent*100 + "%");
+    $('#scrubber_bar').css('width', percent*100+'%');
 
     // duration
     let current_minute = parseInt(currentTime / 60) % 60,
