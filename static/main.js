@@ -155,25 +155,10 @@ function linkScore ()
             {
                 clickMeasureFinal = this;
 
-                let measureInitialTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
-                let measureFinalTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
-
-                // find if second click is before or after initial click in the score 
-                if (measureInitialTime <= measureFinalTime)
-                {
-
-                    loopMeasureStart = clickMeasureInitial;
-                    loopMeasureEnd = clickMeasureFinal;
-                    setMediaTime(measureInitialTime);
-                }
-                else
-                {
-                    loopMeasureStart = clickMeasureFinal;
-                    loopMeasureEnd = clickMeasureInitial;
-                    setMediaTime(measureFinalTime);
-                }
+                setMeasureRange(clickMeasureInitial, clickMeasureFinal);
 
                 fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+                setTimelineRange($(loopMeasureStart).attr('timeStart'));
             }
         }
         else // regular left-click
@@ -187,6 +172,7 @@ function linkScore ()
             loopMeasureEnd = null;
 
             setMediaTime($(this).attr('timeStart'));
+            setTimelineRange(0);
             updateTimeline();
         }
     });
@@ -218,17 +204,13 @@ function trackMedia ()
             }
 
             fillMeasureRange(loopMeasureStart, loopMeasureEnd);
-            setTimelineRange($(loopMeasureStart).attr('timeStart'));
-
         }
         else
         {
             clearMeasures();
-            setTimelineRange(0);
         }
 
         // Update current measure in score
-        let measureNum = 1;
         $('.measure').each(function () {
             let lower = truncateNum($(this).attr('timeStart'), 3); 
             let upper = truncateNum($(this).attr('timeStop'), 3);
@@ -238,8 +220,6 @@ function trackMedia ()
             }
             else if (time === 0)
                 $('.measure').removeAttr('fill');
-
-            measureNum++;
         });
     }
 
@@ -270,10 +250,6 @@ function getCanvasDuration()
 {
     return (manifestObject.manifest.canvases[activeCanvasIndex].duration);
 }
-function getCanvasMeasureCount()
-{
-    return (manifestObject.manifest.canvases[activeCanvasIndex].measureStarts.length);
-}
 
 // Measure highlighting functions
 function fillMeasure (measure) 
@@ -300,6 +276,28 @@ function fillMeasureRange(measureStart, measureEnd)
 function clearMeasures ()
 {
     $('.measure').removeAttr('fill');
+}
+function setMeasureRange(clickMeasureInitial, clickMeasureFinal)
+{
+    let measureInitialStartTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
+    let measureFinalStartTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
+    let measureInitialEndTime = truncateNum($(clickMeasureInitial).attr('timeStop'), 3);
+    let measureFinalEndTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
+
+    // find if second click is before or after initial click in the score 
+    if (measureInitialStartTime <= measureFinalStartTime)
+    {
+
+        loopMeasureStart = clickMeasureInitial;
+        loopMeasureEnd = clickMeasureFinal;
+        setMediaTime(measureFinalEndTime);
+    }
+    else
+    {
+        loopMeasureStart = clickMeasureFinal;
+        loopMeasureEnd = clickMeasureInitial;
+        setMediaTime(measureInitialEndTime);
+    }
 }
 
 function loadCanvasList ()
@@ -346,6 +344,7 @@ function stopButtonPress () // jshint ignore:line
     loopMeasureStart = null;
     loopMeasureEnd = null;
 
+    setTimelineRange(0);
     updateTimeline();
 
     cancelAnimationFrame(animationID);
@@ -361,7 +360,6 @@ function backButtonPress () // jshint ignore:line
         measureTimeMin = $(loopMeasureStart).attr('timeStart');
 
     // iterate backwards until current measure and get next one back
-    let measureNum = getCanvasMeasureCount();
     $($('.measure').get().reverse()).each(function () {
         let measureTime = truncateNum($(this).attr('timeStart'), 3);
 
@@ -372,8 +370,6 @@ function backButtonPress () // jshint ignore:line
         	}
         	measureFound = true;
         }
-
-        measureNum--;
     });
 
     updateTimeline();
@@ -390,7 +386,6 @@ function forwardButtonPress () // jshint ignore:line
         measureTimeMax = $(loopMeasureEnd).attr('timeStart');
 
     // iterate forward until next measure from current
-    let measureNum = 1;
     $('.measure').each(function () 
     {
     	let measureTime = truncateNum($(this).attr('timeStart'), 3);
@@ -400,8 +395,6 @@ function forwardButtonPress () // jshint ignore:line
             setMediaTime($(this).attr('timeStart'));
             return false;
         }
-
-        measureNum++;
     });
 
     updateTimeline();
@@ -415,14 +408,57 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     let scrubber = $('#scrubber');
     let x = e.pageX - scrubber.offset().left;
     let percent = x / scrubber.width();
-    let time = getCanvasDuration() * percent;
+    let newTime = getCanvasDuration() * percent;
 
     $('#scrubber_bar').width(percent*100 + "%");
 
     loopMeasureStart = null;
     loopMeasureEnd = null;
 
-    setMediaTime(time);
+    setTimelineRange(0);
+    clearMeasures();
+
+    if (!isMediaPlaying())
+    {
+        // enable looping
+        if (e.shiftKey)
+        {
+            let currentTime = getMediaTime();
+            var clickMeasureInitial = null;
+            var clickMeasureFinal = null;
+
+            // find corresponding measures
+            $('.measure').each(function () {
+                let lower = truncateNum($(this).attr('timeStart'), 3); 
+                let upper = truncateNum($(this).attr('timeStop'), 3);
+                if (currentTime > lower && currentTime <= upper)
+                    clickMeasureInitial = this;
+                else if (newTime > lower && newTime <= upper)
+                {
+                    clickMeasureFinal = this;
+                }
+            });
+
+            setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+            fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+            setTimelineRange($(loopMeasureStart).attr('timeStart'));
+            newTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
+        }
+        else
+        {
+            $('.measure').each(function () {
+                let lower = truncateNum($(this).attr('timeStart'), 3); 
+                let upper = truncateNum($(this).attr('timeStop'), 3);
+                if (newTime > lower && newTime <= upper)
+                {
+                    fillMeasure(this);
+                }
+            });
+        }
+    }
+
+    setMediaTime(newTime);
+
     updateTimeline();
 }
 function updateTimeline()
