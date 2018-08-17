@@ -29,9 +29,10 @@ $('#getURL').click(function ()
         navigateToCanvas(activeCanvasIndex);
 
         renderVerovio();
+        //updateProgress();
 
         $("#timeline_controls").show();
-        $("#measure_controls").show();
+        // $("#measure_controls").show();
         $("#player_controls").show();
     });
 });
@@ -117,7 +118,6 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
 
     renderVerovio();
     updateTotalTime();
-    updateTotalMeasure();
 }
 
 
@@ -218,10 +218,13 @@ function trackMedia ()
             }
 
             fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+            setTimelineRange($(loopMeasureStart).attr('timeStart'));
+
         }
         else
         {
             clearMeasures();
+            setTimelineRange(0);
         }
 
         // Update current measure in score
@@ -232,15 +235,12 @@ function trackMedia ()
             if (time >= lower && time < upper && time !== 0)
             {
                 fillMeasure(this);
-                updateMeasureline(measureNum);
             }
             else if (time === 0)
                 $('.measure').removeAttr('fill');
 
             measureNum++;
         });
-
-        updateTimeline();
     }
 
     if (isMediaPlaying())
@@ -347,7 +347,6 @@ function stopButtonPress () // jshint ignore:line
     loopMeasureEnd = null;
 
     updateTimeline();
-    updateMeasureline(0);
 
     cancelAnimationFrame(animationID);
 }
@@ -378,7 +377,6 @@ function backButtonPress () // jshint ignore:line
     });
 
     updateTimeline();
-    updateMeasureline(measureNum);
 
     trackMedia();
 }
@@ -407,7 +405,6 @@ function forwardButtonPress () // jshint ignore:line
     });
 
     updateTimeline();
-    updateMeasureline(measureNum);
 
     trackMedia();
 }
@@ -418,21 +415,31 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     let scrubber = $('#scrubber');
     let x = e.pageX - scrubber.offset().left;
     let percent = x / scrubber.width();
-    let time = truncateNum(getCanvasDuration() * percent);
+    let time = getCanvasDuration() * percent;
 
     $('#scrubber_bar').width(percent*100 + "%");
 
+    loopMeasureStart = null;
+    loopMeasureEnd = null;
+
     setMediaTime(time);
+    updateTimeline();
 }
 function updateTimeline()
 {
-    // scrubber
+    // update scrubber
     let currentTime = getMediaTime();
     let totalTime = getCanvasDuration();
-    let percent = currentTime / totalTime;
+    let offsetTime = 0;
+
+    // looping enabled
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+        offsetTime = $(loopMeasureStart).attr('timeStart');
+
+    let percent = (currentTime - offsetTime) / totalTime;
     $('#scrubber_bar').css('width', percent*100+'%');
 
-    // duration
+    // update duration
     let current_minute = parseInt(currentTime / 60) % 60,
     current_seconds_long = currentTime % 60,
     current_seconds = current_seconds_long.toFixed(),
@@ -450,19 +457,12 @@ function updateTotalTime()
     time = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
     $('#total_time').html(time);
 }
-function updateMeasureline(measureIndex)
+function setTimelineRange(startTime)
 {
-    // scrubber
-    let measureCount = getCanvasMeasureCount();
-    let percent = (measureIndex) / measureCount;
-    $('#measure_bar').width(percent*100 + "%");
-
-    $('#current_measure').html(measureIndex);
-}
-function updateTotalMeasure()
-{
-    let measureCount = getCanvasMeasureCount();
-    $('#total_measure').html(measureCount);
+    let totalTime = getCanvasDuration();
+    let leftPercent = (startTime / totalTime) * 100;
+    $('#scrubber_bar').css('position','relative');
+    $('#scrubber_bar').css('left',leftPercent + "%");
 }
 
 function truncateNum(num, fixed)
