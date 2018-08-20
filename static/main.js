@@ -1,5 +1,5 @@
 // Variables for controlling the requestAnimationFrame frequency
-var refreshInterval = 50;
+var refreshInterval = 25;
 var now, then, elapsed;
 
 // Manifest fetching and callback actions
@@ -31,6 +31,8 @@ $('#getURL').click(function ()
 
         $("#timeline_controls").show();
         $("#player_controls").show();
+
+        then = Date.now();
     });
 });
 
@@ -99,23 +101,6 @@ function goToPage (n)
     $('.score').children().eq(page).show();
 }
 
-function navigateToCanvas(canvasIndex) // jshint ignore:line
-{
-    activeCanvasIndex = canvasIndex;
-    $('.canvasContainer .canvas').hide();
-
-    manifestObject.manifest.canvases[activeCanvasIndex].canvasElement.show();
-
-    if (manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].type === 'Audio')
-        $('#media_icon').show();
-    else
-        $('#media_icon').hide();
-
-    renderVerovio();
-    updateTotalTime();
-    stopButtonPress();
-}
-
 
 // Score and player syncing
 var loopMeasureStart = null;
@@ -135,6 +120,11 @@ function linkScore ()
         $(this).attr('timeStop', timeEnd);
         count++;
     });
+
+    // fill measure if canvas was previously in progress
+    let time = getMediaTime();
+    findMeasure(time);
+
     // fill red and goto time in media 
     var clickMeasureInitial = null;
     var clickMeasureFinal = null;
@@ -206,17 +196,7 @@ function trackMedia ()
             clearMeasures();
         }
 
-        // Update current measure in score
-        $('.measure').each(function () {
-            let lower = truncateNum($(this).attr('timeStart'), 3); 
-            let upper = truncateNum($(this).attr('timeStop'), 3);
-            if (time >= lower && time < upper && time !== 0)
-            {
-                fillMeasure(this);
-            }
-            else if (time === 0)
-                $('.measure').removeAttr('fill');
-        });
+        findMeasure(time);
     }
 
     if (isMediaPlaying())
@@ -248,6 +228,21 @@ function getCanvasDuration()
 }
 
 // Measure highlighting functions
+function findMeasure (time)
+{
+    // Update current measure in score
+    $('.measure').each(function () {
+        let lower = truncateNum($(this).attr('timeStart'), 3); 
+        let upper = truncateNum($(this).attr('timeStop'), 3);
+
+        if (time > lower && time <= upper && time !== 0)
+        {
+            fillMeasure(this);
+        }
+        else if (time === 0)
+            $('.measure').removeAttr('fill');
+    });
+}
 function fillMeasure (measure) 
 {
     $(measure).attr('fill', '#dd0000');
@@ -306,6 +301,30 @@ function loadCanvasList ()
         let text = manifestObject.manifest.canvases[i].label.en[0];
         canvases.append(new Option(text, i));
     } 
+}
+function navigateToCanvas(canvasIndex) // jshint ignore:line
+{
+    activeCanvasIndex = canvasIndex;
+    $('.canvasContainer .canvas').hide();
+
+    manifestObject.manifest.canvases[activeCanvasIndex].canvasElement.show();
+
+    if (manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].type === 'Audio')
+        $('#media_icon').show();
+    else
+        $('#media_icon').hide();
+
+    renderVerovio();
+    updateTotalTime();
+    updateTimeline();
+
+    //stopButtonPress();
+    if (isMediaPlaying())
+    {
+        pauseMedia();
+        $('#button_play i').attr('class', "fa fa-play");
+        cancelAnimationFrame(animationID);
+    }
 }
 
 // Media and score control 
