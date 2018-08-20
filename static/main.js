@@ -1,3 +1,4 @@
+// Variables for controlling the requestAnimationFrame frequency
 var refreshInterval = 50;
 var now, then, elapsed;
 
@@ -29,10 +30,8 @@ $('#getURL').click(function ()
         navigateToCanvas(activeCanvasIndex);
 
         renderVerovio();
-        //updateProgress();
 
         $("#timeline_controls").show();
-        // $("#measure_controls").show();
         $("#player_controls").show();
     });
 });
@@ -67,7 +66,7 @@ async function renderVerovio () // jshint ignore:line
             {
                 let svg = toolkit.renderToSVG(i, {});
                 $('.score').append(svg);
-                $('.score').children().last().find('.measure').attr('class', 'measure page'+i);
+                $('.score').children().last().find('.measure').attr('class', 'measure page'+ i);
                 $('.score').children().hide();
             }
             $('.score').children().first().show(); // show first page
@@ -271,7 +270,6 @@ function fillMeasureRange(measureStart, measureEnd)
             $(this).attr('fill', '#000080');
         }
     });
-
 }
 function clearMeasures ()
 {
@@ -373,7 +371,6 @@ function backButtonPress () // jshint ignore:line
     });
 
     updateTimeline();
-
     trackMedia();
 }
 function forwardButtonPress () // jshint ignore:line
@@ -398,7 +395,6 @@ function forwardButtonPress () // jshint ignore:line
     });
 
     updateTimeline();
-
     trackMedia();
 }
 
@@ -458,7 +454,6 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     }
 
     setMediaTime(newTime);
-
     updateTimeline();
 }
 function updateTimeline()
