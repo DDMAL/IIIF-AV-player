@@ -29,8 +29,6 @@ $('#getURL').click(function ()
         activeCanvasIndex = 0;
         navigateToCanvas(activeCanvasIndex);
 
-        renderVerovio();
-
         $("#timeline_controls").show();
         $("#player_controls").show();
     });
@@ -103,8 +101,6 @@ function goToPage (n)
 
 function navigateToCanvas(canvasIndex) // jshint ignore:line
 {
-    stopButtonPress();
-
     activeCanvasIndex = canvasIndex;
     $('.canvasContainer .canvas').hide();
 
@@ -117,6 +113,7 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
 
     renderVerovio();
     updateTotalTime();
+    stopButtonPress();
 }
 
 
@@ -344,6 +341,9 @@ function stopButtonPress () // jshint ignore:line
 
     setTimelineRange(0);
     updateTimeline();
+
+    if (page !== 0)
+        goToPage(0);
 
     cancelAnimationFrame(animationID);
 }
