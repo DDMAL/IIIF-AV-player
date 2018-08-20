@@ -40,7 +40,20 @@
     <div class="row justify-content-center">
       <h4 class="display-4" id="title"></h4>
     </div>
-    <div class="row" id="player_controls" style="display:none">
+    <div class="row" id="timeline_controls" style="padding-bottom:10px;display:none">
+      <div class="col-md-3 pr-0">
+        <small style="float:right;" id="current_time"></small>
+      </div>
+      <div class="col-md-6">
+        <div class="progress" id="scrubber" style="height:20px" onmousedown="scrubberTimeMouseDown(event)">
+          <div class="progress-bar w-0" id="scrubber_bar" role="progressbar" style="transition:none"></div>
+        </div>
+      </div>
+      <div class="col-md-3 pl-0">
+        <small style="float:left" id="total_time"></small>
+      </div>
+    </div>
+    <div class="row" id="player_controls" style="padding-bottom:20px;display:none">
       <div class="col-md-3">
         <div class="input-group">
           <div class="input-group-prepend">
@@ -50,7 +63,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-4 offset-md-1 text-center" style="padding-bottom: 10px">
+      <div class="col-md-4 offset-md-1 text-center">
         <button type="button" id="button_bw" class="btn" onclick='backButtonPress()'>
           <i class="fa fa-step-backward"></i>
         </button>
@@ -75,7 +88,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 border-right text-center canvasContainer">
-            <i class="fas fa-file-audio fa-9x" id="media_icon" style="display:none"></i>
+            <i class="fas fa-file-audio fa-9x" id="media_icon" style="display: none"></i>
         </div>
         <div class="col-md-6 border-left text-center score">
         </div>

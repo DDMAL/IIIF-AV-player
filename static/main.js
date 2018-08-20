@@ -1,3 +1,7 @@
+// Variables for controlling the requestAnimationFrame frequency
+var refreshInterval = 50;
+var now, then, elapsed;
+
 // Manifest fetching and callback actions
 var manifestObject;
 var activeCanvasIndex;
@@ -27,6 +31,7 @@ $('#getURL').click(function ()
 
         renderVerovio();
 
+        $("#timeline_controls").show();
         $("#player_controls").show();
     });
 });
@@ -61,7 +66,7 @@ async function renderVerovio () // jshint ignore:line
             {
                 let svg = toolkit.renderToSVG(i, {});
                 $('.score').append(svg);
-                $('.score').children().last().find('.measure').attr('class', 'measure page'+i);
+                $('.score').children().last().find('.measure').attr('class', 'measure page'+ i);
                 $('.score').children().hide();
             }
             $('.score').children().first().show(); // show first page
@@ -111,6 +116,7 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
         $('#media_icon').hide();
 
     renderVerovio();
+    updateTotalTime();
 }
 
 
@@ -148,25 +154,10 @@ function linkScore ()
             {
                 clickMeasureFinal = this;
 
-                let measureInitialTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
-                let measureFinalTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
-
-                // find if second click is before or after initial click in the score 
-                if (measureInitialTime <= measureFinalTime)
-                {
-
-                    loopMeasureStart = clickMeasureInitial;
-                    loopMeasureEnd = clickMeasureFinal;
-                    setMediaTime(measureInitialTime);
-                }
-                else
-                {
-                    loopMeasureStart = clickMeasureFinal;
-                    loopMeasureEnd = clickMeasureInitial;
-                    setMediaTime(measureFinalTime);
-                }
+                setMeasureRange(clickMeasureInitial, clickMeasureFinal);
 
                 fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+                setTimelineRange($(loopMeasureStart).attr('timeStart'));
             }
         }
         else // regular left-click
@@ -180,6 +171,8 @@ function linkScore ()
             loopMeasureEnd = null;
 
             setMediaTime($(this).attr('timeStart'));
+            setTimelineRange(0);
+            updateTimeline();
         }
     });
 }
@@ -188,35 +181,46 @@ function linkScore ()
 var animationID;
 function trackMedia ()
 {
-    let time = getMediaTime();
+    // calc elapsed time since last loop
+    now = Date.now();
+    elapsed = now - then;
 
-    // looping is enabled
-    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+    // if enough time has elapsed, draw the next frame
+    if (elapsed > refreshInterval)
     {
-        // loop back
-        if (time >= $(loopMeasureEnd).attr('timeStop'))
+        then = now - (elapsed % refreshInterval);
+
+        let time = getMediaTime();
+
+        // looping is enabled
+        if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
-            setMediaTime($(loopMeasureStart).attr('timeStart'));
-            time = $(loopMeasureStart).attr('timeStart');
+            // loop back
+            if (time >= $(loopMeasureEnd).attr('timeStop'))
+            {
+                setMediaTime($(loopMeasureStart).attr('timeStart'));
+                time = $(loopMeasureStart).attr('timeStart');
+            }
+
+            fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+        }
+        else
+        {
+            clearMeasures();
         }
 
-        fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+        // Update current measure in score
+        $('.measure').each(function () {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
+            if (time >= lower && time < upper && time !== 0)
+            {
+                fillMeasure(this);
+            }
+            else if (time === 0)
+                $('.measure').removeAttr('fill');
+        });
     }
-    else
-    {
-        clearMeasures();
-    }
-
-    $('.measure').each(function () {
-        let lower = truncateNum($(this).attr('timeStart'), 3); 
-        let upper = truncateNum($(this).attr('timeStop'), 3);
-        if (time >= lower && time < upper && time !== 0)
-        {
-            fillMeasure(this);
-        }
-        else if (time === 0)
-            $('.measure').removeAttr('fill');
-    });
 
     if (isMediaPlaying())
         animationID = requestAnimationFrame(trackMedia);
@@ -241,6 +245,10 @@ function isMediaPlaying()
 {
     return (!manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].paused);
 }
+function getCanvasDuration()
+{
+    return (manifestObject.manifest.canvases[activeCanvasIndex].duration);
+}
 
 // Measure highlighting functions
 function fillMeasure (measure) 
@@ -262,11 +270,32 @@ function fillMeasureRange(measureStart, measureEnd)
             $(this).attr('fill', '#000080');
         }
     });
-
 }
 function clearMeasures ()
 {
     $('.measure').removeAttr('fill');
+}
+function setMeasureRange(clickMeasureInitial, clickMeasureFinal)
+{
+    let measureInitialStartTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
+    let measureFinalStartTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
+    let measureInitialEndTime = truncateNum($(clickMeasureInitial).attr('timeStop'), 3);
+    let measureFinalEndTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
+
+    // find if second click is before or after initial click in the score 
+    if (measureInitialStartTime <= measureFinalStartTime)
+    {
+
+        loopMeasureStart = clickMeasureInitial;
+        loopMeasureEnd = clickMeasureFinal;
+        setMediaTime(measureFinalEndTime);
+    }
+    else
+    {
+        loopMeasureStart = clickMeasureFinal;
+        loopMeasureEnd = clickMeasureInitial;
+        setMediaTime(measureInitialEndTime);
+    }
 }
 
 function loadCanvasList ()
@@ -297,6 +326,7 @@ function playButtonPress () // jshint ignore:line
         playMedia();
         $('#button_play i').attr('class', "fa fa-pause");
 
+        then = Date.now();
         trackMedia();
     }
 }
@@ -311,6 +341,9 @@ function stopButtonPress () // jshint ignore:line
 
     loopMeasureStart = null;
     loopMeasureEnd = null;
+
+    setTimelineRange(0);
+    updateTimeline();
 
     cancelAnimationFrame(animationID);
 }
@@ -337,6 +370,7 @@ function backButtonPress () // jshint ignore:line
         }
     });
 
+    updateTimeline();
     trackMedia();
 }
 function forwardButtonPress () // jshint ignore:line
@@ -360,7 +394,106 @@ function forwardButtonPress () // jshint ignore:line
         }
     });
 
+    updateTimeline();
     trackMedia();
+}
+
+// Timeline controls
+function scrubberTimeMouseDown (e) // jshint ignore:line
+{
+    let scrubber = $('#scrubber');
+    let x = e.pageX - scrubber.offset().left;
+    let percent = x / scrubber.width();
+    let newTime = getCanvasDuration() * percent;
+
+    $('#scrubber_bar').width(percent*100 + "%");
+
+    loopMeasureStart = null;
+    loopMeasureEnd = null;
+
+    setTimelineRange(0);
+    clearMeasures();
+
+    if (!isMediaPlaying())
+    {
+        // enable looping
+        if (e.shiftKey)
+        {
+            let currentTime = getMediaTime();
+            var clickMeasureInitial = null;
+            var clickMeasureFinal = null;
+
+            // find corresponding measures
+            $('.measure').each(function () {
+                let lower = truncateNum($(this).attr('timeStart'), 3); 
+                let upper = truncateNum($(this).attr('timeStop'), 3);
+                if (currentTime > lower && currentTime <= upper)
+                    clickMeasureInitial = this;
+                else if (newTime > lower && newTime <= upper)
+                {
+                    clickMeasureFinal = this;
+                }
+            });
+
+            setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+            fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+            setTimelineRange($(loopMeasureStart).attr('timeStart'));
+            newTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
+        }
+        else
+        {
+            $('.measure').each(function () {
+                let lower = truncateNum($(this).attr('timeStart'), 3); 
+                let upper = truncateNum($(this).attr('timeStop'), 3);
+                if (newTime > lower && newTime <= upper)
+                {
+                    fillMeasure(this);
+                }
+            });
+        }
+    }
+
+    setMediaTime(newTime);
+    updateTimeline();
+}
+function updateTimeline()
+{
+    // update scrubber
+    let currentTime = getMediaTime();
+    let totalTime = getCanvasDuration();
+    let offsetTime = 0;
+
+    // looping enabled
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+        offsetTime = $(loopMeasureStart).attr('timeStart');
+
+    let percent = (currentTime - offsetTime) / totalTime;
+    $('#scrubber_bar').css('width', percent*100+'%');
+
+    // update duration
+    let current_minute = parseInt(currentTime / 60) % 60,
+    current_seconds_long = currentTime % 60,
+    current_seconds = current_seconds_long.toFixed(),
+    current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
+    $('#current_time').html(current_time);
+}
+function updateTotalTime()
+{
+    let totalTime = getCanvasDuration();
+
+    let minutes = Math.floor(totalTime / 60),
+    seconds_int = totalTime - minutes * 60,
+    seconds_str = seconds_int.toString(),
+    seconds = seconds_str.substr(0, 2),
+    time = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    $('#total_time').html(time);
+}
+function setTimelineRange(startTime)
+{
+    let totalTime = getCanvasDuration();
+    let leftPercent = (startTime / totalTime) * 100;
+    $('#scrubber_bar').css('position','relative');
+    $('#scrubber_bar').css('left',leftPercent + "%");
 }
 
 function truncateNum(num, fixed)

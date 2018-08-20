@@ -19,10 +19,10 @@ export class Annotation
                 this.mediaElement = $('<img src="' + this.source + '" />');
                 break;
             case 'Video':
-                this.mediaElement = $('<video src="' + this.source + '" />');
+                this.mediaElement = $('<video src="' + this.source + '"ontimeupdate=\"updateTimeline()\" />');
                 break;
             case 'Audio':
-                this.mediaElement = $('<audio src="' + this.source + '" />');
+                this.mediaElement = $('<audio src="' + this.source + '"ontimeupdate=\"updateTimeline()\" />');
                 break;
             default:
                 return null;
