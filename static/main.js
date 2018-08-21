@@ -2,6 +2,10 @@
 var refreshInterval = 25;
 var now, then, elapsed;
 
+// Score and player syncing
+var loopMeasureStart = null;
+var loopMeasureEnd = null;
+
 // Manifest fetching and callback actions
 var manifestObject;
 var activeCanvasIndex;
@@ -28,6 +32,13 @@ $('#getURL').click(function ()
         // display canvas 0 on load
         activeCanvasIndex = 0;
         navigateToCanvas(activeCanvasIndex);
+
+        setTimelineRange(0);
+        updateTimeline();
+
+        loopMeasureStart = null;
+        loopMeasureEnd = null;
+        clearLoopbar();
 
         $("#timeline_controls").show();
         $("#player_controls").show();
@@ -101,10 +112,6 @@ function goToPage (n)
     $('.score').children().eq(page).show();
 }
 
-
-// Score and player syncing
-var loopMeasureStart = null;
-var loopMeasureEnd = null;
 function linkScore ()
 {
     let count = 0;
@@ -325,7 +332,6 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
     updateTotalTime();
     updateTimeline();
 
-    //stopButtonPress();
     if (isMediaPlaying())
     {
         pauseMedia();
