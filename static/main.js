@@ -185,8 +185,8 @@ function trackMedia ()
             // loop back
             if (time >= $(loopMeasureEnd).attr('timeStop'))
             {
-                setMediaTime($(loopMeasureStart).attr('timeStart'));
                 time = $(loopMeasureStart).attr('timeStart');
+                setMediaTime(time);
             }
 
             fillMeasureRange(loopMeasureStart, loopMeasureEnd);
@@ -235,7 +235,7 @@ function findMeasure (time)
         let lower = truncateNum($(this).attr('timeStart'), 3); 
         let upper = truncateNum($(this).attr('timeStop'), 3);
 
-        if (time > lower && time <= upper && time !== 0)
+        if (time >= lower && time < upper && time !== 0)
         {
             fillMeasure(this);
         }
@@ -446,9 +446,9 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
             $('.measure').each(function () {
                 let lower = truncateNum($(this).attr('timeStart'), 3); 
                 let upper = truncateNum($(this).attr('timeStop'), 3);
-                if (currentTime > lower && currentTime <= upper)
+                if (currentTime >= lower && currentTime < upper)
                     clickMeasureInitial = this;
-                else if (newTime > lower && newTime <= upper)
+                else if (newTime >= lower && newTime < upper)
                 {
                     clickMeasureFinal = this;
                 }
@@ -461,14 +461,7 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
         }
         else
         {
-            $('.measure').each(function () {
-                let lower = truncateNum($(this).attr('timeStart'), 3); 
-                let upper = truncateNum($(this).attr('timeStop'), 3);
-                if (newTime > lower && newTime <= upper)
-                {
-                    fillMeasure(this);
-                }
-            });
+            findMeasure(newTime);
         }
     }
 
