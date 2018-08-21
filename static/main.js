@@ -144,7 +144,12 @@ function linkScore ()
                 setMeasureRange(clickMeasureInitial, clickMeasureFinal);
 
                 fillMeasureRange(loopMeasureStart, loopMeasureEnd);
-                setTimelineRange($(loopMeasureStart).attr('timeStart'));
+
+                let timeStart = $(loopMeasureStart).attr('timeStart');
+                let timeEnd = $(loopMeasureEnd).attr('timeStop');
+                setTimelineRange(timeStart);
+                setLoopbarRange(timeStart, timeEnd);
+                setMediaTime(timeStart);
             }
         }
         else // regular left-click
@@ -156,11 +161,13 @@ function linkScore ()
 
             loopMeasureStart = null;
             loopMeasureEnd = null;
+            clearLoopbar();
 
             setMediaTime($(this).attr('timeStart'));
             setTimelineRange(0);
-            updateTimeline();
         }
+
+        updateTimeline();
     });
 }
 
@@ -355,11 +362,12 @@ function stopButtonPress () // jshint ignore:line
 
     $('.measure').removeAttr('fill');
 
-    loopMeasureStart = null;
-    loopMeasureEnd = null;
-
     setTimelineRange(0);
     updateTimeline();
+
+    loopMeasureStart = null;
+    loopMeasureEnd = null;
+    clearLoopbar();
 
     if (page !== 0)
         goToPage(0);
@@ -425,47 +433,52 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     let percent = x / scrubber.width();
     let newTime = getCanvasDuration() * percent;
 
-    $('#scrubber_bar').width(percent*100 + "%");
-
-    loopMeasureStart = null;
-    loopMeasureEnd = null;
-
-    setTimelineRange(0);
     clearMeasures();
 
-    if (!isMediaPlaying())
+    if (!isMediaPlaying() && e.shiftKey)
     {
-        // enable looping
-        if (e.shiftKey)
-        {
-            let currentTime = getMediaTime();
-            var clickMeasureInitial = null;
-            var clickMeasureFinal = null;
+        let currentTime = getMediaTime();
+        var clickMeasureInitial = null;
+        var clickMeasureFinal = null;
 
-            // find corresponding measures
-            $('.measure').each(function () {
-                let lower = truncateNum($(this).attr('timeStart'), 3); 
-                let upper = truncateNum($(this).attr('timeStop'), 3);
-                if (currentTime >= lower && currentTime < upper)
-                    clickMeasureInitial = this;
-                else if (newTime >= lower && newTime < upper)
-                {
-                    clickMeasureFinal = this;
-                }
-            });
+        // find corresponding measures
+        $('.measure').each(function () {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
+            if (currentTime >= lower && currentTime < upper)
+                clickMeasureInitial = this;
+            else if (newTime >= lower && newTime < upper)
+            {
+                clickMeasureFinal = this;
+            }
+        });
 
-            setMeasureRange(clickMeasureInitial, clickMeasureFinal);
-            fillMeasureRange(loopMeasureStart, loopMeasureEnd);
-            setTimelineRange($(loopMeasureStart).attr('timeStart'));
-            newTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
-        }
-        else
+        setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+        fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+
+        let timeStart = $(loopMeasureStart).attr('timeStart');
+        let timeEnd = $(loopMeasureEnd).attr('timeStop');
+        setTimelineRange(timeStart);
+        setLoopbarRange(timeStart, timeEnd);
+        setMediaTime(timeStart);
+    }
+    else
+    {
+        setTimelineRange(0);
+        $('#scrubber_bar').width(percent*100 + "%");
+
+        // looping enabled
+        if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
-            findMeasure(newTime);
+            loopMeasureStart = null;
+            loopMeasureEnd = null;
+            clearLoopbar();
         }
+
+        findMeasure(newTime);
+        setMediaTime(newTime);
     }
 
-    setMediaTime(newTime);
     updateTimeline();
 }
 function updateTimeline()
@@ -473,14 +486,23 @@ function updateTimeline()
     // update scrubber
     let currentTime = getMediaTime();
     let totalTime = getCanvasDuration();
-    let offsetTime = 0;
+    let percent = 0;
 
     // looping enabled
     if (loopMeasureStart !== null && loopMeasureEnd !== null)
-        offsetTime = $(loopMeasureStart).attr('timeStart');
+    {
+        let offsetTime = $(loopMeasureStart).attr('timeStart');
+        percent = (currentTime - offsetTime) / totalTime;
+        $('#scrubber_bar').css('width', percent*100+'%');
 
-    let percent = (currentTime - offsetTime) / totalTime;
-    $('#scrubber_bar').css('width', percent*100+'%');
+        let timeEnd = $(loopMeasureEnd).attr('timeStop');
+        updateLoopbar(currentTime, timeEnd);
+    }
+    else
+    {
+        let percent = (currentTime) / totalTime;
+        $('#scrubber_bar').css('width', percent*100+'%');
+    }
 
     // update duration
     let current_minute = parseInt(currentTime / 60) % 60,
@@ -506,6 +528,28 @@ function setTimelineRange(startTime)
     let leftPercent = (startTime / totalTime) * 100;
     $('#scrubber_bar').css('position','relative');
     $('#scrubber_bar').css('left',leftPercent + "%");
+}
+function setLoopbarRange(startTime, endTime)
+{
+    let totalTime = getCanvasDuration();
+    let leftPercent = (startTime / totalTime) * 100;    
+    let percent = (endTime - startTime) / totalTime;
+
+    $('#loop_bar').css('position','relative');
+    $('#loop_bar').css('left',leftPercent + "%");
+    $('#loop_bar').css('width', percent*100+'%');
+}
+function updateLoopbar(startTime, endTime)
+{
+    let totalTime = getCanvasDuration();
+    let percent = (endTime - startTime) / totalTime;
+
+    $('#loop_bar').css('width', percent*100+'%');
+}
+function clearLoopbar()
+{
+    $('#loop_bar').css('width', 0+'%');
+    $('#loop_bar').css('left', 0+"%");
 }
 
 function truncateNum(num, fixed)
