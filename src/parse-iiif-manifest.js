@@ -1,5 +1,6 @@
 import {Annotation} from './annotation';
 import {Canvas} from './canvas';
+import {Range} from './range';
 
 const getMaxZoomLevel = (width, height) =>
 {
@@ -140,48 +141,67 @@ function parseIIIF3Manifest (manifest)
 
     // parse structures into different timestamps
     // assumes depth-2 structure (range then items)
-    let starts = [];
-    let ends = [];
     let structures = manifest.structures;
     if (structures)
     {
         for (var m = 0; m < structures.length; m++) 
         {
             let range = structures[m];
+            let rangeInstance = new Range(range.label.en[0]);
 
             for (var n = 0; n < range.items.length; n++)
-            {   
-                if (range.items[n].id.includes('#','=',','))
+            {
+  
+                if (range.items[n].type === "Canvas" && range.items[n].id.includes('#','=',','))
                 {
                     // get canvas id
-                    let canvasID = range.items[n].id.split('#')[0];  
+                    let canvasID = range.items[n].id.split('#')[0];
 
                     // get x from #t=x,y 
                     let time = range.items[n].id.split('#')[1].split('=')[1].split(',');
 
                     for (var p = 0; p < numCanvases; p++)
                     {
+                        console.log(canvasID);
                         if (canvases[p].url === canvasID)
                         {
-                            canvases[p].measureStarts.push(time[0]);
-                            canvases[p].measureEnds.push(time[1]);
+                            rangeInstance.startTimes.push(time[0]);
+                            rangeInstance.endTimes.push(time[1]);
                         }
                     }
+                }
+                else if (range.items[n].type === "Range" && range.items[n].label.en[0].includes('measure'))
+                {
+                    for (var q = 0; q < range.items[n].items.length; q++)
+                    {
+                        if (range.items[n].items[q].id.includes('#','=',','))
+                        {
+                            // get canvas id
+                            let canvasID = range.items[n].items[q].id.split('#')[0];
 
-                    starts.push(time[0]);
-                    ends.push(time[1]);
+                            // get x from #t=x,y 
+                            let time = range.items[n].items[q].id.split('#')[1].split('=')[1].split(',');
+
+                            for (var r = 0; r < numCanvases; r++)
+                            {
+                                if (canvases[r].url === canvasID)
+                                {
+                                    canvases[r].measureStarts.push(time[0]);
+                                    canvases[r].measureEnds.push(time[1]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+            rangeInstance.render();
         }
     }
 
     return {
         item_title: manifest.label,
         url: manifest.id,
-        canvases: canvases,
-        structures: structures,
-        timeStarts: starts,
-        timeEnds: ends,
+        canvases: canvases
     };
 }
 

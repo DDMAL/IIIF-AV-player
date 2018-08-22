@@ -50,10 +50,8 @@ async function renderVerovio () // jshint ignore:line
 {
     let scoreFile = "static/mei/demo.mei";
 
-    if (manifestObject.manifest.canvases[activeCanvasIndex].rendering)
-    {
+    if (manifestObject.manifest.canvases[activeCanvasIndex].rendering && manifestObject.manifest.canvases[activeCanvasIndex].rendering.label.en[0] === "score")
         scoreFile = manifestObject.manifest.canvases[activeCanvasIndex].rendering.id;
-    }
 
     await $.ajax({ // jshint ignore:line
         url: scoreFile,
