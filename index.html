@@ -31,7 +31,7 @@
         <h5 class="display-5">Audio</h5>
         <p><button class="btn btn-secondary" onclick='loadPreset("https://ddmal.github.io/IIIF-AV-player/static/manifests/manifest_chopin_etude_aud.json")' type="button">Etude in F Minor</button></p>
         <h5 class="display-5">Video</h5>
-        <p><button class="btn btn-secondary" onclick='loadPreset("https://ddmal.github.io/IIIF-AV-player/static/manifests/manifest_chopin_etude_vid_multicanvas.json")' type="button">Etude in F Minor</button><p>
+        <p><button class="btn btn-secondary" onclick='loadPreset("static/manifests/manifest_chopin_etude_vid_multicanvas.json")' type="button">Etude in F Minor</button><p>
     </div>
     </div>
 </div>
@@ -40,7 +40,7 @@
     <div class="row justify-content-center">
       <h4 class="display-4" id="title"></h4>
     </div>
-    <div class="row" id="timeline_controls" style="padding-bottom:10px;display:none">
+    <div class="row" id="timeline_controls" style="padding-bottom:5px;display:none">
       <div class="col-md-3 pr-0">
         <small style="float:right;" id="current_time"></small>
       </div>
@@ -53,6 +53,8 @@
       <div class="col-md-3 pl-0">
         <small style="float:left" id="total_time"></small>
       </div>
+    </div>
+    <div class="rangeContainer" style="padding-bottom:10px">
     </div>
     <div class="row" id="player_controls" style="padding-bottom:20px;display:none">
       <div class="col-md-3">
