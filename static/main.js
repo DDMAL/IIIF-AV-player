@@ -15,6 +15,8 @@ $('#getURL').click(function ()
 
     // clear all previous canvases
     $('.canvas').remove();
+    // clear all previous ranges
+    $('.rangeContainer').empty();
 
     manifestObject = new ManifestObject(url); // jshint ignore:line
     manifestObject.fetchManifest(function ()
@@ -42,6 +44,7 @@ $('#getURL').click(function ()
 
         $("#timeline_controls").show();
         $("#player_controls").show();
+        $("#range_controls").show();
 
         then = Date.now();
     });
@@ -338,6 +341,31 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
         cancelAnimationFrame(animationID);
     }
 }
+function navigateToRange(rangeID) // jshint ignore:line
+{
+    let rangeCount = manifestObject.manifest.canvases[activeCanvasIndex].ranges.length;
+
+    for (let i = 0; i < rangeCount; i++)
+    {
+        if (manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].id === rangeID)
+        {
+            let newTime = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].startTimes[activeCanvasIndex];
+
+            if (loopMeasureStart !== null && loopMeasureEnd !== null)
+            {
+                setTimelineRange(0);
+                loopMeasureStart = null;
+                loopMeasureEnd = null;
+                clearLoopbar();
+            }
+
+            clearMeasures();
+            findMeasure(newTime);
+            setMediaTime(newTime);
+            break;
+        }
+    }
+}
 
 // Media and score control 
 function playButtonPress () // jshint ignore:line
@@ -368,8 +396,6 @@ function stopButtonPress () // jshint ignore:line
     $('.measure').removeAttr('fill');
 
     setTimelineRange(0);
-    updateTimeline();
-
     loopMeasureStart = null;
     loopMeasureEnd = null;
     clearLoopbar();
@@ -402,7 +428,6 @@ function backButtonPress () // jshint ignore:line
         }
     });
 
-    updateTimeline();
     trackMedia();
 }
 function forwardButtonPress () // jshint ignore:line
@@ -426,7 +451,6 @@ function forwardButtonPress () // jshint ignore:line
         }
     });
 
-    updateTimeline();
     trackMedia();
 }
 
@@ -469,12 +493,12 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     }
     else
     {
-        setTimelineRange(0);
-        $('#scrubber_bar').width(percent*100 + "%");
-
         // looping enabled
         if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
+            setTimelineRange(0);
+            //$('#scrubber_bar').width(percent*100 + "%");
+
             loopMeasureStart = null;
             loopMeasureEnd = null;
             clearLoopbar();
@@ -566,11 +590,11 @@ function updateRangebar()
     for (let i=0; i < rangeCount; i++)
     {
         let range = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i];
-        let rangeStartTime = range.startTimes[0];
-        let rangeEndTime = range.endTimes[0];
+        let rangeStartTime = range.startTimes[activeCanvasIndex];
+        let rangeEndTime = range.endTimes[activeCanvasIndex];
         let rangePercent = (rangeEndTime - rangeStartTime) / totalTime;
 
-        let hue = color_step * (i + 1) - color_step;
+        let hue = color_step * i;
         let color = generate_color(hue);
         $('#' + range.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
         $('#' + range.id).css('width', rangePercent*100+'%');
@@ -614,7 +638,7 @@ function generate_color (hue)
 
     hue += golden_ratio;
     hue %= 1;
-    let color = hsv_to_rgb(hue, 0.5, 0.95);
+    let color = hsv_to_rgb(hue, 0.5, 0.75);
 
     return (color);
 }

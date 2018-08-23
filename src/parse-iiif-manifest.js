@@ -150,8 +150,7 @@ function parseIIIF3Manifest (manifest)
             let rangeInstance = new Range(range.label.en[0]);
 
             for (var n = 0; n < range.items.length; n++)
-            {
-  
+            {  
                 if (range.items[n].type === "Canvas" && range.items[n].id.includes('#','=',','))
                 {
                     // get canvas id
@@ -164,8 +163,8 @@ function parseIIIF3Manifest (manifest)
                     {
                         if (canvases[p].url === canvasID)
                         {
-                            rangeInstance.startTimes.push(time[0]);
-                            rangeInstance.endTimes.push(time[1]);
+                            rangeInstance.startTimes[p] = time[0];
+                            rangeInstance.endTimes[p] = time[1];
                             canvases[p].ranges.push(rangeInstance);
                         }
                     }
