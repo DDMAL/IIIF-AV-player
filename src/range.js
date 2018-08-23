@@ -5,6 +5,7 @@ export class Range
     constructor (label)
     {
         this.label = label;
+        this.id = label.replace(/ /g,"_");
         this.startTimes = [];
         this.endTimes = [];
     }
@@ -12,17 +13,8 @@ export class Range
     render () 
     {   
         let rangeContainer = $('.rangeContainer');
-
-        let row = $('<div class="row" style="padding-bottom:5px"></div>');
-        let column = $('<div class="col-md-6 offset-md-3"></div>');
-        let progress = $('<div class="progress" style="height:8px"></div>');
-        let progressBar = $('<div class="progress-bar bg-info w-0" id="' + this.label + '" role="progressbar" style="transition:none"></div>');
-
-        progress.append(progressBar);
-        column.append(progress);
-        row.append(column);
-
-        rangeContainer.append(row);
+        let progressBar = $('<div class="progress-bar w-0" id="' + this.id + '" role="progressbar" style="transition:none"></div>');
+        rangeContainer.append(progressBar);
 
         return;
     }

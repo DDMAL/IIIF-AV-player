@@ -329,6 +329,7 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
     renderVerovio();
     updateTotalTime();
     updateTimeline();
+    updateRangebar();
 
     if (isMediaPlaying())
     {
@@ -556,8 +557,74 @@ function clearLoopbar()
     $('#loop_bar').css('left', 0+"%");
 }
 
-function truncateNum(num, fixed)
+function updateRangebar()
+{
+    let totalTime = getCanvasDuration();
+    let rangeCount = manifestObject.manifest.canvases[activeCanvasIndex].ranges.length;
+
+    let color_step = 1.0 / rangeCount;
+    for (let i=0; i < rangeCount; i++)
+    {
+        let range = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i];
+        let rangeStartTime = range.startTimes[0];
+        let rangeEndTime = range.endTimes[0];
+        let rangePercent = (rangeEndTime - rangeStartTime) / totalTime;
+
+        let hue = color_step * (i + 1) - color_step;
+        let color = generate_color(hue);
+        $('#' + range.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
+        $('#' + range.id).css('width', rangePercent*100+'%');
+    }
+}
+
+function truncateNum (num, fixed)
 {
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return Number(num.toString().match(re)[0]);
+}
+// convert hue, saturation, value to RGB
+function hsv_to_rgb (h, s, v)
+{
+    let h_i = parseInt(h * 6);
+    let f = h * 6 - h_i;
+    let p = v * (1 - s);
+    let q = v * (1 - f * s);
+    let t = v * (1 - (1 - f) * s);
+
+    let r, g, b;
+    if (h_i === 0)
+        r = v, g = t, b = p;
+    if (h_i === 1)
+        r = q, g = v, b = p;
+    if (h_i === 2)
+        r = p, g = v, b = t;
+    if (h_i === 3)
+        r = p, g = q, b = v;
+    if (h_i === 4)
+        r = t, g = p, b = v;
+    if (h_i === 5)
+        r = v, g = p, b = q;
+
+    return([parseInt(r * 256), parseInt(g * 256), parseInt(b * 256)]);
+}
+// generate color
+function generate_color (hue)
+{
+    let golden_ratio = 0.618033988749895;
+
+    hue += golden_ratio;
+    hue %= 1;
+    let color = hsv_to_rgb(hue, 0.5, 0.95);
+
+    return (color);
+}
+// convert RGB component to hex
+function componentToHex (c)
+{
+    var hex = c.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+}
+function rgbToHex(r, g, b)
+{
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }

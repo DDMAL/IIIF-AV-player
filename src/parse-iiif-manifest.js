@@ -162,11 +162,11 @@ function parseIIIF3Manifest (manifest)
 
                     for (var p = 0; p < numCanvases; p++)
                     {
-                        console.log(canvasID);
                         if (canvases[p].url === canvasID)
                         {
                             rangeInstance.startTimes.push(time[0]);
                             rangeInstance.endTimes.push(time[1]);
+                            canvases[p].ranges.push(rangeInstance);
                         }
                     }
                 }
