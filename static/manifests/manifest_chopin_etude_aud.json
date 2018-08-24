@@ -119,12 +119,12 @@
          "type":"Range",
          "label":{
             "en":[
-               "Movement I"
+               "Page 1"
             ]
          },
          "items":[
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿0.000,43.325",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿0.000,36.154",
                "type":"Canvas"
             },
             {
@@ -132,7 +132,7 @@
                "type":"Range",
                "label":{
                   "en":[
-                     "measure-1_24"
+                     "measure-1_20"
                   ]
                },
                "items":[
@@ -235,7 +235,33 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=34.280,36.154",
                      "type":"Canvas",
                      "label":{"en":["measure-20"]}
-                  },
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",
+         "type":"Range",
+         "label":{
+            "en":[
+               "Page 2"
+            ]
+         },
+         "items":[
+            {
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿36.154,75.022",
+               "type":"Canvas"
+            },
+            {
+               "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/4",
+               "type":"Range",
+               "label":{
+                  "en":[
+                     "measure-21_40"
+                  ]
+               },
+               "items":[
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=36.154,38.841",
                      "type":"Canvas",
@@ -255,33 +281,7 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=41.957,43.325",
                      "type":"Canvas",
                      "label":{"en":["measure-24"]}
-                  }
-               ]
-            }
-         ]
-      },
-      {
-         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",
-         "type":"Range",
-         "label":{
-            "en":[
-               "Movement II"
-            ]
-         },
-         "items":[
-            {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿43.325,85.586",
-               "type":"Canvas"
-            },
-            {
-               "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/4",
-               "type":"Range",
-               "label":{
-                  "en":[
-                     "measure-25_47"
-                  ]
-               },
-               "items":[
+                  },
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=43.325,45.012",
                      "type":"Canvas",
@@ -361,7 +361,33 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=73.171,75.022",
                      "type":"Canvas",
                      "label":{"en":["measure-40"]}
-                  },
+                  }      
+               ]
+            }
+         ]
+      },
+      {
+         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/5",
+         "type":"Range",
+         "label":{
+            "en":[
+               "Page 3"
+            ]
+         },
+         "items":[
+            {
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿75.022,111.510",
+               "type":"Canvas"
+            },
+            {
+               "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/6",
+               "type":"Range",
+               "label":{
+                  "en":[
+                     "measure-41_60"
+                  ]
+               },
+               "items":[
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=75.022,76.809",
                      "type":"Canvas",
@@ -396,33 +422,7 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=84.329,85.586",
                      "type":"Canvas",
                      "label":{"en":["measure-47"]}
-                  }       
-               ]
-            }
-         ]
-      },
-      {
-         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/5",
-         "type":"Range",
-         "label":{
-            "en":[
-               "Movement III"
-            ]
-         },
-         "items":[
-            {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿85.586,134.414",
-               "type":"Canvas"
-            },
-            {
-               "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/6",
-               "type":"Range",
-               "label":{
-                  "en":[
-                     "measure-48_67"
-                  ]
-               },
-               "items":[
+                  },
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=85.586,87.369",
                      "type":"Canvas",
@@ -487,7 +487,33 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=109.277,111.510",
                      "type":"Canvas",
                      "label":{"en":["measure-60"]}
-                  },
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/7",
+         "type":"Range",
+         "label":{
+            "en":[
+               "Page 4"
+            ]
+         },
+         "items":[
+            {
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿111.510,134.414",
+               "type":"Canvas"
+            },
+            {
+               "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/8",
+               "type":"Range",
+               "label":{
+                  "en":[
+                     "measure-61_67"
+                  ]
+               },
+               "items":[
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=111.510,114.020",
                      "type":"Canvas",

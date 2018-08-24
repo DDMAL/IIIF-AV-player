@@ -174,16 +174,16 @@
          "type":"Range",
          "label":{
             "en":[
-               "Movement I"
+               "Page 1"
             ]
          },
          "items":[
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿0.000,27.069",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿0.000,30.336",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿0.000,33.594",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿0.000,36.692",
                "type":"Canvas"
             },
             {
@@ -191,7 +191,7 @@
                "type":"Range",
                "label":{
                   "en":[
-                     "measure-1_18"
+                     "measure-1_20"
                   ]
                },
                "items":[
@@ -286,6 +286,16 @@
                      "label":{"en":["measure-18"]}
                   },
                   {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=27.069,28.714",
+                     "type":"Canvas",
+                     "label":{"en":["measure-19"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=28.714,30.336",
+                     "type":"Canvas",
+                     "label":{"en":["measure-20"]}
+                  },
+                  {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿5.468,7.189",
                      "type":"Canvas",
                      "label":{"en":["measure-1"]}
@@ -374,6 +384,16 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=32.085,33.594",
                      "type":"Canvas",
                      "label":{"en":["measure-18"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=33.594,35.140",
+                     "type":"Canvas",
+                     "label":{"en":["measure-19"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=35.140,36.692",
+                     "type":"Canvas",
+                     "label":{"en":["measure-20"]}
                   }
                ]
             }
@@ -384,16 +404,16 @@
          "type":"Range",
          "label":{
             "en":[
-               "Movement II"
+               "Page 2"
             ]
          },
          "items":[
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿27.069,78.290",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿30.336,65.912",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿33.594,81.932",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿36.692,69.457",
                "type":"Canvas"
             },
             {
@@ -401,20 +421,10 @@
                "type":"Range",
                "label":{
                   "en":[
-                     "measure-19_48"
+                     "measure-21_40"
                   ]
                },
                "items":[
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=27.069,28.714",
-                     "type":"Canvas",
-                     "label":{"en":["measure-19"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=28.714,30.336",
-                     "type":"Canvas",
-                     "label":{"en":["measure-20"]}
-                  },
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=30.336,32.023",
                      "type":"Canvas",
@@ -516,56 +526,6 @@
                      "label":{"en":["measure-40"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=65.912,67.194",
-                     "type":"Canvas",
-                     "label":{"en":["measure-41"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=67.194,69.013",
-                     "type":"Canvas",
-                     "label":{"en":["measure-42"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=69.013,70.296",
-                     "type":"Canvas",
-                     "label":{"en":["measure-43"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=70.296,72.186",
-                     "type":"Canvas",
-                     "label":{"en":["measure-44"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=72.186,73.787",
-                     "type":"Canvas",
-                     "label":{"en":["measure-45"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=73.787,75.565",
-                     "type":"Canvas",
-                     "label":{"en":["measure-46"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=75.565,76.793",
-                     "type":"Canvas",
-                     "label":{"en":["measure-47"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=76.793,78.290",
-                     "type":"Canvas",
-                     "label":{"en":["measure-48"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=33.594,35.140",
-                     "type":"Canvas",
-                     "label":{"en":["measure-19"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=35.140,36.692",
-                     "type":"Canvas",
-                     "label":{"en":["measure-20"]}
-                  },
-                  {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=36.692,38.234",
                      "type":"Canvas",
                      "label":{"en":["measure-21"]}
@@ -664,47 +624,7 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=67.950,69.457",
                      "type":"Canvas",
                      "label":{"en":["measure-40"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=69.457,70.993",
-                     "type":"Canvas",
-                     "label":{"en":["measure-41"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=70.993,72.552",
-                     "type":"Canvas",
-                     "label":{"en":["measure-42"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=72.552,74.114",
-                     "type":"Canvas",
-                     "label":{"en":["measure-43"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=74.114,75.790",
-                     "type":"Canvas",
-                     "label":{"en":["measure-44"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=75.790,77.330",
-                     "type":"Canvas",
-                     "label":{"en":["measure-45"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=77.330,78.865",
-                     "type":"Canvas",
-                     "label":{"en":["measure-46"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=78.865,80.417",
-                     "type":"Canvas",
-                     "label":{"en":["measure-47"]}
-                  },
-                  {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=80.417,81.932",
-                     "type":"Canvas",
-                     "label":{"en":["measure-48"]}
-                  }           
+                  }        
                ]
             }
          ]
@@ -714,16 +634,16 @@
          "type":"Range",
          "label":{
             "en":[
-               "Movement III"
+               "Page 3"
             ]
          },
          "items":[
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿78.290,115.201",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿65.912,99.389",
                "type":"Canvas"
             },
             {
-               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿81.932,119.488",
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿69.457,101.179",
                "type":"Canvas"
             },
             {
@@ -731,10 +651,50 @@
                "type":"Range",
                "label":{
                   "en":[
-                     "measure-49_67"
+                     "measure-41_60"
                   ]
                },
                "items":[
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=65.912,67.194",
+                     "type":"Canvas",
+                     "label":{"en":["measure-41"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=67.194,69.013",
+                     "type":"Canvas",
+                     "label":{"en":["measure-42"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=69.013,70.296",
+                     "type":"Canvas",
+                     "label":{"en":["measure-43"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=70.296,72.186",
+                     "type":"Canvas",
+                     "label":{"en":["measure-44"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=72.186,73.787",
+                     "type":"Canvas",
+                     "label":{"en":["measure-45"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=73.787,75.565",
+                     "type":"Canvas",
+                     "label":{"en":["measure-46"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=75.565,76.793",
+                     "type":"Canvas",
+                     "label":{"en":["measure-47"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=76.793,78.290",
+                     "type":"Canvas",
+                     "label":{"en":["measure-48"]}
+                  },
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=78.290,79.755",
                      "type":"Canvas",
@@ -796,39 +756,44 @@
                      "label":{"en":["measure-60"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=99.389,101.654",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=69.457,70.993",
                      "type":"Canvas",
-                     "label":{"en":["measure-61"]}
+                     "label":{"en":["measure-41"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=101.654,104.474",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=70.993,72.552",
                      "type":"Canvas",
-                     "label":{"en":["measure-62"]}
+                     "label":{"en":["measure-42"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=104.474,106.802",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=72.552,74.114",
                      "type":"Canvas",
-                     "label":{"en":["measure-63"]}
+                     "label":{"en":["measure-43"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=106.802,109.945",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=74.114,75.790",
                      "type":"Canvas",
-                     "label":{"en":["measure-64"]}
+                     "label":{"en":["measure-44"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=109.945,111.719",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=75.790,77.330",
                      "type":"Canvas",
-                     "label":{"en":["measure-65"]}
+                     "label":{"en":["measure-45"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=111.719,113.829",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=77.330,78.865",
                      "type":"Canvas",
-                     "label":{"en":["measure-66"]}
+                     "label":{"en":["measure-46"]}
                   },
                   {
-                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=113.829,115.201",
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=78.865,80.417",
                      "type":"Canvas",
-                     "label":{"en":["measure-67"]}
+                     "label":{"en":["measure-47"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=80.417,81.932",
+                     "type":"Canvas",
+                     "label":{"en":["measure-48"]}
                   },
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=81.932,83.480",
@@ -889,6 +854,71 @@
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=99.581,101.179",
                      "type":"Canvas",
                      "label":{"en":["measure-60"]}
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/7",
+         "type":"Range",
+         "label":{
+            "en":[
+               "Page 4"
+            ]
+         },
+         "items":[
+            {
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=﻿99.389,115.201",
+               "type":"Canvas"
+            },
+            {
+               "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=﻿101.179,119.488",
+               "type":"Canvas"
+            },
+            {
+               "id":"https://dlib.indiana.edu/iiif_av/lunchroom_manners/range/8",
+               "type":"Range",
+               "label":{
+                  "en":[
+                     "measure-61_67"
+                  ]
+               },
+               "items":[
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=99.389,101.654",
+                     "type":"Canvas",
+                     "label":{"en":["measure-61"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=101.654,104.474",
+                     "type":"Canvas",
+                     "label":{"en":["measure-62"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=104.474,106.802",
+                     "type":"Canvas",
+                     "label":{"en":["measure-63"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=106.802,109.945",
+                     "type":"Canvas",
+                     "label":{"en":["measure-64"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=109.945,111.719",
+                     "type":"Canvas",
+                     "label":{"en":["measure-65"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=111.719,113.829",
+                     "type":"Canvas",
+                     "label":{"en":["measure-66"]}
+                  },
+                  {
+                     "id":"http://dlib.indiana.edu/iiif_av/canvas/1#t=113.829,115.201",
+                     "type":"Canvas",
+                     "label":{"en":["measure-67"]}
                   },
                   {
                      "id":"http://dlib.indiana.edu/iiif_av/canvas/2#t=101.179,103.292",
