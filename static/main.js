@@ -108,9 +108,10 @@ function goToPage (n)
 {
     if (n < 0 || n >= toolkit.getPageCount())
         return;
-    $('.score').children().eq(page).hide();
+    $('.score').children().hide();
     page = n;
     $('.score').children().eq(page).show();
+
 }
 
 function linkScore ()
@@ -497,7 +498,6 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
         if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
             setTimelineRange(0);
-            //$('#scrubber_bar').width(percent*100 + "%");
 
             loopMeasureStart = null;
             loopMeasureEnd = null;
