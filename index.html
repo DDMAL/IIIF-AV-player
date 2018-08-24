@@ -40,12 +40,18 @@
     <div class="row justify-content-center">
       <h4 class="display-4" id="title"></h4>
     </div>
+    <div class="row" id="range_controls" style="padding-bottom:5px;display:none">
+      <div class="col-md-6 offset-md-3">
+        <div class="progress rangeContainer" style="height:15px;cursor:pointer">
+        </div>
+      </div>
+    </div>
     <div class="row" id="timeline_controls" style="padding-bottom:10px;display:none">
       <div class="col-md-3 pr-0">
         <small style="float:right;" id="current_time"></small>
       </div>
       <div class="col-md-6">
-        <div class="progress" id="scrubber" style="height:20px" onmousedown="scrubberTimeMouseDown(event)">
+        <div class="progress" id="scrubber" style="height:20px;cursor:pointer" onmousedown="scrubberTimeMouseDown(event)">
           <div class="progress-bar w-0" id="scrubber_bar" role="progressbar" style="transition:none"></div>
           <div class="progress-bar bg-warning w-0" id="loop_bar" role="progressbar" style="transition:none;opacity:0.4"></div>
         </div>

@@ -15,6 +15,8 @@ $('#getURL').click(function ()
 
     // clear all previous canvases
     $('.canvas').remove();
+    // clear all previous ranges
+    $('.rangeContainer').empty();
 
     manifestObject = new ManifestObject(url); // jshint ignore:line
     manifestObject.fetchManifest(function ()
@@ -42,6 +44,7 @@ $('#getURL').click(function ()
 
         $("#timeline_controls").show();
         $("#player_controls").show();
+        $("#range_controls").show();
 
         then = Date.now();
     });
@@ -61,10 +64,8 @@ async function renderVerovio () // jshint ignore:line
 {
     let scoreFile = "static/mei/demo.mei";
 
-    if (manifestObject.manifest.canvases[activeCanvasIndex].rendering)
-    {
+    if (manifestObject.manifest.canvases[activeCanvasIndex].rendering && manifestObject.manifest.canvases[activeCanvasIndex].rendering.label.en[0] === "score")
         scoreFile = manifestObject.manifest.canvases[activeCanvasIndex].rendering.id;
-    }
 
     await $.ajax({ // jshint ignore:line
         url: scoreFile,
@@ -107,9 +108,10 @@ function goToPage (n)
 {
     if (n < 0 || n >= toolkit.getPageCount())
         return;
-    $('.score').children().eq(page).hide();
+    $('.score').children().hide();
     page = n;
     $('.score').children().eq(page).show();
+
 }
 
 function linkScore ()
@@ -244,18 +246,24 @@ function getCanvasDuration()
 // Measure highlighting functions
 function findMeasure (time)
 {
-    // Update current measure in score
-    $('.measure').each(function () {
-        let lower = truncateNum($(this).attr('timeStart'), 3); 
-        let upper = truncateNum($(this).attr('timeStop'), 3);
+    if (time <= 0)
+    {
+        $('.measure').removeAttr('fill');
+        goToPage(0);
+    }
+    else
+    {
+        // Update current measure in score
+        $('.measure').each(function () {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
 
-        if (time >= lower && time < upper && time !== 0)
-        {
-            fillMeasure(this);
-        }
-        else if (time === 0)
-            $('.measure').removeAttr('fill');
-    });
+            if (time >= lower && time < upper && time !== 0)
+            {
+                fillMeasure(this);
+            }
+        });
+    }
 }
 function fillMeasure (measure) 
 {
@@ -331,12 +339,38 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
     renderVerovio();
     updateTotalTime();
     updateTimeline();
+    updateRangebar();
 
     if (isMediaPlaying())
     {
         pauseMedia();
         $('#button_play i').attr('class', "fa fa-play");
         cancelAnimationFrame(animationID);
+    }
+}
+function navigateToRange(rangeID) // jshint ignore:line
+{
+    let rangeCount = manifestObject.manifest.canvases[activeCanvasIndex].ranges.length;
+
+    for (let i = 0; i < rangeCount; i++)
+    {
+        if (manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].id === rangeID)
+        {
+            let newTime = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].startTimes[activeCanvasIndex];
+
+            if (loopMeasureStart !== null && loopMeasureEnd !== null)
+            {
+                setTimelineRange(0);
+                loopMeasureStart = null;
+                loopMeasureEnd = null;
+                clearLoopbar();
+            }
+
+            clearMeasures();
+            findMeasure(newTime);
+            setMediaTime(newTime);
+            break;
+        }
     }
 }
 
@@ -369,8 +403,6 @@ function stopButtonPress () // jshint ignore:line
     $('.measure').removeAttr('fill');
 
     setTimelineRange(0);
-    updateTimeline();
-
     loopMeasureStart = null;
     loopMeasureEnd = null;
     clearLoopbar();
@@ -403,7 +435,6 @@ function backButtonPress () // jshint ignore:line
         }
     });
 
-    updateTimeline();
     trackMedia();
 }
 function forwardButtonPress () // jshint ignore:line
@@ -427,7 +458,6 @@ function forwardButtonPress () // jshint ignore:line
         }
     });
 
-    updateTimeline();
     trackMedia();
 }
 
@@ -470,12 +500,11 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     }
     else
     {
-        setTimelineRange(0);
-        $('#scrubber_bar').width(percent*100 + "%");
-
         // looping enabled
         if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
+            setTimelineRange(0);
+
             loopMeasureStart = null;
             loopMeasureEnd = null;
             clearLoopbar();
@@ -558,8 +587,74 @@ function clearLoopbar()
     $('#loop_bar').css('left', 0+"%");
 }
 
-function truncateNum(num, fixed)
+function updateRangebar()
+{
+    let totalTime = getCanvasDuration();
+    let rangeCount = manifestObject.manifest.canvases[activeCanvasIndex].ranges.length;
+
+    let color_step = 1.0 / rangeCount;
+    for (let i=0; i < rangeCount; i++)
+    {
+        let range = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i];
+        let rangeStartTime = range.startTimes[activeCanvasIndex];
+        let rangeEndTime = range.endTimes[activeCanvasIndex];
+        let rangePercent = (rangeEndTime - rangeStartTime) / totalTime;
+
+        let hue = color_step * i;
+        let color = generate_color(hue);
+        $('#' + range.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
+        $('#' + range.id).css('width', rangePercent*100+'%');
+    }
+}
+
+function truncateNum (num, fixed)
 {
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return Number(num.toString().match(re)[0]);
+}
+// convert hue, saturation, value to RGB
+function hsv_to_rgb (h, s, v)
+{
+    let h_i = parseInt(h * 6);
+    let f = h * 6 - h_i;
+    let p = v * (1 - s);
+    let q = v * (1 - f * s);
+    let t = v * (1 - (1 - f) * s);
+
+    let r, g, b;
+    if (h_i === 0)
+        r = v, g = t, b = p;
+    if (h_i === 1)
+        r = q, g = v, b = p;
+    if (h_i === 2)
+        r = p, g = v, b = t;
+    if (h_i === 3)
+        r = p, g = q, b = v;
+    if (h_i === 4)
+        r = t, g = p, b = v;
+    if (h_i === 5)
+        r = v, g = p, b = q;
+
+    return([parseInt(r * 256), parseInt(g * 256), parseInt(b * 256)]);
+}
+// generate color
+function generate_color (hue)
+{
+    let golden_ratio = 0.618033988749895;
+
+    hue += golden_ratio;
+    hue %= 1;
+    let color = hsv_to_rgb(hue, 0.5, 0.75);
+
+    return (color);
+}
+// convert RGB component to hex
+function componentToHex (c)
+{
+    var hex = c.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+}
+function rgbToHex(r, g, b)
+{
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
