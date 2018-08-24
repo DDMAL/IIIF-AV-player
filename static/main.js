@@ -267,7 +267,7 @@ function findMeasure (time)
 }
 function fillMeasure (measure) 
 {
-    $(measure).attr('fill', '#dd0000');
+    $(measure).attr('fill', '#DE0000');
     goToPage($(measure).attr('class').split(' ')[1].slice(-1) - 1);
 }
 function fillMeasureRange(measureStart, measureEnd)
@@ -281,7 +281,7 @@ function fillMeasureRange(measureStart, measureEnd)
 
         if (measureTime >= loopStartTime && measureTime <= loopEndTime ) 
         {
-            $(this).attr('fill', '#000080');
+            $(this).attr('fill', '#1F618D');
         }
     });
 }
@@ -605,6 +605,16 @@ function updateRangebar()
         $('#' + range.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
         $('#' + range.id).css('width', rangePercent*100+'%');
     }
+}
+
+function hideInstructions()  // jshint ignore:line
+{
+    let instructions = $('#instructions').hasClass("collapse show");
+
+    if (instructions)
+        $('#hide').html("Show Instructions");
+    else
+        $('#hide').html("Hide Instructions");
 }
 
 function truncateNum (num, fixed)
