@@ -246,18 +246,24 @@ function getCanvasDuration()
 // Measure highlighting functions
 function findMeasure (time)
 {
-    // Update current measure in score
-    $('.measure').each(function () {
-        let lower = truncateNum($(this).attr('timeStart'), 3); 
-        let upper = truncateNum($(this).attr('timeStop'), 3);
+    if (time <= 0)
+    {
+        $('.measure').removeAttr('fill');
+        goToPage(0);
+    }
+    else
+    {
+        // Update current measure in score
+        $('.measure').each(function () {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
 
-        if (time >= lower && time < upper && time !== 0)
-        {
-            fillMeasure(this);
-        }
-        else if (time === 0)
-            $('.measure').removeAttr('fill');
-    });
+            if (time >= lower && time < upper && time !== 0)
+            {
+                fillMeasure(this);
+            }
+        });
+    }
 }
 function fillMeasure (measure) 
 {
