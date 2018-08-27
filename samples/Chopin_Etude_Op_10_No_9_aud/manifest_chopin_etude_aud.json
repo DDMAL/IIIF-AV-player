@@ -86,7 +86,7 @@
             {
                "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/mei/Chopin_Etude_Op_10_No_9.mei",
                "type":"Text",
-               "label":{"en":["Score"]},
+               "label":{"en":["score"]},
                "format":"application/xml"
             }
          ],
