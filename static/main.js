@@ -2,10 +2,6 @@
 var refreshInterval = 25;
 var now, then, elapsed;
 
-// Score and player syncing
-var loopMeasureStart = null;
-var loopMeasureEnd = null;
-
 // Manifest fetching and callback actions
 var manifestObject;
 var activeCanvasIndex;
@@ -38,8 +34,7 @@ $('#getURL').click(function ()
         setTimelineRange(0);
         updateTimeline();
 
-        loopMeasureStart = null;
-        loopMeasureEnd = null;
+        setLoopMeasureRange(null, null);
         clearLoopbar();
 
         $("#timeline_controls").show();
@@ -111,7 +106,6 @@ function goToPage (n)
     $('.score').children().hide();
     page = n;
     $('.score').children().eq(page).show();
-
 }
 
 function linkScore ()
@@ -129,6 +123,11 @@ function linkScore ()
         $(this).attr('timeStop', timeEnd);
         count++;
     });
+
+    // update if canvas was previously looping
+    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+        fillMeasureRange(loopMeasureStart, loopMeasureEnd);
 
     // fill measure if canvas was previously in progress
     let time = getMediaTime();
@@ -151,6 +150,7 @@ function linkScore ()
                 clickMeasureFinal = this;
 
                 setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+                let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
 
                 fillMeasureRange(loopMeasureStart, loopMeasureEnd);
 
@@ -168,8 +168,7 @@ function linkScore ()
                 clickMeasureInitial = this;
             }
 
-            loopMeasureStart = null;
-            loopMeasureEnd = null;
+            setLoopMeasureRange(null, null);
             clearLoopbar();
 
             setMediaTime($(this).attr('timeStart'));
@@ -196,6 +195,7 @@ function trackMedia ()
         let time = getMediaTime();
 
         // looping is enabled
+        let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
         if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
             // loop back
@@ -241,6 +241,15 @@ function isMediaPlaying()
 function getCanvasDuration()
 {
     return (manifestObject.manifest.canvases[activeCanvasIndex].duration);
+}
+function getLoopMeasureRange()
+{
+    return([manifestObject.manifest.canvases[activeCanvasIndex].loopMeasureStart, manifestObject.manifest.canvases[activeCanvasIndex].loopMeasureEnd]);
+}
+function setLoopMeasureRange(startMeasure, endMeasure)
+{
+    manifestObject.manifest.canvases[activeCanvasIndex].loopMeasureStart = startMeasure;
+    manifestObject.manifest.canvases[activeCanvasIndex].loopMeasureEnd = endMeasure;
 }
 
 // Measure highlighting functions
@@ -299,15 +308,12 @@ function setMeasureRange(clickMeasureInitial, clickMeasureFinal)
     // find if second click is before or after initial click in the score 
     if (measureInitialStartTime <= measureFinalStartTime)
     {
-
-        loopMeasureStart = clickMeasureInitial;
-        loopMeasureEnd = clickMeasureFinal;
+        setLoopMeasureRange(clickMeasureInitial, clickMeasureFinal);
         setMediaTime(measureFinalEndTime);
     }
     else
     {
-        loopMeasureStart = clickMeasureFinal;
-        loopMeasureEnd = clickMeasureInitial;
+        setLoopMeasureRange(clickMeasureFinal, clickMeasureInitial);
         setMediaTime(measureInitialEndTime);
     }
 }
@@ -337,6 +343,22 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
         $('#media_icon').hide();
 
     renderVerovio();
+
+    // update if canvas was previously looping
+    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
+    if (loopMeasureStart !== null && loopMeasureEnd !== null)
+    {
+        let timeStart = $(loopMeasureStart).attr('timeStart');
+        let timeEnd = $(loopMeasureEnd).attr('timeStop');
+        setLoopbarRange(timeStart, timeEnd);
+        setTimelineRange(timeStart);
+    }
+    else
+    {
+        clearLoopbar();
+        setTimelineRange(0);
+    }
+
     updateTotalTime();
     updateTimeline();
     updateRangebar();
@@ -358,11 +380,11 @@ function navigateToRange(rangeID) // jshint ignore:line
         {
             let newTime = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].startTimes[activeCanvasIndex];
 
+            let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
             if (loopMeasureStart !== null && loopMeasureEnd !== null)
             {
                 setTimelineRange(0);
-                loopMeasureStart = null;
-                loopMeasureEnd = null;
+                setLoopMeasureRange(null, null);
                 clearLoopbar();
             }
 
@@ -403,8 +425,7 @@ function stopButtonPress () // jshint ignore:line
     $('.measure').removeAttr('fill');
 
     setTimelineRange(0);
-    loopMeasureStart = null;
-    loopMeasureEnd = null;
+    setLoopMeasureRange(null, null);
     clearLoopbar();
 
     if (page !== 0)
@@ -416,9 +437,10 @@ function backButtonPress () // jshint ignore:line
 {
 	let measureFound = false;
 	let time = truncateNum(getMediaTime(), 3);
-
     let measureTimeMin = 0;
+
     // looping is enabled
+    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
     if (loopMeasureStart !== null && loopMeasureEnd !== null)
         measureTimeMin = $(loopMeasureStart).attr('timeStart');
 
@@ -440,9 +462,10 @@ function backButtonPress () // jshint ignore:line
 function forwardButtonPress () // jshint ignore:line
 {
     let time = truncateNum(getMediaTime(), 3);
-
     let measureTimeMax = $('.measure').last().attr('timeStart');
+
     // looping is enabled
+    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
     if (loopMeasureStart !== null && loopMeasureEnd !== null)
         measureTimeMax = $(loopMeasureEnd).attr('timeStart');
 
@@ -469,6 +492,8 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
     let percent = x / scrubber.width();
     let newTime = getCanvasDuration() * percent;
 
+    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
+
     clearMeasures();
 
     if (!isMediaPlaying() && e.shiftKey)
@@ -490,6 +515,7 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
         });
 
         setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+        [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
         fillMeasureRange(loopMeasureStart, loopMeasureEnd);
 
         let timeStart = $(loopMeasureStart).attr('timeStart');
@@ -504,9 +530,7 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
         if (loopMeasureStart !== null && loopMeasureEnd !== null)
         {
             setTimelineRange(0);
-
-            loopMeasureStart = null;
-            loopMeasureEnd = null;
+            setLoopMeasureRange(null, null);
             clearLoopbar();
         }
 
@@ -524,6 +548,7 @@ function updateTimeline()
     let percent = 0;
 
     // looping enabled
+    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
     if (loopMeasureStart !== null && loopMeasureEnd !== null)
     {
         let offsetTime = $(loopMeasureStart).attr('timeStart');

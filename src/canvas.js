@@ -19,6 +19,8 @@ export class Canvas
         this.measureStarts = [];
         this.measureEnds = [];
         this.ranges = [];
+        this.loopMeasureStart = null;
+        this.loopMeasureEnd = null;
 
         if (!canvasInfo.width)
         {
