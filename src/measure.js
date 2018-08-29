@@ -8,6 +8,8 @@ export class Measure
         this.id = label.replace(/ /g,"_");
         this.startTimes = [];
         this.endTimes = [];
+        this.hue;
+        this.isActive = false;
     }
 
     render () 

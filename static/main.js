@@ -597,6 +597,8 @@ function updateTimeline()
     current_seconds = current_seconds_long.toFixed(),
     current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
     $('#current_time').html(current_time);
+
+    highlightMeasurebar();
 }
 function updateTotalTime()
 {
@@ -664,7 +666,6 @@ function updateMeasurebar()
     let totalTime = getCanvasDuration();
     let measureCount = manifestObject.manifest.canvases[activeCanvasIndex].measures.length;
 
-    //let color_step = 1.0 / measureCount;
     for (let i=0; i < measureCount; i++)
     {
         let measure = manifestObject.manifest.canvases[activeCanvasIndex].measures[i];
@@ -674,8 +675,40 @@ function updateMeasurebar()
 
         let hue = Math.random();
         let color = generate_color(hue, 0.25, 0.8);
+        measure.hue = hue;
         $('#' + measure.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
         $('#' + measure.id).css('width', measurePercent*100+'%');
+    }
+}
+function highlightMeasurebar()
+{
+    let currentTime = getMediaTime();
+    let measureCount = manifestObject.manifest.canvases[activeCanvasIndex].measures.length;
+
+    for (let i=0; i < measureCount; i++)
+    {
+        let measure = manifestObject.manifest.canvases[activeCanvasIndex].measures[i];
+        let measureStartTime = measure.startTimes[activeCanvasIndex];
+        let measureEndTime = measure.endTimes[activeCanvasIndex];
+
+        if (currentTime >= measureStartTime && currentTime < measureEndTime && currentTime !== 0)
+        {
+            if (!measure.isActive)
+            {
+                measure.isActive = true;
+                let color = generate_color(measure.hue, 0.3, 0.99);
+                $('#' + measure.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
+            }
+        }
+        else
+        {
+            if (measure.isActive)
+            {
+                measure.isActive = false;
+                let color = generate_color(measure.hue, 0.25, 0.8);
+                $('#' + measure.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
+            }
+        }
     }
 }
 
