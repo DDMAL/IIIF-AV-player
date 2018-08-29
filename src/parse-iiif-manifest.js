@@ -1,6 +1,7 @@
 import {Annotation} from './annotation';
 import {Canvas} from './canvas';
 import {Range} from './range';
+import {Measure} from './measure';
 
 const getMaxZoomLevel = (width, height) =>
 {
@@ -175,6 +176,8 @@ function parseIIIF3Manifest (manifest)
                     {
                         if (range.items[n].items[q].id.includes('#','=',','))
                         {
+                            let measureInstance = new Measure(range.items[n].items[q].label.en[0]);
+
                             // get canvas id
                             let canvasID = range.items[n].items[q].id.split('#')[0];
 
@@ -187,8 +190,14 @@ function parseIIIF3Manifest (manifest)
                                 {
                                     canvases[r].measureStarts.push(time[0]);
                                     canvases[r].measureEnds.push(time[1]);
+
+                                    measureInstance.startTimes[r] = time[0];
+                                    measureInstance.endTimes[r] = time[1];
+                                    canvases[r].measures.push(measureInstance);
                                 }
                             }
+
+                            measureInstance.render();
                         }
                     }
                 }

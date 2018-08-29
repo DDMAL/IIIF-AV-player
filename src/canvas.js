@@ -21,6 +21,7 @@ export class Canvas
         this.ranges = [];
         this.loopMeasureStart = null;
         this.loopMeasureEnd = null;
+        this.measures = [];
 
         if (!canvasInfo.width)
         {

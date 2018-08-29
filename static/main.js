@@ -40,6 +40,7 @@ $('#getURL').click(function ()
         $("#timeline_controls").show();
         $("#player_controls").show();
         $("#range_controls").show();
+        $("#measure_controls").show();
 
         then = Date.now();
     });
@@ -362,6 +363,7 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
     updateTotalTime();
     updateTimeline();
     updateRangebar();
+    updateMeasurebar();
 
     if (isMediaPlaying())
     {
@@ -379,6 +381,31 @@ function navigateToRange(rangeID) // jshint ignore:line
         if (manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].id === rangeID)
         {
             let newTime = manifestObject.manifest.canvases[activeCanvasIndex].ranges[i].startTimes[activeCanvasIndex];
+
+            let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
+            if (loopMeasureStart !== null && loopMeasureEnd !== null)
+            {
+                setTimelineRange(0);
+                setLoopMeasureRange(null, null);
+                clearLoopbar();
+            }
+
+            clearMeasures();
+            findMeasure(newTime);
+            setMediaTime(newTime);
+            break;
+        }
+    }
+}
+function navigateToMeasure(measureID) // jshint ignore:line
+{
+    let measureCount = manifestObject.manifest.canvases[activeCanvasIndex].measures.length;
+
+    for (let i = 0; i < measureCount; i++)
+    {
+        if (manifestObject.manifest.canvases[activeCanvasIndex].measures[i].id === measureID)
+        {
+            let newTime = manifestObject.manifest.canvases[activeCanvasIndex].measures[i].startTimes[activeCanvasIndex];
 
             let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
             if (loopMeasureStart !== null && loopMeasureEnd !== null)
@@ -626,9 +653,29 @@ function updateRangebar()
         let rangePercent = (rangeEndTime - rangeStartTime) / totalTime;
 
         let hue = color_step * i;
-        let color = generate_color(hue);
+        let color = generate_color(hue, 0.5, 0.75);
         $('#' + range.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
         $('#' + range.id).css('width', rangePercent*100+'%');
+    }
+}
+
+function updateMeasurebar()
+{
+    let totalTime = getCanvasDuration();
+    let measureCount = manifestObject.manifest.canvases[activeCanvasIndex].measures.length;
+
+    //let color_step = 1.0 / measureCount;
+    for (let i=0; i < measureCount; i++)
+    {
+        let measure = manifestObject.manifest.canvases[activeCanvasIndex].measures[i];
+        let measureStartTime = measure.startTimes[activeCanvasIndex];
+        let measureEndTime = measure.endTimes[activeCanvasIndex];
+        let measurePercent = (measureEndTime - measureStartTime) / totalTime;
+
+        let hue = Math.random();
+        let color = generate_color(hue, 0.25, 0.8);
+        $('#' + measure.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
+        $('#' + measure.id).css('width', measurePercent*100+'%');
     }
 }
 
@@ -673,13 +720,13 @@ function hsv_to_rgb (h, s, v)
     return([parseInt(r * 256), parseInt(g * 256), parseInt(b * 256)]);
 }
 // generate color
-function generate_color (hue)
+function generate_color (hue, saturation, value)
 {
     let golden_ratio = 0.618033988749895;
 
     hue += golden_ratio;
     hue %= 1;
-    let color = hsv_to_rgb(hue, 0.5, 0.75);
+    let color = hsv_to_rgb(hue, saturation, value);
 
     return (color);
 }
