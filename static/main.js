@@ -145,7 +145,7 @@ function linkScore ()
         if (event.shiftKey)
         {
             // second click in selection
-            if (clickMeasureInitial !== null && !isMediaPlaying())
+            if (clickMeasureInitial !== null && !isPlaying())
             {
                 clickMeasureFinal = this;
 
@@ -163,7 +163,7 @@ function linkScore ()
         }
         else // regular left-click
         {
-            if (!isMediaPlaying())
+            if (!isPlaying())
             {
                 clickMeasureInitial = this;
             }
@@ -193,6 +193,7 @@ function trackMedia ()
         then = now - (elapsed % refreshInterval);
 
         let time = getMediaTime();
+        updateMedia();
 
         // looping is enabled
         let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
@@ -215,16 +216,18 @@ function trackMedia ()
         findMeasure(time);
     }
 
-    if (isMediaPlaying())
+    if (isPlaying())
         animationID = requestAnimationFrame(trackMedia);
 }
-function playMedia()
+function play()
 {
-    manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].play();
+    //manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].play();
+    manifestObject.manifest.canvases[activeCanvasIndex].play();
 }
-function pauseMedia()
+function pause()
 {
-    manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].pause();
+    //manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].pause();
+    manifestObject.manifest.canvases[activeCanvasIndex].pause();
 }
 function setMediaTime(time)
 {
@@ -234,9 +237,15 @@ function getMediaTime()
 {
     return (manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].currentTime);
 }
-function isMediaPlaying()
+function isPlaying()
 {
-    return (!manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].paused);
+    //return (!manifestObject.manifest.canvases[activeCanvasIndex].annotationItems[0].mediaElement[0].paused);
+    return (manifestObject.manifest.canvases[activeCanvasIndex].isPlaying);
+}
+function updateMedia()
+{
+    manifestObject.manifest.canvases[activeCanvasIndex].updateClock();
+    manifestObject.manifest.canvases[activeCanvasIndex].checkMediaStates();
 }
 function getCanvasDuration()
 {
@@ -363,9 +372,9 @@ function navigateToCanvas(canvasIndex) // jshint ignore:line
     updateTimeline();
     updateRangebar();
 
-    if (isMediaPlaying())
+    if (isPlaying())
     {
-        pauseMedia();
+        pause();
         $('#button_play i').attr('class', "fa fa-play");
         cancelAnimationFrame(animationID);
     }
@@ -399,16 +408,16 @@ function navigateToRange(rangeID) // jshint ignore:line
 // Media and score control 
 function playButtonPress () // jshint ignore:line
 {
-    if (isMediaPlaying())
+    if (isPlaying())
     {
-        pauseMedia();
+        pause();
         $('#button_play i').attr('class', "fa fa-play");
 
         cancelAnimationFrame(animationID);
     }
     else
     {
-        playMedia();
+        play();
         $('#button_play i').attr('class', "fa fa-pause");
 
         then = Date.now();
@@ -419,7 +428,7 @@ function stopButtonPress () // jshint ignore:line
 {
     $('#button_play i').attr('class', "fa fa-play");
 
-    pauseMedia();
+    pause();
     setMediaTime(0);
 
     $('.measure').removeAttr('fill');
@@ -496,7 +505,7 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
 
     clearMeasures();
 
-    if (!isMediaPlaying() && e.shiftKey)
+    if (!isPlaying() && e.shiftKey)
     {
         let currentTime = getMediaTime();
         var clickMeasureInitial = null;

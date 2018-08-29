@@ -12,8 +12,10 @@ export class Canvas
         this.label = canvasInfo.label || "Label";
         this.duration = canvasInfo.duration;
 
+        this.clock = 0;
+        this.clockStart = 0;
+        this.isPlaying = false;
         this.annotationItems = [];
-        this.isActive = false;
         this.canvasElement;
         this.rendering;
         this.measureStarts = [];
@@ -76,5 +78,72 @@ export class Canvas
         this.canvasElement = canvas;
 
         return;
+    }
+
+    play()
+    {
+        this.isPlaying = true;
+        this.clockStart = Date.now();
+    }
+    pause()
+    {
+        this.isPlaying = false;
+
+        let annotation;
+        for (let i=0; i<this.annotationItems.length; i++)
+        {
+            annotation = this.annotationItems[i];
+            annotation.pauseMedia();
+        }
+    }
+    updateClock()
+    {
+        this.clock = (Date.now() - this.clockStart) / 1000;
+
+        if (this.clock >= this.duration)
+        {
+            this.clock = this.duration;
+            this.pause();
+        }
+    }
+    checkMediaStates()
+    {
+        let annotation;
+        for (let i=0; i<this.annotationItems.length; i++)
+        {
+            annotation = this.annotationItems[i];
+
+            if (annotation.startTime <= this.clock && annotation.endTime >= this.clock)
+            {
+                if (!annotation.isActive)
+                {
+                    if (annotation.type === 'Video' || annotation.type === 'Audio')
+                        annotation.playMedia();
+
+                    annotation.isActive = true;
+                    annotation.mediaElement.show();
+                }
+                else
+                {
+                    if ((annotation.type === 'Video' || annotation.type === 'Audio') && (annotation.getMediaTime() > annotation.getMediaDuration()))
+                        annotation.pauseMedia();
+                }
+            }
+            else
+            {
+                if (annotation.isActive)
+                {
+                    if (annotation.type === 'Video' || annotation.type === 'Audio')
+                        annotation.pauseMedia();
+
+                    annotation.isActive = false;
+                    annotation.mediaElement.hide();
+                }
+            }
+        }
+    }
+    synchronizeMedia()
+    {
+        
     }
 }
