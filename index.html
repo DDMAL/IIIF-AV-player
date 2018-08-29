@@ -30,18 +30,25 @@
   </div>
 </div>
 <div class="jumbotron mx-3 collapse show" id="instructions">
-  <p class="lead">Select a V3 sample manifest below, or enter one in the search bar</p>
-  <hr class="my-4">
   <div class="row">
-    <div class="col-md-12 border-right text-left">
-        <h5 class="display-5">Audio</h5>
-        <p><button class="btn btn-secondary" onclick='loadPreset("https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/manifest_chopin_etude_aud.json")' type="button">Etude in F Minor</button></p>
-        <h5 class="display-5">Video</h5>
-        <p><button class="btn btn-secondary" onclick='loadPreset("https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_vid/manifest_chopin_etude_vid_multicanvas.json")' type="button">Etude in F Minor</button></p>
+    <div class="col-md-6 border-right text-left">
+      <p class="lead">Select a V3 sample manifest below, or enter one in the search bar</p>  
+      <h5 class="display-5">Audio</h5>
+      <p><button class="btn btn-secondary" onclick='loadPreset("https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/manifest_chopin_etude_aud.json")' type="button">Etude in F Minor</button></p>
+      <h5 class="display-5">Video</h5>
+      <p><button class="btn btn-secondary" onclick='loadPreset("https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_vid/manifest_chopin_etude_vid_multicanvas.json")' type="button">Etude in F Minor</button></p>
+    </div>
+    <div class="col-md-6 border-left text-left">
+      <ul class="list-style font-weight-light">
+        <li>Available canvases are listed in the dropdown box on the left</li>
+        <li>Colored bar indicating pages, as well as bar below indicating measures, can be clicked to navigate through the score</li>
+        <li>Clicking on a musical symbol in the score will jump the media to the selected measure</li>
+        <li>When paused, a range of measures can be selected by shift-clicking on either the scrub bar or a musical symbol</li>
+        <li>Media will loop when a range is selected</li>
+      </ul>
     </div>
   </div>
 </div>
-
 <div class="container-fluid">
     <div class="row justify-content-center">
       <h4 class="display-4" id="title"></h4>
