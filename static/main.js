@@ -773,3 +773,23 @@ function rgbToHex(r, g, b)
 {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+// attach event listeners
+window.addEventListener('keyup', (e) =>
+{
+    if (e.keyCode === 32)
+    {
+        e.preventDefault();
+        playButtonPress();
+    }
+    if (e.keyCode === 37)
+    {
+        e.preventDefault();
+        backButtonPress();
+    }
+    if (e.keyCode === 39)
+    {
+        e.preventDefault();
+        forwardButtonPress();
+    }
+});
