@@ -78,8 +78,11 @@ async function renderVerovio () // jshint ignore:line
                 $('.score').children().hide();
             }
             $('.score').children().first().show(); // show first page
-            $('svg').width("100%");
-            $('svg').height("100%");
+            $('svg').attr("width", "100%");
+            $('svg').attr("height", "100%");
+
+            $('svg').attr("viewBox", "0 0 21000 29700");
+            $('svg').attr("preserveAspectRatio", "xMinYMin meet");
         }
     });
     linkScore();
@@ -154,7 +157,7 @@ function clickSelect ()
         pt.y = evt.clientY;
         pt = pt.matrixTransform(container.getScreenCTM().inverse());
 
-        let measures = Array.from($(".measure:visible"));
+        let measures = Array.from($('.measure').attr('class', 'measure page'+ page));
         let selectedMeasures = measures.filter((measure) => {
             let staves = Array.from($(measure).children(".staff"));
             let upperFound = false;
