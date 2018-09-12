@@ -78,8 +78,11 @@ async function renderVerovio () // jshint ignore:line
                 $('.score').children().hide();
             }
             $('.score').children().first().show(); // show first page
-            $('svg').width("100%");
-            $('svg').height("100%");
+            $('svg').attr("width", "100%");
+            $('svg').attr("height", "100%");
+
+            $('svg').attr("viewBox", "0 0 21000 29700");
+            $('svg').attr("preserveAspectRatio", "xMinYMin meet");
         }
     });
     linkScore();
@@ -134,50 +137,100 @@ function linkScore ()
     let time = getMediaTime();
     findMeasure(time);
 
-    // fill red and goto time in media 
+    clickSelect();
+}
+
+function clickSelect ()
+{
     var clickMeasureInitial = null;
     var clickMeasureFinal = null;
-    $('.measure').click(function (event) 
+
+    $('svg').on("mousedown", handler);
+
+    // fill red and goto time in media 
+    function handler (evt)
     {
-        clearMeasures();
-        fillMeasure(this);
+        var container = document.getElementsByClassName("definition-scale")[page];
+        let pt = container.createSVGPoint();
+        let bbpt = container.createSVGPoint();
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        pt = pt.matrixTransform(container.getScreenCTM().inverse());
 
-        // user selecting multiple measure for looping
-        if (event.shiftKey)
+        let measures = Array.from($(".measure.page"+(page+1)));
+        let selectedMeasures = measures.filter((measure) => {
+            let staves = Array.from($(measure).children(".staff"));
+            let upperFound = false;
+            let lowerFound = false;
+            staves.forEach(staff => {
+                let outerStaves = [];
+                outerStaves.push($(staff).children("path").first()[0]);
+                outerStaves.push($(staff).children("path").last()[0]);
+
+                outerStaves.forEach(outerStaff => {
+                    let box = outerStaff.getBBox();
+                    let sctm = outerStaff.getCTM();
+                    bbpt.x = box.x;
+                    bbpt.y = box.y;
+                    let leftPt = bbpt.matrixTransform(sctm);
+                    bbpt.x = box.x + box.width;
+                    let rightPt = bbpt.matrixTransform(sctm);
+
+                    if (pt.x >= leftPt.x && pt.x <= rightPt.x)
+                    {
+                        if (pt.y <= leftPt.y)
+                            lowerFound = true;
+                        if (pt.y >= leftPt.y)
+                            upperFound = true;
+                    }
+                });
+            });
+            return (upperFound && lowerFound);
+        });
+
+        // measure was clicked
+        if (selectedMeasures.length === 1)
         {
-            // second click in selection
-            if (clickMeasureInitial !== null && !isMediaPlaying())
+            clearMeasures();
+            fillMeasure(selectedMeasures[0]);
+
+            // user selecting multiple measure for looping
+            if (evt.shiftKey)
             {
-                clickMeasureFinal = this;
+                // second click in selection
+                if (clickMeasureInitial !== null && !isMediaPlaying())
+                {
+                    clickMeasureFinal = selectedMeasures[0];
 
-                setMeasureRange(clickMeasureInitial, clickMeasureFinal);
-                let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
+                    setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+                    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
 
-                fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+                    fillMeasureRange(loopMeasureStart, loopMeasureEnd);
 
-                let timeStart = $(loopMeasureStart).attr('timeStart');
-                let timeEnd = $(loopMeasureEnd).attr('timeStop');
-                setTimelineRange(timeStart);
-                setLoopbarRange(timeStart, timeEnd);
-                setMediaTime(timeStart);
+                    let timeStart = $(loopMeasureStart).attr('timeStart');
+                    let timeEnd = $(loopMeasureEnd).attr('timeStop');
+                    setTimelineRange(timeStart);
+                    setLoopbarRange(timeStart, timeEnd);
+                    setMediaTime(timeStart);
+                }
             }
-        }
-        else // regular left-click
-        {
-            if (!isMediaPlaying())
+            else // regular left-click
             {
-                clickMeasureInitial = this;
+                if (!isMediaPlaying())
+                {
+                    clickMeasureInitial = selectedMeasures[0];
+                }
+
+                setLoopMeasureRange(null, null);
+                clearLoopbar();
+
+                setMediaTime($(selectedMeasures[0]).attr('timeStart'));
+                setTimelineRange(0);
             }
 
-            setLoopMeasureRange(null, null);
-            clearLoopbar();
-
-            setMediaTime($(this).attr('timeStart'));
-            setTimelineRange(0);
+            updateTimeline();
         }
-
-        updateTimeline();
-    });
+    }
 }
 
 // Media functions
