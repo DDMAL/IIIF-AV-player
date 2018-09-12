@@ -344,7 +344,7 @@ function fillMeasureRange(measureStart, measureEnd)
 
         if (measureTime >= loopStartTime && measureTime <= loopEndTime ) 
         {
-            $(this).attr('fill', '#1976D2');
+            $(this).attr('fill', '#1287A8');
         }
     });
 }
@@ -718,6 +718,7 @@ function updateMeasurebar()
 {
     let totalTime = getCanvasDuration();
     let measureCount = manifestObject.manifest.canvases[activeCanvasIndex].measures.length;
+    let hues = [0.214, 0.643, 0.071, 0.357, 0.786, 0.500, 0.929];
 
     for (let i=0; i < measureCount; i++)
     {
@@ -726,7 +727,7 @@ function updateMeasurebar()
         let measureEndTime = measure.endTimes[activeCanvasIndex];
         let measurePercent = (measureEndTime - measureStartTime) / totalTime;
 
-        let hue = Math.random();
+        let hue = hues[i % hues.length];
         let color = generate_color(hue, 0.25, 0.8);
         measure.hue = hue;
         $('#' + measure.id).css("background-color", rgbToHex(color[0], color[1], color[2]));
