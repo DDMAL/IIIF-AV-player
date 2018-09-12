@@ -157,7 +157,7 @@ function clickSelect ()
         pt.y = evt.clientY;
         pt = pt.matrixTransform(container.getScreenCTM().inverse());
 
-        let measures = Array.from($('.measure').attr('class', 'measure page'+ page));
+        let measures = Array.from($(".measure.page"+(page+1)));
         let selectedMeasures = measures.filter((measure) => {
             let staves = Array.from($(measure).children(".staff"));
             let upperFound = false;
@@ -172,15 +172,15 @@ function clickSelect ()
                     let sctm = outerStaff.getCTM();
                     bbpt.x = box.x;
                     bbpt.y = box.y;
-                    let leftpt = bbpt.matrixTransform(sctm);
+                    let leftPt = bbpt.matrixTransform(sctm);
                     bbpt.x = box.x + box.width;
-                    let rightpt = bbpt.matrixTransform(sctm);
+                    let rightPt = bbpt.matrixTransform(sctm);
 
-                    if (pt.x >= leftpt.x && pt.x <= rightpt.x)
+                    if (pt.x >= leftPt.x && pt.x <= rightPt.x)
                     {
-                        if (pt.y <= leftpt.y)
+                        if (pt.y <= leftPt.y)
                             lowerFound = true;
-                        if (pt.y >= leftpt.y)
+                        if (pt.y >= leftPt.y)
                             upperFound = true;
                     }
                 });
