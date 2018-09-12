@@ -267,6 +267,9 @@ function trackMedia ()
         }
 
         findMeasure(time);
+
+        if (truncateNum(time, 3) >= getCanvasDuration())
+            stopButtonPress();
     }
 
     if (isMediaPlaying())
