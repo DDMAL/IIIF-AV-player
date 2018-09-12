@@ -344,7 +344,7 @@ function fillMeasureRange(measureStart, measureEnd)
 
         if (measureTime >= loopStartTime && measureTime <= loopEndTime ) 
         {
-            $(this).attr('fill', '#1F618D');
+            $(this).attr('fill', '#1976D2');
         }
     });
 }
