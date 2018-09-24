@@ -832,7 +832,7 @@ function rgbToHex(r, g, b)
 }
 
 // attach event listeners
-window.addEventListener('keyup', (e) =>
+window.addEventListener('keydown', (e) =>
 {
     if (e.keyCode === 32)
     {
