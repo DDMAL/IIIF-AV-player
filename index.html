@@ -11,6 +11,15 @@
     <script src="static/verovio-toolkit.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>IIIF AV Player</title>
+
+    <style>
+    #hide {
+      cursor: pointer;
+    }
+    #hide:hover {
+      color: tomato;
+    }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -25,11 +34,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12" style="padding-right:0px">
-      <button class="mr-3 btn btn-outline-secondary btn-sm border-0 float-right my-2 my-sm-0 text-dark" id="hide" type="button" data-toggle="collapse" data-target="#instructions" onclick='hideInstructions()'>Hide Instructions</button>
+      <span class="mr-4 float-right" id="hide" data-toggle="collapse" data-target="#instructions" onclick='hideInstructions()'>Hide Instructions</span>
     </div>
   </div>
 </div>
-<div class="jumbotron mx-3 collapse show" id="instructions">
+<div class="collapse show" id="instructions">
+<div class="jumbotron mx-3">
   <div class="row">
     <div class="col-md-6 border-right text-left">
       <p class="lead">Select a V3 sample manifest below, or enter one in the search bar</p>  
@@ -41,13 +51,14 @@
     <div class="col-md-6 border-left text-left">
       <ul class="list-style font-weight-light">
         <li>Available canvases are listed in the dropdown box on the left</li>
-        <li>Colored bar indicating pages, as well as bar below indicating measures, can be clicked to navigate through the score</li>
+        <li>The colored bar indicating pages, as well as the bar below indicating measures, can be clicked on to navigate through the score</li>
         <li>Clicking on a measure in the score will jump the media to the selected measure</li>
-        <li>When paused, a range of measures can be selected by shift-clicking on either the scrub bar or a measure</li>
+        <li>When paused, a range of measures can be selected by shift-clicking on either the scrub bar or the score</li>
         <li>Media will loop when a range is selected</li>
       </ul>
     </div>
   </div>
+</div>
 </div>
 <div class="container-fluid">
     <div class="row justify-content-center">
