@@ -66,11 +66,12 @@ export class Canvas
         }
 
         let canvasContainer = $('.canvasContainer');
-        let containerWidth = canvasContainer.width();
 
         let canvas = $('<div class="canvas"></div>');
-        canvas.width(containerWidth);
-        canvas.height(this.height * (containerWidth/this.width));
+        canvas.css({
+            width: '100%',
+            height: 'auto'
+        });
         canvas.append(annotationContainer);
         canvasContainer.append(canvas);
 
