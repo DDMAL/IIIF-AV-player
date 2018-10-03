@@ -81,7 +81,10 @@ async function renderVerovio () // jshint ignore:line
             $('svg').attr("width", "100%");
             $('svg').attr("height", "100%");
 
-            $('svg').attr("viewBox", "0 0 21000 29700");
+            // set viewbox
+            let container = document.getElementsByClassName("definition-scale")[page];
+            let bBox = container.getBBox();
+            $('svg').attr("viewBox", "0 0 " + bBox.width + " " + bBox.height);
             $('svg').attr("preserveAspectRatio", "xMinYMin meet");
         }
     });
