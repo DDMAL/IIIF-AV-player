@@ -90,31 +90,6 @@ async function renderVerovio () // jshint ignore:line
     });
     linkScore();
 }
-function pagePrev () // jshint ignore:line
-{
-    if (page === 0)
-        return;
-    $('.score').children().eq(page).hide();
-    page--;
-    $('.score').children().eq(page).show();
-}
-function pageNext () // jshint ignore:line
-{
-    if (page === toolkit.getPageCount()-1)
-        return;
-    $('.score').children().eq(page).hide();
-    page++;
-    $('.score').children().eq(page).show();
-}
-function goToPage (n)
-{
-    if (n < 0 || n >= toolkit.getPageCount())
-        return;
-    $('.score').children().hide();
-    page = n;
-    $('.score').children().eq(page).show();
-}
-
 function linkScore ()
 {
     let count = 0;
@@ -142,99 +117,96 @@ function linkScore ()
 
     clickSelect();
 }
-
-function clickSelect ()
+function pagePrev () // jshint ignore:line
 {
-    var clickMeasureInitial = null;
-    var clickMeasureFinal = null;
-
-    $('svg').on("mousedown", handler);
-
-    // fill red and goto time in media 
-    function handler (evt)
+    if (page === 0)
+        return;
+    $('.score').children().eq(page).hide();
+    page--;
+    $('.score').children().eq(page).show();
+}
+function pageNext () // jshint ignore:line
+{
+    if (page === toolkit.getPageCount()-1)
+        return;
+    $('.score').children().eq(page).hide();
+    page++;
+    $('.score').children().eq(page).show();
+}
+function goToPage (n)
+{
+    if (n < 0 || n >= toolkit.getPageCount())
+        return;
+    $('.score').children().hide();
+    page = n;
+    $('.score').children().eq(page).show();
+}
+// Measure highlighting functions
+function findMeasure (time)
+{
+    if (time <= 0)
     {
-        var container = document.getElementsByClassName("definition-scale")[page];
-        let pt = container.createSVGPoint();
-        let bbpt = container.createSVGPoint();
-        pt.x = evt.clientX;
-        pt.y = evt.clientY;
-        pt = pt.matrixTransform(container.getScreenCTM().inverse());
+        $('.measure').removeAttr('fill');
+        goToPage(0);
+    }
+    else
+    {
+        // Update current measure in score
+        $('.measure').each(function () {
+            let lower = truncateNum($(this).attr('timeStart'), 3); 
+            let upper = truncateNum($(this).attr('timeStop'), 3);
 
-        let measures = Array.from($(".measure.page"+(page+1)));
-        let selectedMeasures = measures.filter((measure) => {
-            let staves = Array.from($(measure).children(".staff"));
-            let upperFound = false;
-            let lowerFound = false;
-            staves.forEach(staff => {
-                let outerStaves = [];
-                outerStaves.push($(staff).children("path").first()[0]);
-                outerStaves.push($(staff).children("path").last()[0]);
-
-                outerStaves.forEach(outerStaff => {
-                    let box = outerStaff.getBBox();
-                    let sctm = outerStaff.getCTM();
-                    bbpt.x = box.x;
-                    bbpt.y = box.y;
-                    let leftPt = bbpt.matrixTransform(sctm);
-                    bbpt.x = box.x + box.width;
-                    let rightPt = bbpt.matrixTransform(sctm);
-
-                    if (pt.x >= leftPt.x && pt.x <= rightPt.x)
-                    {
-                        if (pt.y <= leftPt.y)
-                            lowerFound = true;
-                        if (pt.y >= leftPt.y)
-                            upperFound = true;
-                    }
-                });
-            });
-            return (upperFound && lowerFound);
+            if (time >= lower && time < upper && time !== 0)
+            {
+                fillMeasure(this);
+            }
         });
-
-        // measure was clicked
-        if (selectedMeasures.length === 1)
-        {
-            clearMeasures();
-            fillMeasure(selectedMeasures[0]);
-
-            // user selecting multiple measure for looping
-            if (evt.shiftKey)
-            {
-                // second click in selection
-                if (clickMeasureInitial !== null && !isMediaPlaying())
-                {
-                    clickMeasureFinal = selectedMeasures[0];
-
-                    setMeasureRange(clickMeasureInitial, clickMeasureFinal);
-                    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
-
-                    fillMeasureRange(loopMeasureStart, loopMeasureEnd);
-
-                    let timeStart = $(loopMeasureStart).attr('timeStart');
-                    let timeEnd = $(loopMeasureEnd).attr('timeStop');
-                    setTimelineRange(timeStart);
-                    setLoopbarRange(timeStart, timeEnd);
-                    setMediaTime(timeStart);
-                }
-            }
-            else // regular left-click
-            {
-                if (!isMediaPlaying())
-                {
-                    clickMeasureInitial = selectedMeasures[0];
-                }
-
-                setLoopMeasureRange(null, null);
-                clearLoopbar();
-
-                setMediaTime($(selectedMeasures[0]).attr('timeStart'));
-                setTimelineRange(0);
-            }
-
-            updateTimeline();
-        }
     }
 }
+function fillMeasure (measure) 
+{
+    $(measure).attr('fill', '#DE0000');
+    goToPage($(measure).attr('class').split(' ')[1].slice(-1) - 1);
+}
+function fillMeasureRange(measureStart, measureEnd)
+{
+    let loopStartTime = $(measureStart).attr('timeStart');
+    let loopEndTime = $(measureEnd).attr('timeStart');
+
+    $('.measure').each(function () 
+    {
+        let measureTime = truncateNum($(this).attr('timeStart'), 3);
+
+        if (measureTime >= loopStartTime && measureTime <= loopEndTime ) 
+        {
+            $(this).attr('fill', '#1287A8');
+        }
+    });
+}
+function clearMeasures ()
+{
+    $('.measure').removeAttr('fill');
+}
+function setMeasureRange(clickMeasureInitial, clickMeasureFinal)
+{
+    let measureInitialStartTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
+    let measureFinalStartTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
+    let measureInitialEndTime = truncateNum($(clickMeasureInitial).attr('timeStop'), 3);
+    let measureFinalEndTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
+
+    // find if second click is before or after initial click in the score 
+    if (measureInitialStartTime <= measureFinalStartTime)
+    {
+        setLoopMeasureRange(clickMeasureInitial, clickMeasureFinal);
+        setMediaTime(measureFinalEndTime);
+    }
+    else
+    {
+        setLoopMeasureRange(clickMeasureFinal, clickMeasureInitial);
+        setMediaTime(measureInitialEndTime);
+    }
+}
+
 
 // Media functions
 var animationID;
@@ -312,72 +284,8 @@ function setLoopMeasureRange(startMeasure, endMeasure)
     manifestObject.manifest.canvases[activeCanvasIndex].loopMeasureEnd = endMeasure;
 }
 
-// Measure highlighting functions
-function findMeasure (time)
-{
-    if (time <= 0)
-    {
-        $('.measure').removeAttr('fill');
-        goToPage(0);
-    }
-    else
-    {
-        // Update current measure in score
-        $('.measure').each(function () {
-            let lower = truncateNum($(this).attr('timeStart'), 3); 
-            let upper = truncateNum($(this).attr('timeStop'), 3);
 
-            if (time >= lower && time < upper && time !== 0)
-            {
-                fillMeasure(this);
-            }
-        });
-    }
-}
-function fillMeasure (measure) 
-{
-    $(measure).attr('fill', '#DE0000');
-    goToPage($(measure).attr('class').split(' ')[1].slice(-1) - 1);
-}
-function fillMeasureRange(measureStart, measureEnd)
-{
-    let loopStartTime = $(measureStart).attr('timeStart');
-    let loopEndTime = $(measureEnd).attr('timeStart');
-
-    $('.measure').each(function () 
-    {
-        let measureTime = truncateNum($(this).attr('timeStart'), 3);
-
-        if (measureTime >= loopStartTime && measureTime <= loopEndTime ) 
-        {
-            $(this).attr('fill', '#1287A8');
-        }
-    });
-}
-function clearMeasures ()
-{
-    $('.measure').removeAttr('fill');
-}
-function setMeasureRange(clickMeasureInitial, clickMeasureFinal)
-{
-    let measureInitialStartTime = truncateNum($(clickMeasureInitial).attr('timeStart'), 3);
-    let measureFinalStartTime = truncateNum($(clickMeasureFinal).attr('timeStart'), 3);
-    let measureInitialEndTime = truncateNum($(clickMeasureInitial).attr('timeStop'), 3);
-    let measureFinalEndTime = truncateNum($(clickMeasureFinal).attr('timeStop'), 3);
-
-    // find if second click is before or after initial click in the score 
-    if (measureInitialStartTime <= measureFinalStartTime)
-    {
-        setLoopMeasureRange(clickMeasureInitial, clickMeasureFinal);
-        setMediaTime(measureFinalEndTime);
-    }
-    else
-    {
-        setLoopMeasureRange(clickMeasureFinal, clickMeasureInitial);
-        setMediaTime(measureInitialEndTime);
-    }
-}
-
+// Navigation functions
 function loadCanvasList ()
 {
     let canvases = $('#canvas_list');
@@ -482,6 +390,100 @@ function navigateToMeasure(measureID) // jshint ignore:line
     }
 }
 
+
+// User control functions
+function clickSelect ()
+{
+    var clickMeasureInitial = null;
+    var clickMeasureFinal = null;
+
+    $('svg').on("mousedown", handler);
+
+    // fill red and goto time in media 
+    function handler (evt)
+    {
+        var container = document.getElementsByClassName("definition-scale")[page];
+        let pt = container.createSVGPoint();
+        let bbpt = container.createSVGPoint();
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        pt = pt.matrixTransform(container.getScreenCTM().inverse());
+
+        let measures = Array.from($(".measure.page"+(page+1)));
+        let selectedMeasures = measures.filter((measure) => {
+            let staves = Array.from($(measure).children(".staff"));
+            let upperFound = false;
+            let lowerFound = false;
+            staves.forEach(staff => {
+                let outerStaves = [];
+                outerStaves.push($(staff).children("path").first()[0]);
+                outerStaves.push($(staff).children("path").last()[0]);
+
+                outerStaves.forEach(outerStaff => {
+                    let box = outerStaff.getBBox();
+                    let sctm = outerStaff.getCTM();
+                    bbpt.x = box.x;
+                    bbpt.y = box.y;
+                    let leftPt = bbpt.matrixTransform(sctm);
+                    bbpt.x = box.x + box.width;
+                    let rightPt = bbpt.matrixTransform(sctm);
+
+                    if (pt.x >= leftPt.x && pt.x <= rightPt.x)
+                    {
+                        if (pt.y <= leftPt.y)
+                            lowerFound = true;
+                        if (pt.y >= leftPt.y)
+                            upperFound = true;
+                    }
+                });
+            });
+            return (upperFound && lowerFound);
+        });
+
+        // measure was clicked
+        if (selectedMeasures.length === 1)
+        {
+            clearMeasures();
+            fillMeasure(selectedMeasures[0]);
+
+            // user selecting multiple measure for looping
+            if (evt.shiftKey)
+            {
+                // second click in selection
+                if (clickMeasureInitial !== null && !isMediaPlaying())
+                {
+                    clickMeasureFinal = selectedMeasures[0];
+
+                    setMeasureRange(clickMeasureInitial, clickMeasureFinal);
+                    let [loopMeasureStart, loopMeasureEnd] = getLoopMeasureRange();
+
+                    fillMeasureRange(loopMeasureStart, loopMeasureEnd);
+
+                    let timeStart = $(loopMeasureStart).attr('timeStart');
+                    let timeEnd = $(loopMeasureEnd).attr('timeStop');
+                    setTimelineRange(timeStart);
+                    setLoopbarRange(timeStart, timeEnd);
+                    setMediaTime(timeStart);
+                }
+            }
+            else // regular left-click
+            {
+                if (!isMediaPlaying())
+                {
+                    clickMeasureInitial = selectedMeasures[0];
+                }
+
+                setLoopMeasureRange(null, null);
+                clearLoopbar();
+
+                setMediaTime($(selectedMeasures[0]).attr('timeStart'));
+                setTimelineRange(0);
+            }
+
+            updateTimeline();
+        }
+    }
+}
 // Media and score control 
 function playButtonPress () // jshint ignore:line
 {
@@ -569,7 +571,6 @@ function forwardButtonPress () // jshint ignore:line
 
     trackMedia();
 }
-
 // Timeline controls
 function scrubberTimeMouseDown (e) // jshint ignore:line
 {
@@ -626,6 +627,9 @@ function scrubberTimeMouseDown (e) // jshint ignore:line
 
     updateTimeline();
 }
+
+
+// UI functions
 function updateTimeline()
 {
     // update scrubber
@@ -699,7 +703,6 @@ function clearLoopbar()
     $('#loop_bar').css('width', 0+'%');
     $('#loop_bar').css('left', 0+"%");
 }
-
 function updateRangebar()
 {
     let totalTime = getCanvasDuration();
@@ -719,7 +722,6 @@ function updateRangebar()
         $('#' + range.id).css('width', rangePercent*100+'%');
     }
 }
-
 function updateMeasurebar()
 {
     let totalTime = getCanvasDuration();
@@ -771,7 +773,6 @@ function highlightMeasurebar()
         }
     }
 }
-
 function hideInstructions()  // jshint ignore:line
 {
     let instructions = $('#instructions').hasClass("collapse show");
@@ -782,6 +783,8 @@ function hideInstructions()  // jshint ignore:line
         $('#hide').html("Hide Instructions");
 }
 
+
+// Utility functions
 function truncateNum (num, fixed)
 {
     var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
