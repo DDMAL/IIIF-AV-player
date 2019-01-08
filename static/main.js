@@ -46,6 +46,43 @@ $('#getURL').click(function ()
     });
 });
 
+$('#align_score').click(function () 
+{
+    var fd = new FormData();
+    fetch('https://upload.wikimedia.org/wikipedia/commons/7/77/Delete_key1.jpg')
+      .then(res => res.blob()) // Gets the response and returns it as a blob
+      .then(blob => {
+        // Here's where you get access to the blob
+        // And you can use it for whatever you want
+        // Like calling ref().put(blob)
+
+        fd.append('mei', new File(blob, 'mei.txt'));
+
+    });
+
+    var formData = new FormData();
+
+    formData.append("username", "Groucho");
+    formData.append("accountnum", 123456); 
+
+    $.ajax({
+        url: 'http://localhost:8000/get_alignment_from_audio',
+        method: "POST",
+        crossDomain: true,
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: formData,
+        success: function success(idToTime) {
+
+          console.log(idToTime);
+        },
+        error: function error() {
+            alert('Es ist leider ein Fehler aufgetreten.');
+        }
+    });
+});
+
 
 function loadPreset (url) // jshint ignore:line
 {
