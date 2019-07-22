@@ -4,7 +4,7 @@
       "http://iiif.io/api/presentation/3/context.json"
    ],
    "type":"Manifest",
-   "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/manifest_chopin_etude_aud.json",
+   "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/manifest_chopin_etude_aud.json",
    "label":{
             "en":[
                "Étude in F Minor"
@@ -51,7 +51,7 @@
    "items":[
       {
          "type":"Canvas",
-         "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1",
+         "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1",
          "label":{
             "en":[
                "Chopin Etude Audio"
@@ -60,18 +60,18 @@
          "items":[
             {
                "type":"AnnotationPage",
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1/annotation_page1",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1/annotation_page1",
                "items":[
                   {
                      "type":"Annotation",
                      "motivation":"painting",
-                     "target":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1",
+                     "target":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1",
                      "body":{
                         "type":"Choice",
                         "choiceHint":"user",
                         "items":[
                            {
-                              "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/media/Chopin_Etude_Op_10_No_9.mp3",
+                              "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/media/Chopin_Etude_Op_10_No_9.mp3",
                               "type":"Audio",
                               "format":"audio/mp3",
                               "label":"mp3"
@@ -84,7 +84,7 @@
          ],
          "rendering":[
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/mei/Chopin_Etude_Op_10_No_9.mei",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/mei/Chopin_Etude_Op_10_No_9.mei",
                "type":"Text",
                "label":{"en":["score"]},
                "format":"application/xml"
@@ -95,7 +95,7 @@
    ],
    "structures":[
       {
-         "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/1",
+         "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/1",
          "type":"Range",
          "label":{
             "en":[
@@ -104,11 +104,11 @@
          },
          "items":[
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿0.000,36.154",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿0.000,36.154",
                "type":"Canvas"
             },
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/2",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/2",
                "type":"Range",
                "label":{
                   "en":[
@@ -117,102 +117,102 @@
                },
                "items":[
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿0.000,5.083",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿0.000,5.083",
                      "type":"Canvas",
                      "label":{"en":["measure-1"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=5.083,6.288",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=5.083,6.288",
                      "type":"Canvas",
                      "label":{"en":["measure-2"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=6.288,7.453",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=6.288,7.453",
                      "type":"Canvas",
                      "label":{"en":["measure-3"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=7.453,9.212",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=7.453,9.212",
                      "type":"Canvas",
                      "label":{"en":["measure-4"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=9.212,11.122",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=9.212,11.122",
                      "type":"Canvas",
                      "label":{"en":["measure-5"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=11.122,12.321",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=11.122,12.321",
                      "type":"Canvas",
                      "label":{"en":["measure-6"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=12.321,13.838",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=12.321,13.838",
                      "type":"Canvas",
                      "label":{"en":["measure-7"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=13.838,15.656",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=13.838,15.656",
                      "type":"Canvas",
                      "label":{"en":["measure-8"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=15.656,17.496",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=15.656,17.496",
                      "type":"Canvas",
                      "label":{"en":["measure-9"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=17.496,18.799",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=17.496,18.799",
                      "type":"Canvas",
                      "label":{"en":["measure-10"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=18.799,20.036",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=18.799,20.036",
                      "type":"Canvas",
                      "label":{"en":["measure-11"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=20.036,21.910",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=20.036,21.910",
                      "type":"Canvas",
                      "label":{"en":["measure-12"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=21.910,23.745",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=21.910,23.745",
                      "type":"Canvas",
                      "label":{"en":["measure-13"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=23.745,24.988",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=23.745,24.988",
                      "type":"Canvas",
                      "label":{"en":["measure-14"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=24.988,26.445",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=24.988,26.445",
                      "type":"Canvas",
                      "label":{"en":["measure-15"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=26.445,28.660",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=26.445,28.660",
                      "type":"Canvas",
                      "label":{"en":["measure-16"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=28.660,30.653",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=28.660,30.653",
                      "type":"Canvas",
                      "label":{"en":["measure-17"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=30.653,32.630",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=30.653,32.630",
                      "type":"Canvas",
                      "label":{"en":["measure-18"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=32.630,34.280",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=32.630,34.280",
                      "type":"Canvas",
                      "label":{"en":["measure-19"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=34.280,36.154",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=34.280,36.154",
                      "type":"Canvas",
                      "label":{"en":["measure-20"]}
                   }
@@ -221,7 +221,7 @@
          ]
       },
       {
-         "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/3",
+         "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/3",
          "type":"Range",
          "label":{
             "en":[
@@ -230,11 +230,11 @@
          },
          "items":[
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿36.154,75.022",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿36.154,75.022",
                "type":"Canvas"
             },
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/4",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/4",
                "type":"Range",
                "label":{
                   "en":[
@@ -243,102 +243,102 @@
                },
                "items":[
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=36.154,38.841",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=36.154,38.841",
                      "type":"Canvas",
                      "label":{"en":["measure-21"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=38.841,40.658",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=38.841,40.658",
                      "type":"Canvas",
                      "label":{"en":["measure-22"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=40.658,41.957",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=40.658,41.957",
                      "type":"Canvas",
                      "label":{"en":["measure-23"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=41.957,43.325",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=41.957,43.325",
                      "type":"Canvas",
                      "label":{"en":["measure-24"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=43.325,45.012",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=43.325,45.012",
                      "type":"Canvas",
                      "label":{"en":["measure-25"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=45.012,46.488",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=45.012,46.488",
                      "type":"Canvas",
                      "label":{"en":["measure-26"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=46.488,47.799",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=46.488,47.799",
                      "type":"Canvas",
                      "label":{"en":["measure-27"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=47.799,49.996",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=47.799,49.996",
                      "type":"Canvas",
                      "label":{"en":["measure-28"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=49.996,51.983",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=49.996,51.983",
                      "type":"Canvas",
                      "label":{"en":["measure-29"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=51.983,54.028",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=51.983,54.028",
                      "type":"Canvas",
                      "label":{"en":["measure-30"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=54.028,55.797",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=54.028,55.797",
                      "type":"Canvas",
                      "label":{"en":["measure-31"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=55.797,58.126",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=55.797,58.126",
                      "type":"Canvas",
                      "label":{"en":["measure-32"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=58.126,60.685",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=58.126,60.685",
                      "type":"Canvas",
                      "label":{"en":["measure-33"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=60.685,62.951",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=60.685,62.951",
                      "type":"Canvas",
                      "label":{"en":["measure-34"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=62.951,65.222",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=62.951,65.222",
                      "type":"Canvas",
                      "label":{"en":["measure-35"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=65.222,68.075",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=65.222,68.075",
                      "type":"Canvas",
                      "label":{"en":["measure-36"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=68.075,70.542",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=68.075,70.542",
                      "type":"Canvas",
                      "label":{"en":["measure-37"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=70.542,71.787",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=70.542,71.787",
                      "type":"Canvas",
                      "label":{"en":["measure-38"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=71.787,73.171",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=71.787,73.171",
                      "type":"Canvas",
                      "label":{"en":["measure-39"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=73.171,75.022",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=73.171,75.022",
                      "type":"Canvas",
                      "label":{"en":["measure-40"]}
                   }      
@@ -347,7 +347,7 @@
          ]
       },
       {
-         "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/5",
+         "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/5",
          "type":"Range",
          "label":{
             "en":[
@@ -356,11 +356,11 @@
          },
          "items":[
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿75.022,111.510",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿75.022,111.510",
                "type":"Canvas"
             },
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/6",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/6",
                "type":"Range",
                "label":{
                   "en":[
@@ -369,102 +369,102 @@
                },
                "items":[
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=75.022,76.809",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=75.022,76.809",
                      "type":"Canvas",
                      "label":{"en":["measure-41"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=76.809,78.058",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=76.809,78.058",
                      "type":"Canvas",
                      "label":{"en":["measure-42"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=78.058,79.409",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=78.058,79.409",
                      "type":"Canvas",
                      "label":{"en":["measure-43"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=79.409,81.284",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=79.409,81.284",
                      "type":"Canvas",
                      "label":{"en":["measure-44"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=81.284,83.149",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=81.284,83.149",
                      "type":"Canvas",
                      "label":{"en":["measure-45"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=83.149,84.329",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=83.149,84.329",
                      "type":"Canvas",
                      "label":{"en":["measure-46"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=84.329,85.586",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=84.329,85.586",
                      "type":"Canvas",
                      "label":{"en":["measure-47"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=85.586,87.369",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=85.586,87.369",
                      "type":"Canvas",
                      "label":{"en":["measure-48"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=87.369,89.597",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=87.369,89.597",
                      "type":"Canvas",
                      "label":{"en":["measure-49"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=89.597,91.342",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=89.597,91.342",
                      "type":"Canvas",
                      "label":{"en":["measure-50"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=91.342,93.116",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=91.342,93.116",
                      "type":"Canvas",
                      "label":{"en":["measure-51"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=93.116,94.896",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=93.116,94.896",
                      "type":"Canvas",
                      "label":{"en":["measure-52"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=94.896,96.564",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=94.896,96.564",
                      "type":"Canvas",
                      "label":{"en":["measure-53"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=96.564,98.007",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=96.564,98.007",
                      "type":"Canvas",
                      "label":{"en":["measure-54"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=98.007,99.337",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=98.007,99.337",
                      "type":"Canvas",
                      "label":{"en":["measure-55"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=99.337,101.689",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=99.337,101.689",
                      "type":"Canvas",
                      "label":{"en":["measure-56"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=101.689,104.336",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=101.689,104.336",
                      "type":"Canvas",
                      "label":{"en":["measure-57"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=104.336,106.887",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=104.336,106.887",
                      "type":"Canvas",
                      "label":{"en":["measure-58"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=106.887,109.277",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=106.887,109.277",
                      "type":"Canvas",
                      "label":{"en":["measure-59"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=109.277,111.510",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=109.277,111.510",
                      "type":"Canvas",
                      "label":{"en":["measure-60"]}
                   }
@@ -473,7 +473,7 @@
          ]
       },
       {
-         "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/7",
+         "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/7",
          "type":"Range",
          "label":{
             "en":[
@@ -482,11 +482,11 @@
          },
          "items":[
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿111.510,134.414",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=﻿111.510,134.414",
                "type":"Canvas"
             },
             {
-               "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/8",
+               "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/range/8",
                "type":"Range",
                "label":{
                   "en":[
@@ -495,37 +495,37 @@
                },
                "items":[
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=111.510,114.020",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=111.510,114.020",
                      "type":"Canvas",
                      "label":{"en":["measure-61"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=114.020,117.117",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=114.020,117.117",
                      "type":"Canvas",
                      "label":{"en":["measure-62"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=117.117,119.922",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=117.117,119.922",
                      "type":"Canvas",
                      "label":{"en":["measure-63"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=119.922,123.164",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=119.922,123.164",
                      "type":"Canvas",
                      "label":{"en":["measure-64"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=123.164,124.690",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=123.164,124.690",
                      "type":"Canvas",
                      "label":{"en":["measure-65"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=124.690,127.164",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=124.690,127.164",
                      "type":"Canvas",
                      "label":{"en":["measure-66"]}
                   },
                   {
-                     "id":"https://ddmal.github.io/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=127.164,134.414",
+                     "id":"https://ddmal.music.mcgill.ca/IIIF-AV-player/samples/Chopin_Etude_Op_10_No_9_aud/canvas/1#t=127.164,134.414",
                      "type":"Canvas",
                      "label":{"en":["measure-67"]}
                   }
